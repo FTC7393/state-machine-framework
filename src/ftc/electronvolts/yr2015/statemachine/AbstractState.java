@@ -2,7 +2,7 @@ package ftc.electronvolts.yr2015.statemachine;
 
 import java.util.List;
 
-import com.sun.corba.se.spi.orbutil.fsm.State;
+import ftc.electronvolts.yr2015.statemachine.State;
 
 /**
  * Created by vandejd1 on 10/17/15.

@@ -1,9 +1,8 @@
 package ftc.electronvolts.yr2015.statemachine;
 
-import java.security.KeyException;
 import java.util.Map;
 
-import ftc.electronvolts.yr2015.util.Hardware;
+//import ftc.electronvolts.yr2015.util.Hardware;
 
 /**
  * Created by vandejd1 on 3/2/16.
@@ -25,11 +24,11 @@ public class StateMachine {
     }
 
     public void act(){
-        Hardware.getInstance().getTelem().addData("current state: " + currentStateName.name(), 0);
+//        Hardware.getInstance().getTelem().addData("current state: " + currentStateName.name(), 0);
         StateName nextStateName = currentState.act();
         if(nextStateName != null){
 //            Hardware.getInstance().getTelem().addData("Next State!!!", 1);
-            Hardware.getInstance().getTelem().addData("next state:" + nextStateName.name(), 1);
+//            Hardware.getInstance().getTelem().addData("next state:" + nextStateName.name(), 1);
 //        if(stateMap.containsKey(nextStateName)){
             currentStateName = nextStateName;
             currentState = stateMap.get(currentStateName);
