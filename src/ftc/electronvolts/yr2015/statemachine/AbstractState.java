@@ -5,44 +5,45 @@ import java.util.List;
 import ftc.electronvolts.yr2015.statemachine.State;
 
 /**
- * Created by vandejd1 on 10/17/15.
- * FTC Team EV 7393
+ * AbstractState is a simple state that handles transitions.
  */
 public abstract class AbstractState implements State {
     private final List<Transition> transitions;
 
     private boolean isStarted = false;
 
+    /**
+     * An abstract state must contain a list of transitions, containing end conditions and their respective states.
+     * @param transitions the list of transitions
+     * @see Transition
+     */
     AbstractState(List<Transition> transitions) {
         this.transitions = transitions;
     }
-//    protected String stateName = "AbstractState";
 
-//    @Override
-//    public void setTransitions(List<Transition> transitions){
-//        this.transitions = transitions;
-//    }
-
+    /**
+     * Run once when the state is initialized.
+     */
     abstract void init();
+    
+    /**
+     * Run every loop. This should do a majority of the work in the state.
+     */
     abstract void run();
+    
+    /**
+     * Run once when the state is finished before the next state is initialized. This should do any cleaning up, such as stopping any started motors.
+     */
     abstract void dispose();
 
     public StateName act() {
         if (!isStarted) {
             init();
             isStarted = true;
-//            String endConditionsNames = "";
             for (Transition t : transitions) {
                 t.getEndCondition().init();
-//                endConditionsNames += " " + t.getClass().getSimpleName();
             }
-//            Hardware.getInstance().getTelem().clearData();
-//            Hardware.getInstance().getTelem().addData("State", "State: " + stateName + " ECS:" + endConditionsNames);
         }
-//        if (transitions == null) {
-//            run();
-//            return this;
-//        }
         for (Transition t : transitions) {
             if (t.getEndCondition().isDone()) {
                 dispose();

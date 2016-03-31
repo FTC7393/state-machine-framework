@@ -1,13 +1,17 @@
 package ftc.electronvolts.yr2015.statemachine;
 
 /**
- * Created by vandejd1 on 10/17/15.
- * FTC Team EV 7393
+ * A transition contains an end condition and an associated statename for the next state to be executed
  */
 public class Transition {
     private final EndCondition endCondition;
     private final StateName nextStateName;
 
+    /**
+     * On creation, the transition must be given an end condition and the name of the next state
+     * @param endCondition the end condition
+     * @param nextStateName the name of the next state
+     */
     public Transition(EndCondition endCondition, StateName nextStateName) {
         this.endCondition = endCondition;
         this.nextStateName = nextStateName;

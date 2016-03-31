@@ -3,13 +3,15 @@ package ftc.electronvolts.yr2015.statemachine;
 import java.util.List;
 
 /**
- * Created by vandejd1 on 10/21/15.
- * FTC Team EV 7393
+ * A set of commonly used end conditions.
  */
 public class EndConditions {
-
+	/**
+	 * An end condition that finishes after a certain amount of time
+	 * @param durationMillis  the amount of time to wait before finishing
+	 * @return the end condition
+	 */
     public static EndCondition timed(final long durationMillis) {
-
         return new EndCondition() {
             private long endTime;
             @Override
@@ -24,6 +26,11 @@ public class EndConditions {
         };
     }
 
+    /**
+     * An end condition that returns the opposite of another end condition
+     * @param endCondition the end condition to use
+     * @return the end condition
+     */
     public static EndCondition not(final EndCondition endCondition){
         return new EndCondition() {
             @Override
@@ -38,8 +45,12 @@ public class EndConditions {
         };
     }
 
+    /**
+     * An end condition that finishes if it has been initialized a certain amount of times
+     * @param maxCount the maximum amount of times for the end condition to be initialized
+     * @return the end condition
+     */
     public static EndCondition count(final int maxCount) {
-
         return new EndCondition() {
             private int counter = 0;
             @Override
@@ -54,8 +65,12 @@ public class EndConditions {
         };
     }
 
+    /**
+     * An end condition that executes a certain number of loops before finishing
+     * @param maxCount The number of loops to allow the execution of
+     * @return the end condition
+     */
     public static EndCondition loopCount(final int maxCount) {
-
         return new EndCondition() {
             private int counter;
             @Override
@@ -70,6 +85,11 @@ public class EndConditions {
         };
     }
 
+    /**
+     * An end condition that finishes if all of the specified end conditions are true
+     * @param endConditionList a list containing all of the end conditions
+     * @return the end condition
+     */
     public static EndCondition all(final List<EndCondition> endConditionList){
         return new EndCondition() {
             @Override
@@ -91,8 +111,11 @@ public class EndConditions {
         };
     }
 
-
-
+    /**
+     * An end condition that finishes if any of the specified end conditions are true
+     * @param endConditionList a list containing all of the end conditions
+     * @return the end condition
+     */
     public static EndCondition any(final List<EndCondition> endConditionList){
         return new EndCondition() {
             @Override
@@ -114,6 +137,10 @@ public class EndConditions {
         };
     }
 
+    /**
+     * An end condition that never finishes
+     * @return the end condition
+     */
     public static EndCondition never() {
         return new EndCondition() {
             @Override
@@ -127,7 +154,11 @@ public class EndConditions {
             }
         };
     }
-
+    
+    /**
+     * An end condition that only allows the state to execute one loop
+     * @return the end condition
+     */
     public static EndCondition now() {
         return new EndCondition() {
             @Override

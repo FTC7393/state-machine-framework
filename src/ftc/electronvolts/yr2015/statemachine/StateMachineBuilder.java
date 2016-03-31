@@ -6,13 +6,33 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by vandejd1 on 3/2/16.
- * FTC Team EV 7393
+ * The state machine builder simplifies the creation of the state machine. The builder requires an enum with values for each state. For example:
+ * enum stateNames {
+ * 	Bill, John
+ * };
+ * You would then initialize StateMachineBuilder with the first state to be run:
+ * StateMachineBuilder builder = new StateMachineBuilder(Bill);
+ * 
+ * Note: The states are not added to the state machine yet. The individual states still need to be initialized and associated with an enum value.
  */
 public class StateMachineBuilder {
     private Map<StateName, State> stateMap = new HashMap<StateName, State>();
     private final StateName firstStateName;
-
+    
+    /**
+     * A constructor for the builder. The State machine must have a state to start with
+     * @param firstStateName the first state to be executed in order
+     */
+    public StateMachineBuilder(StateName firstStateName) {
+        this.firstStateName = firstStateName;
+    }
+    
+    /**
+     * Create a new transition
+     * @param endCondition the end condition for the next state
+     * @param nextStateName the name of the enum for the next state
+     * @return a list containing the one transition
+     */
     public List<Transition> ts(EndCondition endCondition, StateName nextStateName) {
         return toList(new Transition(endCondition, nextStateName));
     }
@@ -22,32 +42,39 @@ public class StateMachineBuilder {
 		list.add(t);
 		return list;
 	}
-
+    
+    /**
+     * Create a new transition with a timed end condition
+     * @param durationMillis the amount of time to wait before advancing to the next state
+     * @param nextStateName the enum value associated with the next state
+     * @return a list containing the one transition
+     */
 	public List<Transition> ts(long durationMillis, StateName nextStateName) {
         return ts(EndConditions.timed(durationMillis), nextStateName);
     }
 
+	/**
+	 * @see EndConditions
+	 */
     public EndCondition timed(long durationMillis){
         return EndConditions.timed(durationMillis);
     }
 
-    public StateMachineBuilder(StateName firstStateName) {
-        this.firstStateName = firstStateName;
-    }
-
+    /**
+     * Add a state to the state machine
+     * @param stateName the enum value to be associated with the state 
+     * @param state the state to be added
+     */
     public void add(StateName stateName, State state){
         stateMap.put(stateName, state);
     }
-
-//    public State getState(StateName stateName){
-//        return stateMap.get(stateName);
-//    }
-
+    
+    /**
+     * Build the state machine with the added states
+     * @return the output state machine
+     * @see StateMachine
+     */
     public StateMachine build(){
         return new StateMachine(stateMap, firstStateName);
-//        for(Map.Entry<StateName, State> entry: stateMap.entrySet()) {
-//            StateName stateName = entry.getKey();
-//            State state = entry.getValue();
-//        }
     }
 }

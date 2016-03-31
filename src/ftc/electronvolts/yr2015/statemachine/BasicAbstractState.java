@@ -1,17 +1,26 @@
 package ftc.electronvolts.yr2015.statemachine;
 
-import java.util.Map;
-
 /**
- * Created by vandejd1 on 11/25/15.
- * FTC Team EV 7393
+ * BasicAbstractState removes the need to use transitions. It requires that the state manages when it should be completed.
  */
 public abstract class BasicAbstractState implements State {
     private boolean isStarted = false;
-//    protected String stateName = "BasicAbstractState";
 
+    /**
+     * Run once when the state is initialized
+     */
     abstract void init();
+    
+    /**
+     * The state does all of the work in this method
+     * @return true if state is finished executing
+     */
     abstract boolean isDone();
+    
+    /**
+     * The next state to be executed
+     * @return the name of the next state to be executed
+     */
     abstract StateName getNextStateName();
 
     @Override
@@ -19,12 +28,9 @@ public abstract class BasicAbstractState implements State {
         if (!isStarted) {
             init();
             isStarted = true;
-//            Hardware.getInstance().getTelem().clearData();
-//            Hardware.getInstance().getTelem().addData("State", "State: " + stateName);
         }
         if (isDone()) {
             isStarted = false;
-//            getNextStateName().act();
             return getNextStateName();
         }
         return null; //null means no transition
