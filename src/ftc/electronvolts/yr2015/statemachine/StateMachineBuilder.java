@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ftc.electronvolts.yr2015.util.MatchTimer;
+
 /**
  * The state machine builder simplifies the creation of the state machine. The builder requires an enum with values for each state. For example:
  * enum stateNames {
@@ -59,7 +61,7 @@ public class StateMachineBuilder {
     public EndCondition timed(long durationMillis){
         return EndConditions.timed(durationMillis);
     }
-
+    
     /**
      * Add a state to the state machine
      * @param stateName the enum value to be associated with the state 
@@ -67,6 +69,28 @@ public class StateMachineBuilder {
      */
     public void add(StateName stateName, State state){
         stateMap.put(stateName, state);
+    }
+    
+    /**
+     * Add an empty state that waits a certain duration
+     * @param stateName the enum value to be associated with the wait state
+     * @param durationMillis the length of time to wait in millis
+     * @param nextStateName the name of the next state
+     */
+    public void addWait(StateName stateName, long durationMillis, StateName nextStateName) {
+        add(stateName, States.empty(ts(EndConditions.timed(durationMillis), nextStateName)));
+    }
+
+    /**
+     * Add an empty state that waits until a certain amount of time has passed since the beginning of the match
+     * @param stateName the enum value to be associated with the wait state
+     * @param matchTimer a reference to the match timer object
+     * @param durationMillis how many millis from the match start to wait
+     * @param nextStateName the name of the next state
+     * @see MatchTimer
+     */
+    public void addWait(StateName stateName, MatchTimer matchTimer, long durationMillis, StateName nextStateName) {
+        add(stateName, States.empty(ts(EndConditions.matchTimed(matchTimer, durationMillis), nextStateName)));
     }
     
     /**
