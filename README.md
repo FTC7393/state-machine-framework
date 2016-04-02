@@ -33,3 +33,12 @@ Using a StateMachine in a project is extremely simple. Just add this line to the
 ```java
 stateMachine.act();
 ```
+
+# Usage
+Using the state machine framework in the your project is extremely simple!
+- Add the latest jar file (found in _build/_ folder) to the  _FTCRobotController/libs/_ folder.
+- Add the file to the gradle build dependencies (inside  _FTCRobotController/build.gradle_ in the 'dependencies' section):
+```
+compile files('libs/state-machine-framework-<latest version>')
+```
+- Rebuild the gradle project.
