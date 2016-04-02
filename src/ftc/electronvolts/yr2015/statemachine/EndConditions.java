@@ -27,6 +27,26 @@ public class EndConditions {
     }
 
     /**
+     * An end condition that finishes after a certain amount of time since the start of the match has passed
+     * @param matchTimer a reference to the match timer object
+     * @param millisFromMatchStart how many millis from the match start to wait
+     * @return the end condition
+     */
+    public static EndCondition matchTimed(final MatchTimer matchTimer, final long millisFromMatchStart) {
+
+        return new EndCondition() {
+            @Override
+            public void init() {
+            }
+
+            @Override
+            public boolean isDone() {
+                return matchTimer.getElapsedTime() >= millisFromMatchStart;
+            }
+        };
+    }
+    
+    /**
      * An end condition that returns the opposite of another end condition
      * @param endCondition the end condition to use
      * @return the end condition
