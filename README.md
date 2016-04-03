@@ -42,3 +42,8 @@ Using the state machine framework in the your project is extremely simple!
 compile files('libs/state-machine-framework-<latest version>')
 ```
 - Rebuild the gradle project.
+
+# Contact
+Email team members of the project with any questions or comments! Please email [nikita.wootten@gmail.com](nikita.wootten@gmail.com) or submit issues to the issue tracker. You can also reach out to us on twitter at [@electronVoltFTC](https://twitter.com/electronVoltFTC).
+
+We are constantly adding features from our project, so expect frequent updates!
