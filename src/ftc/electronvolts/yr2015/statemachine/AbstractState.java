@@ -11,16 +11,27 @@ public abstract class AbstractState implements State {
     private final List<Transition> transitions;
 
     private boolean isStarted = false;
+    private final StateName stateName;
 
     /**
      * An abstract state must contain a list of transitions, containing end conditions and their respective states.
+     * @param stateName the name of this state
      * @param transitions the list of transitions
      * @see Transition
      */
-    AbstractState(List<Transition> transitions) {
+    AbstractState(StateName stateName, List<Transition> transitions) {
+        this.stateName = stateName;
         this.transitions = transitions;
     }
-
+ 
+    /**
+     * @return the state's name for use in the builder
+     */
+    @Override
+    public StateName getName(){
+        return stateName;
+    }
+    
     /**
      * Run once when the state is initialized.
      */

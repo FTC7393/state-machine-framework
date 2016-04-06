@@ -5,7 +5,24 @@ package ftc.electronvolts.yr2015.statemachine;
  */
 public abstract class BasicAbstractState implements State {
     private boolean isStarted = false;
+    private final StateName stateName;
 
+    /**
+     * 
+     * @param stateName the name of this state
+     */
+    public BasicAbstractState(StateName stateName){
+        this.stateName = stateName;
+    }
+    
+    /**
+     * @return the state's name for use in the builder
+     */
+    @Override
+    public StateName getName(){
+        return stateName;
+    }
+    
     /**
      * Run once when the state is initialized
      */
