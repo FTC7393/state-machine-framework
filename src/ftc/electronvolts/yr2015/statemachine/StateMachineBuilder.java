@@ -64,11 +64,10 @@ public class StateMachineBuilder {
     
     /**
      * Add a state to the state machine
-     * @param stateName the enum value to be associated with the state 
      * @param state the state to be added
      */
-    public void add(StateName stateName, State state){
-        stateMap.put(stateName, state);
+    public void add(State state){
+        stateMap.put(state.getName(), state);
     }
     
     /**
@@ -78,7 +77,7 @@ public class StateMachineBuilder {
      * @param nextStateName the name of the next state
      */
     public void addWait(StateName stateName, long durationMillis, StateName nextStateName) {
-        add(stateName, States.empty(ts(EndConditions.timed(durationMillis), nextStateName)));
+        add(States.empty(stateName, ts(EndConditions.timed(durationMillis), nextStateName)));
     }
 
     /**
@@ -90,7 +89,7 @@ public class StateMachineBuilder {
      * @see MatchTimer
      */
     public void addWait(StateName stateName, MatchTimer matchTimer, long durationMillis, StateName nextStateName) {
-        add(stateName, States.empty(ts(EndConditions.matchTimed(matchTimer, durationMillis), nextStateName)));
+        add(States.empty(stateName, ts(EndConditions.matchTimed(matchTimer, durationMillis), nextStateName)));
     }
     
     /**
