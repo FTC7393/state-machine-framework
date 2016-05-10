@@ -35,4 +35,8 @@ public class StateMachine {
             }
         }
     }
+    
+    public StateName getCurrentStateName() {
+        return currentStateName;
+    }
 }
