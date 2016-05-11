@@ -1,4 +1,4 @@
-package ftc.electronvolts.yr2015.util;
+package ftc.electronvolts.util;
 
 /**
  * A simple class for keeping track of elapsed time
@@ -28,7 +28,7 @@ public class MatchTimer {
 
     /**
      * Update the match timer. Must be called ever loop.
-     * @return
+     * @return the time between the last call of update() and now
      */
     public long update(){
         now = System.currentTimeMillis();

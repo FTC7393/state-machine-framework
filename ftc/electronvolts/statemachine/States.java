@@ -1,4 +1,4 @@
-package ftc.electronvolts.yr2015.statemachine;
+package ftc.electronvolts.statemachine;
 
 import java.util.List;
 
@@ -14,16 +14,16 @@ public class States {
     public static State stop(StateName stateName){
         return new BasicAbstractState(stateName) {
             @Override
-            void init() {
+            public void init() {
             }
 
             @Override
-            boolean isDone() {
+            public boolean isDone() {
                 return false;
             }
 
             @Override
-            StateName getNextStateName() {
+            public StateName getNextStateName() {
                 return null;
             }
         };
@@ -36,13 +36,13 @@ public class States {
     public static AbstractState empty(StateName stateName, List<Transition> transitions){
         return new AbstractState(stateName, transitions) {
             @Override
-            void init() {}
+            public void init() {}
 
             @Override
-            void run() {}
+            public void run() {}
 
             @Override
-            void dispose() {}
+            public void dispose() {}
         };
     }
 
@@ -54,15 +54,15 @@ public class States {
     public static BasicAbstractState basicEmpty(StateName stateName, final StateName nextStateName){
         return new BasicAbstractState(stateName) {
             @Override
-            void init() {}
+            public void init() {}
 
             @Override
-            boolean isDone() {
+            public boolean isDone() {
                 return true;
             }
 
             @Override
-            StateName getNextStateName() {
+            public StateName getNextStateName() {
                 return nextStateName;
             }
         };
@@ -77,17 +77,17 @@ public class States {
     public static BasicAbstractState runThread(StateName stateName, final Thread thread, final StateName nextStateName){
         return new BasicAbstractState(stateName) {
             @Override
-            void init() {
+            public void init() {
                 thread.start();
             }
 
             @Override
-            boolean isDone() {
+            public boolean isDone() {
                 return true;
             }
 
             @Override
-            StateName getNextStateName() {
+            public StateName getNextStateName() {
                 return nextStateName;
             }
         };

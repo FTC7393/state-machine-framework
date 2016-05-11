@@ -1,4 +1,4 @@
-package ftc.electronvolts.yr2015.statemachine;
+package ftc.electronvolts.statemachine;
 
 /**
  * A transition contains an end condition and an associated statename for the next state to be executed

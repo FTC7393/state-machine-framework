@@ -1,4 +1,4 @@
-package ftc.electronvolts.yr2015.statemachine;
+package ftc.electronvolts.statemachine;
 
 /**
  * Created by vandejd1 on 10/17/15.

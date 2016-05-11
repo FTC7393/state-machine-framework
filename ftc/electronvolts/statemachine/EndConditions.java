@@ -1,8 +1,8 @@
-package ftc.electronvolts.yr2015.statemachine;
+package ftc.electronvolts.statemachine;
 
 import java.util.List;
 
-import ftc.electronvolts.yr2015.util.MatchTimer;
+import ftc.electronvolts.util.MatchTimer;
 
 /**
  * A set of commonly used end conditions.
@@ -17,12 +17,12 @@ public class EndConditions {
         return new EndCondition() {
             private long endTime;
             @Override
-            public void init() {
+			public void init() {
                 endTime = System.currentTimeMillis() + durationMillis;
             }
 
             @Override
-            public boolean isDone() {
+			public boolean isDone() {
                 return System.currentTimeMillis() >= endTime;
             }
         };
@@ -38,11 +38,11 @@ public class EndConditions {
 
         return new EndCondition() {
             @Override
-            public void init() {
+			public void init() {
             }
 
             @Override
-            public boolean isDone() {
+			public boolean isDone() {
                 return matchTimer.getElapsedTime() >= millisFromMatchStart;
             }
         };
@@ -56,12 +56,12 @@ public class EndConditions {
     public static EndCondition not(final EndCondition endCondition){
         return new EndCondition() {
             @Override
-            public void init() {
+			public void init() {
                 endCondition.init();
             }
 
             @Override
-            public boolean isDone() {
+			public boolean isDone() {
                 return !endCondition.isDone();
             }
         };
@@ -114,14 +114,14 @@ public class EndConditions {
      */
     public static EndCondition all(final List<EndCondition> endConditionList){
         return new EndCondition() {
-            @Override
+        	@Override
             public void init() {
                 for(EndCondition e : endConditionList){
                     e.init();
                 }
             }
 
-            @Override
+        	@Override
             public boolean isDone() {
                 for(EndCondition e : endConditionList){
                     if(!e.isDone()){
@@ -140,14 +140,14 @@ public class EndConditions {
      */
     public static EndCondition any(final List<EndCondition> endConditionList){
         return new EndCondition() {
-            @Override
+        	@Override
             public void init() {
                 for(EndCondition e : endConditionList){
                     e.init();
                 }
             }
 
-            @Override
+        	@Override
             public boolean isDone() {
                 for(EndCondition e : endConditionList){
                     if(e.isDone()){
@@ -165,12 +165,12 @@ public class EndConditions {
      */
     public static EndCondition never() {
         return new EndCondition() {
-            @Override
+        	@Override
             public void init() {
 
             }
 
-            @Override
+        	@Override
             public boolean isDone() {
                 return false;
             }
@@ -183,12 +183,12 @@ public class EndConditions {
      */
     public static EndCondition now() {
         return new EndCondition() {
-            @Override
+        	@Override
             public void init() {
 
             }
 
-            @Override
+        	@Override
             public boolean isDone() {
                 return true;
             }

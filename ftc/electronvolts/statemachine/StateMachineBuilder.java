@@ -1,11 +1,11 @@
-package ftc.electronvolts.yr2015.statemachine;
+package ftc.electronvolts.statemachine;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ftc.electronvolts.yr2015.util.MatchTimer;
+import ftc.electronvolts.util.MatchTimer;
 
 /**
  * The state machine builder simplifies the creation of the state machine. The builder requires an enum with values for each state. For example:
@@ -18,7 +18,7 @@ import ftc.electronvolts.yr2015.util.MatchTimer;
  * Note: The states are not added to the state machine yet. The individual states still need to be initialized and associated with an enum value.
  */
 public class StateMachineBuilder {
-    private Map<StateName, State> stateMap = new HashMap<StateName, State>();
+    private Map<StateName, State> stateMap = new HashMap<>();
     private final StateName firstStateName;
     
     /**
@@ -40,7 +40,7 @@ public class StateMachineBuilder {
     }
 
     private <T>List<T> toList(T t) {
-		List<T> list = new ArrayList<T>(1);
+		List<T> list = new ArrayList<>(1);
 		list.add(t);
 		return list;
 	}

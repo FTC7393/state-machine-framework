@@ -1,4 +1,4 @@
-package ftc.electronvolts.yr2015.statemachine;
+package ftc.electronvolts.statemachine;
 
 import java.util.Map;
 
@@ -35,6 +35,7 @@ public class StateMachine {
             }
         }
     }
+
     
     public StateName getCurrentStateName() {
         return currentStateName;
