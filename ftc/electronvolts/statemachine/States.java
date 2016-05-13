@@ -41,9 +41,9 @@ public class States {
 	 * An empty state
      * @param stateName the name of the state
 	 * @param transitions the transitions to be considered
-	 * @return the created AbstractState
+	 * @return the created State
 	 */
-    public static AbstractState empty(StateName stateName, List<Transition> transitions){
+    public static State empty(StateName stateName, List<Transition> transitions){
         return new AbstractState(stateName, transitions) {
             @Override
             public void init() {}
@@ -60,9 +60,9 @@ public class States {
      * An empty state.
      * @param stateName the name of the state
      * @param nextStateName the next state to be run
-     * @return the created BasicAbstractState
+     * @return the created State
      */
-    public static BasicAbstractState basicEmpty(StateName stateName, final StateName nextStateName){
+    public static State basicEmpty(StateName stateName, final StateName nextStateName){
         return new BasicAbstractState(stateName) {
             @Override
             public void init() {}
@@ -84,9 +84,9 @@ public class States {
      * @param stateName the name of the state
      * @param thread the thread to be run at the start of the state
      * @param nextStateName the next state to be run immediately
-     * @return the created BasicAbstractState
+     * @return the created State
      */
-    public static BasicAbstractState runThread(StateName stateName, final Thread thread, final StateName nextStateName){
+    public static State runThread(StateName stateName, final Thread thread, final StateName nextStateName){
         return new BasicAbstractState(stateName) {
             @Override
             public void init() {
@@ -112,9 +112,9 @@ public class States {
      * @param condition the boolean to decide which branch to go to
      * @param trueStateName the state to go to if the condition is true
      * @param falseStateName the state to go to if the condition is false
-     * @return the created state
+     * @return the created State
      */
-    public static BasicAbstractState branch(StateName stateName, final boolean condition, final StateName trueStateName, final StateName falseStateName){
+    public static State branch(StateName stateName, final boolean condition, final StateName trueStateName, final StateName falseStateName){
         return new BasicAbstractState(stateName) {
             @Override
             public void init() {}
@@ -143,9 +143,9 @@ public class States {
      * @param trueStateName the state to go to if the condition is true
      * @param falseStateName the state to go to if the condition is false
      * @param nullStateName the state to go to if the condition is null
-     * @return the created state
+     * @return the created State
      */
-    public static BasicAbstractState branch(StateName stateName, final Boolean condition, final StateName trueStateName, final StateName falseStateName, final StateName nullStateName){
+    public static State branch(StateName stateName, final Boolean condition, final StateName trueStateName, final StateName falseStateName, final StateName nullStateName){
         return new BasicAbstractState(stateName) {
             @Override
             public void init() {}
@@ -176,9 +176,9 @@ public class States {
      * @param trueStateName the state to go to if the receiver returns true
      * @param falseStateName the state to go to if the receiver returns false
      * @param nullStateName the state to go to if the receiver returns null
-     * @return the created state
+     * @return the created State
      */
-    public static BasicAbstractState branch(StateName stateName, final ResultReceiver<Boolean> receiver, final StateName trueStateName, final StateName falseStateName, final StateName nullStateName){
+    public static State branch(StateName stateName, final ResultReceiver<Boolean> receiver, final StateName trueStateName, final StateName falseStateName, final StateName nullStateName){
         return new BasicAbstractState(stateName) {
             @Override
             public void init() {}
