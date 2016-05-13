@@ -5,20 +5,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ftc.electronvolts.util.InputExtractor;
 import ftc.electronvolts.util.MatchTimer;
+import ftc.electronvolts.util.ResultReceiver;
 
 /**
- * The state machine builder simplifies the creation of the state machine. The builder requires an enum with values for each state. For example:
- * enum stateNames {
- * 	Bill, John
- * };
- * You would then initialize StateMachineBuilder with the first state to be run:
- * StateMachineBuilder builder = new StateMachineBuilder(Bill);
- * 
- * Note: The states are not added to the state machine yet. The individual states still need to be initialized and associated with an enum value.
+ * The state machine builder simplifies the creation of the state machine. The builder requires an enum with values for each state.
+ * See the README for an example of how to use it.
+ *
+ * To write your own StateMachine builder, make a class that extends this one and add your own
+ * convenience methods such as addDrive or addServoTurn. It will inherit all these methods as well,
+ * so that when you use your class, you will have access to all these methods and your own in one place.
  */
 public class StateMachineBuilder {
-    private Map<StateName, State> stateMap = new HashMap<>();
+    private Map<StateName, State> stateMap = new HashMap<>(); //the map the links a state's name to the state
     private final StateName firstStateName;
     
     /**
@@ -91,13 +91,76 @@ public class StateMachineBuilder {
     public void addWait(StateName stateName, MatchTimer matchTimer, long durationMillis, StateName nextStateName) {
         add(States.empty(stateName, ts(EndConditions.matchTimed(matchTimer, durationMillis), nextStateName)));
     }
-    
+
+    /**
+     *
+     * @param stateName the enum value to be associated with the wait state
+     * @param condition the boolean to decide which branch to go to
+     * @param trueStateName the state to go to if the condition is true
+     * @param falseStateName the state to go to if the condition is false
+     */
+    public void addBranch(StateName stateName, boolean condition, StateName trueStateName, StateName falseStateName) {
+        add(States.branch(stateName, condition, trueStateName, falseStateName));
+    }
+    /**
+     *
+     * @param stateName the enum value to be associated with the wait state
+     * @param condition the boolean to decide which branch to go to
+     * @param trueStateName the state to go to if the condition is true
+     * @param falseStateName the state to go to if the condition is false
+     * @param nullStateName the state to go to if the condition is null
+     */
+    public void addBranch(StateName stateName, Boolean condition, StateName trueStateName, StateName falseStateName, StateName nullStateName) {
+        add(States.branch(stateName, condition, trueStateName, falseStateName, nullStateName));
+    }
+
+    /**
+     *
+     * @param stateName the enum value to be associated with the wait state
+     * @param receiver the receiver that decides which branch to go to
+     * @param trueStateName the state to go to if the receiver returns true
+     * @param falseStateName the state to go to if the receiver returns false
+     * @param nullStateName the state to go to if the receiver returns null
+     */
+    public void addBranch(StateName stateName, ResultReceiver<Boolean> receiver, StateName trueStateName, StateName falseStateName, StateName nullStateName) {
+        add(States.branch(stateName, receiver, trueStateName, falseStateName, nullStateName));
+    }
+
+    /**
+     * Adds a stop state to the stateMap
+     * @param stateName name of the stop state
+     */
+    public void addStop(StateName stateName){
+        add(States.stop(stateName));
+    }
+
+    /**
+     * A state used to run a thread. Useful for off-loading computer intensive tasks such as image processing.
+     * @param stateName the name of the state
+     * @param thread the thread to be run at the start of the state
+     * @param nextStateName the next state to be run immediately
+     */
+    public void addThread(StateName stateName, Thread thread, StateName nextStateName){
+        add(States.runThread(stateName, thread, nextStateName));
+    }
+
     /**
      * Build the state machine with the added states
      * @return the output state machine
      * @see StateMachine
      */
     public StateMachine build(){
+        return new StateMachine(stateMap, firstStateName);
+    }
+
+    /**
+     * Build the state machine with the added states
+     * @param firstStateName the state to start at
+     * @return the output state machine
+     * @see StateMachine
+     */
+
+    public StateMachine build(StateName firstStateName){
         return new StateMachine(stateMap, firstStateName);
     }
 }

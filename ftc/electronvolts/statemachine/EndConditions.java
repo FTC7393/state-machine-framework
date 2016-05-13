@@ -2,10 +2,17 @@ package ftc.electronvolts.statemachine;
 
 import java.util.List;
 
+import ftc.electronvolts.util.InputExtractor;
 import ftc.electronvolts.util.MatchTimer;
 
 /**
- * A set of commonly used end conditions.
+ * This is a factory class fo the EndCondition interface.
+ * It contains methods which return some useful end conditions that can be used not only in the
+ * state machine, but also anywhere in your code.
+ *
+ * To write your own EndCondition factory, make a class that extends this one and add your own
+ * methods. It will inherit all these methods as well, so that when you use your class, you will
+ * have access to all these methods and your own in one place.
  */
 public class EndConditions {
 	/**
@@ -193,5 +200,144 @@ public class EndConditions {
                 return true;
             }
         };
+    }
+
+    // The following few end conditions use input extractors
+    // They may or may not be useful to most people since it would usually be easier to write your
+    // own end condition instead of using these
+
+    /**
+     * This could be used for an end condition that uses the joystick
+     * @param inputExtractor an extracted boolean
+     * @return the end condition
+     */
+    public static EndCondition inputExtractor(final InputExtractor<Boolean> inputExtractor) {
+        return new EndCondition() {
+            @Override
+            public void init() {
+
+            }
+
+            @Override
+            public boolean isDone() {
+                return inputExtractor.getValue();
+            }
+        };
+    }
+
+    /**
+     * compares the values of two input extractors
+     * @param inputExtractorA the first input extractor
+     * @param inputExtractorB the second input extractor
+     * @param inclusive whether or not the values being equal satisfies the condition
+     * @return the end condition
+     */
+    public static EndCondition aGreaterThanB(final InputExtractor<Double> inputExtractorA, final InputExtractor<Double> inputExtractorB, final boolean inclusive) {
+        return new EndCondition() {
+            @Override
+            public void init() {
+
+            }
+
+            @Override
+            public boolean isDone() {
+                if(inclusive) {
+                    return inputExtractorA.getValue() >= inputExtractorB.getValue();
+                } else {
+                    return inputExtractorA.getValue() > inputExtractorB.getValue();
+                }
+            }
+        };
+    }
+
+    /**
+     *
+     * @param inputExtractor the input extractor
+     * @param target the target value
+     * @param inclusive whether or not the values being equal satisfies the condition
+     * @return the end condition
+     */
+    public static EndCondition valueGreater(final InputExtractor<Double> inputExtractor, final double target, final boolean inclusive) {
+        return new EndCondition() {
+            @Override
+            public void init() {
+
+            }
+
+            @Override
+            public boolean isDone() {
+                if(inclusive) {
+                    return inputExtractor.getValue() >= target;
+                } else {
+                    return inputExtractor.getValue() > target;
+                }
+            }
+        };
+    }
+
+    /**
+     *
+     * @param inputExtractor the input extractor
+     * @param target the target value
+     * @param inclusive whether or not the values being equal satisfies the condition
+     * @return the end condition
+     */
+    public static EndCondition valueLess(final InputExtractor<Double> inputExtractor, final double target, final boolean inclusive) {
+        return new EndCondition() {
+            @Override
+            public void init() {
+
+            }
+
+            @Override
+            public boolean isDone() {
+                if(inclusive) {
+                    return inputExtractor.getValue() <= target;
+                } else {
+                    return inputExtractor.getValue() < target;
+                }
+            }
+        };
+    }
+
+    /**
+     *
+     * @param inputExtractor the input extractor
+     * @param min the lower edge of the target range
+     * @param max the upper edge of the target range
+     * @param inclusive whether or not the value being equal to the min or max satisfies the condition
+     *                  when min = max, this should be true.
+     * @return the end condition
+     */
+    public static EndCondition valueBetween(final InputExtractor<Double> inputExtractor, final double min, final double max, final boolean inclusive) {
+        return new EndCondition() {
+            @Override
+            public void init() {
+
+            }
+
+            @Override
+            public boolean isDone() {
+                double value = inputExtractor.getValue();
+                if (inclusive) {
+                    return min <= value && value <= max;
+                } else {
+                    return min < value && value < max;
+                }
+            }
+        };
+    }
+
+    /**
+     *
+     * @param inputExtractor the input extractor
+     * @param target the target value
+     * @param tolerance the tolerance +/- the value to be accepted as meeting the condition
+     * @param inclusive whether or not the value being on the edge of the tolerance satisfies the condition.
+     *                  when the tolerance is 0, this should be true.
+     * @return the end condition
+     */
+    public static EndCondition valueCloseTo(InputExtractor<Double> inputExtractor, double target, double tolerance, boolean inclusive) {
+        return valueBetween(inputExtractor, target - tolerance, target + tolerance, inclusive);
     }
 }

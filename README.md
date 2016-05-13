@@ -13,23 +13,22 @@ We use the state machine framework because it allows us to make so many changes 
 Creating a new state machine using the builder:
 ```java
 // First, create a list of states
-public enum s implements StateName {
-  BobState, JohnState, JennyState, Stop
+enum s implements StateName {
+    WAIT,
+    STOP
 };
 
 // Create a new builder, giving it the name of the first state
-StateMachineBuilder b = new StateMachineBuilder(s.BobState);
+StateMachineBuilder b = new StateMachineBuilder(s.WAIT);
 
 // Initialize all of the states
-b.add(s.BobState, States.bobState(), s.JohnState);
-b.add(s.JohnState, States.JohnState(), s.JennyState);
-b.add(s.JennyState, States.JennyState, s.Stop);
-b.addStop(s.Stop);
+b.addWait(s.WAIT, 1000, s.STOP);
+b.addStop(s.STOP);
 
 // Build the state machine
 StateMachine stateMachine = b.build();
 ```
-Using a StateMachine in a project is extremely simple. Just add this line to the loop method:
+Using the StateMachine you created in a project is extremely simple. Just add this line to the loop method:
 ```java
 stateMachine.act();
 ```
@@ -39,7 +38,7 @@ Using the state machine framework in the your project is extremely simple!
 - Add the latest jar file (found in _build/_ folder) to the  _FTCRobotController/libs/_ folder.
 - Add the file to the gradle build dependencies (inside  _build.gradle_ in the 'dependencies' section):
 ```
-compile files('libs/state-machine-framework-<latest version>')
+compile files('libs/state-machine-framework-<latest version>.jar')
 ```
 - Rebuild the gradle project.
 - If you plan on using vision in the project, please follow the instructions located in README_VISION.md, as additional changes need to be made in order to facilitate robot vision.

@@ -1,16 +1,22 @@
 package ftc.electronvolts.util;
 
 /**
- * Created by vandejd1 on 12/27/15.
- * FTC Team EV 7393
+ * A PID controller to use for controlling motors
  */
 public class PIDController {
-    private double pGain, iGain, dGain;
+    private final double pGain, iGain, dGain;
+    private final double maxOutput;
     private double iTerm = 0;
     private double input = 0, lastInput = 0;
     private long lastTime = -1;
-    private double maxOutput;
 
+    /**
+     * create a new PID controller
+     * @param pGain p constant
+     * @param iGain i constant
+     * @param dGain d constant
+     * @param maxOutput the max value of the
+     */
     public PIDController(double pGain, double iGain, double dGain, double maxOutput) {
         this.pGain = pGain;
         this.iGain = iGain;
@@ -18,12 +24,12 @@ public class PIDController {
         this.maxOutput = maxOutput;
     }
 
-//    public void setPID(double pGain, double iGain, double dGain) {
-//        this.pGain = pGain;
-//        this.iGain = iGain;
-//        this.dGain = dGain;
-//    }
-
+    /**
+     *
+     * @param setPoint the target avlue
+     * @param input the actual value
+     * @return the output of the PID
+     */
     public double computeCorrection(double setPoint, double input){
         long now = System.currentTimeMillis();
         double output = 0;
@@ -37,12 +43,12 @@ public class PIDController {
                 // Compute all the working error variables
                 double error = setPoint - input;
                 iTerm += iGain * error * timeChange;
-                iTerm = limit(iTerm, maxOutput);
+                iTerm = Utility.mirrorLimit(iTerm, maxOutput);
                 double dInput = (input - lastInput) / timeChange; //compute dInput instead of dError to avoid spikes
 
                 //Compute PID Output
                 output = pGain * error + iTerm - dGain * dInput;
-                output = limit(output, maxOutput);
+                output = Utility.mirrorLimit(output, maxOutput);
 
                 //Remember some variables for next time
                 lastInput = input;
@@ -50,12 +56,6 @@ public class PIDController {
             }
         }
         return output;
-    }
-
-    private double limit(double value, double max){
-        if (value > max) return max;
-        if (value < -max) return -max;
-        return value;
     }
 
     public void initialize() {

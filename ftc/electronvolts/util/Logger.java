@@ -10,8 +10,7 @@ import java.io.PrintStream;
 import java.util.List;
 
 /**
- * Created by vandejd1 on 5/1/16.
- * FTC Team EV 7393
+ * A logger that takes a list of InputExtractors and logs each on them in a column in a file
  */
 public class Logger {
 
@@ -22,6 +21,14 @@ public class Logger {
     private String titles, line;
     private final List<InputExtractor> inputs;
 
+    /**
+     *
+     * @param directory the directory where the file will be
+     * @param fileName the name of the file
+     * @param fileExtension the file's extension (.txt for example)
+     * @param inputNames the list of the column titles
+     * @param inputs the list of input extractors
+     */
     public Logger(String directory, String fileName, String fileExtension, List<String> inputNames, List<InputExtractor> inputs){
         this.directory = directory;
         this.fileName = fileName;
@@ -33,6 +40,9 @@ public class Logger {
         this.inputs = inputs;
     }
 
+    /**
+     * write the column titles to the file
+     */
     public void start(){
         logStart = System.currentTimeMillis();
 
@@ -46,6 +56,9 @@ public class Logger {
         }
     }
 
+    /**
+     * write the input columns to the file
+     */
     public void act(){
         long now = System.currentTimeMillis();
         if (fileStream != null){
@@ -57,6 +70,9 @@ public class Logger {
         }
     }
 
+    /**
+     * close the file
+     */
     public void stop(){
         if (fileStream != null){
             fileStream.close();

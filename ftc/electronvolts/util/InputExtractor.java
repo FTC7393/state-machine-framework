@@ -1,9 +1,12 @@
 package ftc.electronvolts.util;
 
 /**
- * Created by vandejd1 on 1/9/16.
- * FTC Team EV 7393
+ * This class is used to extract a static method and store it in an object
  */
 public interface InputExtractor<Type> {
+    /**
+     *
+     * @return the value from wherever the InputExtractor got it
+     */
     Type getValue();
 }

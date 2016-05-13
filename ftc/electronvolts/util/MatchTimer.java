@@ -27,7 +27,7 @@ public class MatchTimer {
     }
 
     /**
-     * Update the match timer. Must be called ever loop.
+     * Update the match timer. Must be called every loop.
      * @return the time between the last call of update() and now
      */
     public long update(){
@@ -64,7 +64,6 @@ public class MatchTimer {
     }
 
     /**
-     * Return is this is the first loop that the match has been over
      * @return if this is the first loop that the match has been over
      */
     public boolean isMatchJustOver(){

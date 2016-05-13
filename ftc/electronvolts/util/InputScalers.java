@@ -1,10 +1,15 @@
 package ftc.electronvolts.util;
 
 /**
- * Created by vandejd1 on 2/6/16.
- * FTC Team EV 7393
+ * Factory class for InputScaler
+ * These can be used for joystick scaling
  */
 public class InputScalers {
+    /**
+     *
+     * @param deadZone the deadzone to use
+     * @return the InputScaler
+     */
     public static InputScaler deadzone(final DeadZone deadZone){
         return new InputScaler() {
             @Override
@@ -18,6 +23,12 @@ public class InputScalers {
         };
     }
 
+    /**
+     * limits the input to between min and max
+     * @param min the min value
+     * @param max the min value
+     * @return the InputScaler
+     */
     public static InputScaler limit(final double min, final double max){
         return new InputScaler() {
             @Override
@@ -27,6 +38,12 @@ public class InputScalers {
         };
     }
 
+    /**
+     * Combines 2 InputScalers like a composite function f(g(x))
+     * @param inner g(x)
+     * @param outer f(x)
+     * @return the InputScaler
+     */
     public static InputScaler composite(final InputScaler inner, final InputScaler outer){
         return new InputScaler() {
             @Override
@@ -36,6 +53,10 @@ public class InputScalers {
         };
     }
 
+    /**
+     * No modification to the input
+     * @return the InputScaler
+     */
     public static InputScaler none(){
         return new InputScaler() {
             @Override
@@ -45,6 +66,11 @@ public class InputScalers {
         };
     }
 
+    /**
+     * Multiplies the input by a constant
+     * @param scalingFactor the constant to multiply by
+     * @return the InputScaler
+     */
     public static InputScaler linear(final double scalingFactor){
         return new InputScaler() {
             @Override
@@ -54,6 +80,11 @@ public class InputScalers {
         };
     }
 
+    /**
+     * Logarithmic scaling
+     * @param logBase the base of the logarithm
+     * @return the InputScaler
+     */
     public static InputScaler logarithmic(final double logBase){
         return new InputScaler() {
             @Override
@@ -68,7 +99,13 @@ public class InputScalers {
         };
     }
 
-    //(-1,-1) to (-x,-y) to (0,0) to (x,y) to (1,1)
+    /**
+     * a line from (-1,-1) to (-x,-y) to (0,0) to (x,y) to (1,1)
+     * @param pointX x
+     * @param pointY y
+     * @param maxValue the maximum value of the input
+     * @return the InputScaler
+     */
     public static InputScaler piecewise(double pointX, double pointY, double maxValue){
         final double x = Utility.motorLimit(Math.abs(pointX));
         final double y = Utility.motorLimit(Math.abs(pointY));

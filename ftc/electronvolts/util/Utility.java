@@ -5,28 +5,45 @@ package ftc.electronvolts.util;
  * FTC Team EV 7393
  */
 public class Utility {
-    public static double limit(double value, double min, double max){
-        if (value>max) return max;
-        if (value<min) return min;
-        return value;
+    /**
+     * limits the value to between min and max
+     * @param input the value to be limited
+     * @param min the minimum value
+     * @param max the maximum value
+     * @return the input limited to the range from min to max
+     */
+    public static double limit(double input, double min, double max){
+        if (input>max) return max;
+        if (input<min) return min;
+        return input;
     }
 
-    public static double motorLimit(double value){
-        return limit(value, -1, 1);
+    /**
+     * a limit function where min = -max
+     * @param input the value to be limited
+     * @param max the max absolute value
+     * @return the input limited to the range from -max to max
+     */
+    public static double mirrorLimit(double input, double max){
+        return limit(input, -max, max);
     }
 
-    public static double servoLimit(double value) {
-        return limit(value, 0, 1);
+    /**
+     * Limiting function for motor power
+     * @param input the value to be limited
+     * @return the input limited to the range from -1 to 1
+     */
+    public static double motorLimit(double input){
+        return limit(input, -1, 1);
     }
 
-    // Scale joystick values to specific scaling values and apply a deadzone
-//    public static double joystickScale(double joyVal, double joyDeadzone, double joyScaling) {
-//        if(joyVal <= joyDeadzone && joyVal >= -joyDeadzone) return 0;
-//        return (((Math.abs(joyVal) - joyDeadzone) * (joyVal / joyVal)) / (1 - joyDeadzone)) * joyScaling;
-//    }
-//
-//    public static double scaleSonar(double rawValue){
-//        return (1.265 * rawValue + 1.146)/2.54;
-//    }
+    /**
+     * Limiting function for servo positions
+     * @param input the value to be limited
+     * @return the input limited to the range from 0 to 1
+     */
+    public static double servoLimit(double input) {
+        return limit(input, 0, 1);
+    }
 
 }
