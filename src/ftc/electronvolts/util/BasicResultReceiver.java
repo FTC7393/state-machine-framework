@@ -4,7 +4,7 @@ package ftc.electronvolts.util;
 /**
  * The most basic implementation of ResultReceiver
  */
-public class BasicResultReceiver<T> implements ResultReceiver {
+public class BasicResultReceiver<T> implements ResultReceiver<T> {
     private T value = null;
     private boolean ready = false;
 
@@ -19,8 +19,8 @@ public class BasicResultReceiver<T> implements ResultReceiver {
     }
 
     @Override
-    public void setValue(Object value) {
-        this.value = (T) value;
+    public void setValue(T value) {
+        this.value = value;
         ready = true;
     }
 
