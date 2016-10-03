@@ -1,6 +1,8 @@
 package ftc.electronvolts.util;
 
 /**
+ * This file was made by the electronVolts, FTC team 7393
+ *
  * A PID controller to use for controlling motors
  */
 public class PIDController {
@@ -12,9 +14,10 @@ public class PIDController {
 
     /**
      * create a new PID controller
-     * @param pGain p constant
-     * @param iGain i constant
-     * @param dGain d constant
+     *
+     * @param pGain     p constant
+     * @param iGain     i constant
+     * @param dGain     d constant
      * @param maxOutput the max value of the
      */
     public PIDController(double pGain, double iGain, double dGain, double maxOutput) {
@@ -25,19 +28,18 @@ public class PIDController {
     }
 
     /**
-     *
      * @param setPoint the target avlue
-     * @param input the actual value
+     * @param input    the actual value
      * @return the output of the PID
      */
-    public double computeCorrection(double setPoint, double input){
+    public double computeCorrection(double setPoint, double input) {
         long now = System.currentTimeMillis();
         double output = 0;
-        if (lastTime == -1){
+        if (lastTime == -1) {
             lastTime = now;
         } else {
             double timeChange = now - lastTime;
-            if(timeChange > 0) {
+            if (timeChange > 0) {
                 this.input = input;
 
                 // Compute all the working error variables

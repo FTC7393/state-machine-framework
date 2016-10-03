@@ -1,7 +1,7 @@
 package ftc.electronvolts.statemachine;
 
 /**
- * FTC Team EV 7393
+ * This file was made by the electronVolts, FTC team 7393
  *
  * This class is meant to be implemented with an enum containing the list of state names.
  */
