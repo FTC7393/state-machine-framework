@@ -171,6 +171,6 @@ public class EVEndConditions extends EndConditions {
 
 
 # Contact
-Email team members of the project with any questions or comments! Please email [nikita.wootten@gmail.com](nikita.wootten@gmail.com) or submit issues to the issue tracker. You can also reach out to us on twitter at [@electronVoltFTC](https://twitter.com/electronVoltFTC).
+Email team members of the project with any questions or comments! Please email [nikita.wootten@gmail.com](nikita.wootten@gmail.com) and [johan.vandegriff@gmail.com](johan.vandegriff@gmail.com), or submit issues to the issue tracker. You can also reach out to us on twitter at [@electronVoltFTC](https://twitter.com/electronVoltFTC).
 
 We are constantly adding features from our project, so expect frequent updates!
