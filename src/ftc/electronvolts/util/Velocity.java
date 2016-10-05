@@ -1,0 +1,480 @@
+package ftc.electronvolts.util;
+
+/**
+ * This file was made by the electronVolts, FTC team 7393
+ * Date Created: 10/5/16
+ */
+
+public class Velocity {
+    private final Distance distance;
+    private final Time time;
+
+    public Velocity(Distance distance, Time time) {
+        this.distance = distance;
+        this.time = time;
+    }
+
+    public Distance getDistance() {
+        return distance;
+    }
+
+    public Time getTime() {
+        return time;
+    }
+
+
+    public Velocity abs() {
+        return new Velocity(distance.abs(), time.abs());
+    }
+
+
+    public double metersPerNanosecond() {
+        return distance.meters() / time.nanoseconds();
+    }
+
+    public double metersPerMicrosecond() {
+        return distance.meters() / time.microseconds();
+    }
+
+    public double metersPerMillisecond() {
+        return distance.meters() / time.milliseconds();
+    }
+
+    public double metersPerSecond() {
+        return distance.meters() / time.seconds();
+    }
+
+    public double metersPerMin() {
+        return distance.meters() / time.minutes();
+    }
+
+    public double metersPerHour() {
+        return distance.meters() / time.hours();
+    }
+
+    public double metersPerDay() {
+        return distance.meters() / time.days();
+    }
+
+    public double metersPerWeek() {
+        return distance.meters() / time.weeks();
+    }
+
+    public double metersPerMonth() {
+        return distance.meters() / time.months();
+    }
+
+    public double metersPerYear() {
+        return distance.meters() / time.years();
+    }
+
+
+    public double kilometersPerNanosecond() {
+        return distance.kilometers() / time.nanoseconds();
+    }
+
+    public double kilometersPerMicrosecond() {
+        return distance.kilometers() / time.microseconds();
+    }
+
+    public double kilometersPerMillisecond() {
+        return distance.kilometers() / time.milliseconds();
+    }
+
+    public double kilometersPerSecond() {
+        return distance.kilometers() / time.seconds();
+    }
+
+    public double kilometersPerMin() {
+        return distance.kilometers() / time.minutes();
+    }
+
+    public double kilometersPerHour() {
+        return distance.kilometers() / time.hours();
+    }
+
+    public double kilometersPerDay() {
+        return distance.kilometers() / time.days();
+    }
+
+    public double kilometersPerWeek() {
+        return distance.kilometers() / time.weeks();
+    }
+
+    public double kilometersPerMonth() {
+        return distance.kilometers() / time.months();
+    }
+
+    public double kilometersPerYear() {
+        return distance.kilometers() / time.years();
+    }
+
+
+    public double centimetersPerNanosecond() {
+        return distance.centimeters() / time.nanoseconds();
+    }
+
+    public double centimetersPerMicrosecond() {
+        return distance.centimeters() / time.microseconds();
+    }
+
+    public double centimetersPerMillisecond() {
+        return distance.centimeters() / time.milliseconds();
+    }
+
+    public double centimetersPerSecond() {
+        return distance.centimeters() / time.seconds();
+    }
+
+    public double centimetersPerMin() {
+        return distance.centimeters() / time.minutes();
+    }
+
+    public double centimetersPerHour() {
+        return distance.centimeters() / time.hours();
+    }
+
+    public double centimetersPerDay() {
+        return distance.centimeters() / time.days();
+    }
+
+    public double centimetersPerWeek() {
+        return distance.centimeters() / time.weeks();
+    }
+
+    public double centimetersPerMonth() {
+        return distance.centimeters() / time.months();
+    }
+
+    public double centimetersPerYear() {
+        return distance.centimeters() / time.years();
+    }
+
+
+    public double millimetersPerNanosecond() {
+        return distance.millimeters() / time.nanoseconds();
+    }
+
+    public double millimetersPerMicrosecond() {
+        return distance.millimeters() / time.microseconds();
+    }
+
+    public double millimetersPerMillisecond() {
+        return distance.millimeters() / time.milliseconds();
+    }
+
+    public double millimetersPerSecond() {
+        return distance.millimeters() / time.seconds();
+    }
+
+    public double millimetersPerMin() {
+        return distance.millimeters() / time.minutes();
+    }
+
+    public double millimetersPerHour() {
+        return distance.millimeters() / time.hours();
+    }
+
+    public double millimetersPerDay() {
+        return distance.millimeters() / time.days();
+    }
+
+    public double millimetersPerWeek() {
+        return distance.millimeters() / time.weeks();
+    }
+
+    public double millimetersPerMonth() {
+        return distance.millimeters() / time.months();
+    }
+
+    public double millimetersPerYear() {
+        return distance.millimeters() / time.years();
+    }
+
+
+    public double micrometersPerNanosecond() {
+        return distance.micrometers() / time.nanoseconds();
+    }
+
+    public double micrometersPerMicrosecond() {
+        return distance.micrometers() / time.microseconds();
+    }
+
+    public double micrometersPerMillisecond() {
+        return distance.micrometers() / time.milliseconds();
+    }
+
+    public double micrometersPerSecond() {
+        return distance.micrometers() / time.seconds();
+    }
+
+    public double micrometersPerMin() {
+        return distance.micrometers() / time.minutes();
+    }
+
+    public double micrometersPerHour() {
+        return distance.micrometers() / time.hours();
+    }
+
+    public double micrometersPerDay() {
+        return distance.micrometers() / time.days();
+    }
+
+    public double micrometersPerWeek() {
+        return distance.micrometers() / time.weeks();
+    }
+
+    public double micrometersPerMonth() {
+        return distance.micrometers() / time.months();
+    }
+
+    public double micrometersPerYear() {
+        return distance.micrometers() / time.years();
+    }
+
+
+    public double nanometersPerNanosecond() {
+        return distance.nanometers() / time.nanoseconds();
+    }
+
+    public double nanometersPerMicrosecond() {
+        return distance.nanometers() / time.microseconds();
+    }
+
+    public double nanometersPerMillisecond() {
+        return distance.nanometers() / time.milliseconds();
+    }
+
+    public double nanometersPerSecond() {
+        return distance.nanometers() / time.seconds();
+    }
+
+    public double nanometersPerMin() {
+        return distance.nanometers() / time.minutes();
+    }
+
+    public double nanometersPerHour() {
+        return distance.nanometers() / time.hours();
+    }
+
+    public double nanometersPerDay() {
+        return distance.nanometers() / time.days();
+    }
+
+    public double nanometersPerWeek() {
+        return distance.nanometers() / time.weeks();
+    }
+
+    public double nanometersPerMonth() {
+        return distance.nanometers() / time.months();
+    }
+
+    public double nanometersPerYear() {
+        return distance.nanometers() / time.years();
+    }
+
+
+    public double feetPerNanosecond() {
+        return distance.feet() / time.nanoseconds();
+    }
+
+    public double feetPerMicrosecond() {
+        return distance.feet() / time.microseconds();
+    }
+
+    public double feetPerMillisecond() {
+        return distance.feet() / time.milliseconds();
+    }
+
+    public double feetPerSecond() {
+        return distance.feet() / time.seconds();
+    }
+
+    public double feetPerMin() {
+        return distance.feet() / time.minutes();
+    }
+
+    public double feetPerHour() {
+        return distance.feet() / time.hours();
+    }
+
+    public double feetPerDay() {
+        return distance.feet() / time.days();
+    }
+
+    public double feetPerWeek() {
+        return distance.feet() / time.weeks();
+    }
+
+    public double feetPerMonth() {
+        return distance.feet() / time.months();
+    }
+
+    public double feetPerYear() {
+        return distance.feet() / time.years();
+    }
+
+
+    public double inchesPerNanosecond() {
+        return distance.inches() / time.nanoseconds();
+    }
+
+    public double inchesPerMicrosecond() {
+        return distance.inches() / time.microseconds();
+    }
+
+    public double inchesPerMillisecond() {
+        return distance.inches() / time.milliseconds();
+    }
+
+    public double inchesPerSecond() {
+        return distance.inches() / time.seconds();
+    }
+
+    public double inchesPerMin() {
+        return distance.inches() / time.minutes();
+    }
+
+    public double inchesPerHour() {
+        return distance.inches() / time.hours();
+    }
+
+    public double inchesPerDay() {
+        return distance.inches() / time.days();
+    }
+
+    public double inchesPerWeek() {
+        return distance.inches() / time.weeks();
+    }
+
+    public double inchesPerMonth() {
+        return distance.inches() / time.months();
+    }
+
+    public double inchesPerYear() {
+        return distance.inches() / time.years();
+    }
+
+
+    public double yardsPerNanosecond() {
+        return distance.yards() / time.nanoseconds();
+    }
+
+    public double yardsPerMicrosecond() {
+        return distance.yards() / time.microseconds();
+    }
+
+    public double yardsPerMillisecond() {
+        return distance.yards() / time.milliseconds();
+    }
+
+    public double yardsPerSecond() {
+        return distance.yards() / time.seconds();
+    }
+
+    public double yardsPerMin() {
+        return distance.yards() / time.minutes();
+    }
+
+    public double yardsPerHour() {
+        return distance.yards() / time.hours();
+    }
+
+    public double yardsPerDay() {
+        return distance.yards() / time.days();
+    }
+
+    public double yardsPerWeek() {
+        return distance.yards() / time.weeks();
+    }
+
+    public double yardsPerMonth() {
+        return distance.yards() / time.months();
+    }
+
+    public double yardsPerYear() {
+        return distance.yards() / time.years();
+    }
+
+
+    public double milesPerNanosecond() {
+        return distance.miles() / time.nanoseconds();
+    }
+
+    public double milesPerMicrosecond() {
+        return distance.miles() / time.microseconds();
+    }
+
+    public double milesPerMillisecond() {
+        return distance.miles() / time.milliseconds();
+    }
+
+    public double milesPerSecond() {
+        return distance.miles() / time.seconds();
+    }
+
+    public double milesPerMin() {
+        return distance.miles() / time.minutes();
+    }
+
+    public double milesPerHour() {
+        return distance.miles() / time.hours();
+    }
+
+    public double milesPerDay() {
+        return distance.miles() / time.days();
+    }
+
+    public double milesPerWeek() {
+        return distance.miles() / time.weeks();
+    }
+
+    public double milesPerMonth() {
+        return distance.miles() / time.months();
+    }
+
+    public double milesPerYear() {
+        return distance.miles() / time.years();
+    }
+
+
+    public double nauticalMilesPerNanosecond() {
+        return distance.nauticalMiles() / time.nanoseconds();
+    }
+
+    public double nauticalMilesPerMicrosecond() {
+        return distance.nauticalMiles() / time.microseconds();
+    }
+
+    public double nauticalMilesPerMillisecond() {
+        return distance.nauticalMiles() / time.milliseconds();
+    }
+
+    public double nauticalMilesPerSecond() {
+        return distance.nauticalMiles() / time.seconds();
+    }
+
+    public double nauticalMilesPerMin() {
+        return distance.nauticalMiles() / time.minutes();
+    }
+
+    public double nauticalMilesPerHour() {
+        return distance.nauticalMiles() / time.hours();
+    }
+
+    public double nauticalMilesPerDay() {
+        return distance.nauticalMiles() / time.days();
+    }
+
+    public double nauticalMilesPerWeek() {
+        return distance.nauticalMiles() / time.weeks();
+    }
+
+    public double nauticalMilesPerMonth() {
+        return distance.nauticalMiles() / time.months();
+    }
+
+    public double nauticalMilesPerYear() {
+        return distance.nauticalMiles() / time.years();
+    }
+}
