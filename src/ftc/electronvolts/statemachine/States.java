@@ -1,6 +1,7 @@
 package ftc.electronvolts.statemachine;
 
 import java.util.List;
+import java.util.Map;
 
 import ftc.electronvolts.util.ResultReceiver;
 
@@ -14,6 +15,51 @@ import ftc.electronvolts.util.ResultReceiver;
  * have access to all these methods and your own in one place.
  */
 public class States {
+	/**
+	 * Creates a state machine inside a state of another state machine
+	 * "Yo, dawg, we heard you like states so we put a state machine inside a state of another state machine so your state can act while your state machine acts, dawg."
+	 * 
+	 * @param stateName the name of the state that contains the sub-state machine
+	 * @param stateMachineBuilder the builder to add the sub-states to
+	 * @param subStateToState map that links the sub states to the states in the main state machine
+	 * @return the created State
+	 */
+    public static State subStates(StateName stateName, final StateMachineBuilder stateMachineBuilder, final Map<StateName, StateName> subStateToState) {
+        StateName firstState = stateMachineBuilder.build().getCurrentStateName();
+        for (Map.Entry<StateName, StateName> entry : subStateToState.entrySet()) {
+            StateName subState = entry.getKey();
+            stateMachineBuilder.add(basicEmpty(subState, firstState));
+        }
+        final StateMachine stateMachine = stateMachineBuilder.build();
+        return new BasicAbstractState(stateName) {
+            private StateName nextStateName;
+
+            @Override
+            public void init() {
+            }
+
+            @Override
+            public boolean isDone() {
+                stateMachine.act();
+                for (Map.Entry<StateName, StateName> entry : subStateToState.entrySet()) {
+                    //if the current state is one of the ending sub-states
+                    if (stateMachine.getCurrentStateName() == entry.getKey()) {
+                        //go to the corresponding super-state
+                        nextStateName = entry.getValue();
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            @Override
+            public StateName getNextStateName() {
+                return nextStateName;
+            }
+        };
+    }
+
+	
     /**
      * A state that never returns
      *
