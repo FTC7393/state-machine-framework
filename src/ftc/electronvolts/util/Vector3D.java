@@ -18,7 +18,7 @@ public class Vector3D {
      * @return the created vector
      */
     public static Vector3D fromPolar2D(double magnitude, Angle angle) {
-        double angleRads = angle.getValueRadians();
+        double angleRads = angle.radians();
         double x = magnitude * Math.cos(angleRads);
         double y = magnitude * Math.sin(angleRads);
         return new Vector3D(x, y, 0);

@@ -6,7 +6,6 @@ package ftc.electronvolts.util;
  */
 
 public class Time {
-    private final double seconds;
     private static final double S_PER_NS = 1e-9;
     private static final double S_PER_US = 1e-6;
     private static final double S_PER_MS = 0.001;
@@ -16,7 +15,21 @@ public class Time {
     private static final double S_PER_WEEK = 604800;
     private static final double S_PER_MONTH = 2.628e+6;
     private static final double S_PER_YEAR = 3.154e+7;
+    
 
+    private static final double NS_PER_S = 1 / S_PER_NS;
+    private static final double US_PER_S = 1 / S_PER_US;
+    private static final double MS_PER_S = 1 / S_PER_MS;
+    private static final double MIN_PER_S = 1 / S_PER_MIN;
+    private static final double HR_PER_S = 1 / S_PER_HR;
+    private static final double DAY_PER_S = 1 / S_PER_DAY;
+    private static final double WEEK_PER_S = 1 / S_PER_WEEK;
+    private static final double MONTH_PER_S = 1 / S_PER_MONTH;
+    private static final double YEAR_PER_S = 1 / S_PER_YEAR;
+
+    
+    private final double seconds;
+    
     private Time(double seconds) {
         this.seconds = seconds;
     }
@@ -70,38 +83,38 @@ public class Time {
     }
 
     public double nanoseconds() {
-        return seconds / S_PER_NS;
+        return seconds * NS_PER_S;
     }
 
     public double microseconds() {
-        return seconds / S_PER_US;
+        return seconds * US_PER_S;
     }
 
     public double milliseconds() {
-        return seconds / S_PER_MS;
+        return seconds * MS_PER_S;
     }
 
     public double minutes() {
-        return seconds / S_PER_MIN;
+        return seconds * MIN_PER_S;
     }
 
     public double hours() {
-        return seconds / S_PER_HR;
+        return seconds * HR_PER_S;
     }
 
     public double days() {
-        return seconds / S_PER_DAY;
+        return seconds * DAY_PER_S;
     }
 
     public double weeks() {
-        return seconds / S_PER_WEEK;
+        return seconds * WEEK_PER_S;
     }
 
     public double months() {
-        return seconds / S_PER_MONTH;
+        return seconds * MONTH_PER_S;
     }
 
     public double years() {
-        return seconds / S_PER_YEAR;
+        return seconds * YEAR_PER_S;
     }
 }

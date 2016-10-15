@@ -6,16 +6,16 @@ package ftc.electronvolts.util;
  * Factory class for InputScaler
  * These can be used for joystick scaling
  */
-public class InputScalers {
+public class Functions {
     /**
-     * The output = the input squared
+     * The output = the input squared with the sign retained
      *
-     * @return the created InputScaler
+     * @return the created Function
      */
-    public static InputScaler squared() {
-        return new InputScaler() {
+    public static Function squared() {
+        return new Function() {
             @Override
-            public double scale(double input) {
+            public double f(double input) {
                 return input * input * Math.signum(input);
             }
         };
@@ -26,10 +26,10 @@ public class InputScalers {
      *
      * @return the created InputScaler
      */
-    public static InputScaler cubed() {
-        return new InputScaler() {
+    public static Function cubed() {
+        return new Function() {
             @Override
-            public double scale(double input) {
+            public double f(double input) {
                 return input * input * input; //Math.signum(input);
             }
         };
@@ -37,12 +37,12 @@ public class InputScalers {
 
     /**
      * @param deadZone the deadzone to use
-     * @return the InputScaler
+     * @return the Function
      */
-    public static InputScaler deadzone(final DeadZone deadZone) {
-        return new InputScaler() {
+    public static Function deadzone(final DeadZone deadZone) {
+        return new Function() {
             @Override
-            public double scale(double input) {
+            public double f(double input) {
                 if (deadZone.isInside(input)) {
                     return 0;
                 } else {
@@ -57,29 +57,29 @@ public class InputScalers {
      *
      * @param min the min value
      * @param max the min value
-     * @return the InputScaler
+     * @return the Function
      */
-    public static InputScaler limit(final double min, final double max) {
-        return new InputScaler() {
+    public static Function limit(final double min, final double max) {
+        return new Function() {
             @Override
-            public double scale(double input) {
+            public double f(double input) {
                 return Utility.limit(input, min, max);
             }
         };
     }
 
     /**
-     * Combines 2 InputScalers like a composite function f(g(x))
+     * Combines 2 Functions like a composite function f(g(x))
      *
      * @param inner g(x)
      * @param outer f(x)
-     * @return the InputScaler
+     * @return the Function
      */
-    public static InputScaler composite(final InputScaler inner, final InputScaler outer) {
-        return new InputScaler() {
+    public static Function composite(final Function inner, final Function outer) {
+        return new Function() {
             @Override
-            public double scale(double input) {
-                return outer.scale(inner.scale(input));
+            public double f(double input) {
+                return outer.f(inner.f(input));
             }
         };
     }
@@ -87,12 +87,12 @@ public class InputScalers {
     /**
      * No modification to the input
      *
-     * @return the InputScaler
+     * @return the Function
      */
-    public static InputScaler none() {
-        return new InputScaler() {
+    public static Function none() {
+        return new Function() {
             @Override
-            public double scale(double input) {
+            public double f(double input) {
                 return input;
             }
         };
@@ -102,12 +102,12 @@ public class InputScalers {
      * Multiplies the input by a constant
      *
      * @param scalingFactor the constant to multiply by
-     * @return the InputScaler
+     * @return the Function
      */
-    public static InputScaler linear(final double scalingFactor) {
-        return new InputScaler() {
+    public static Function linear(final double scalingFactor) {
+        return new Function() {
             @Override
-            public double scale(double input) {
+            public double f(double input) {
                 return input * scalingFactor;
             }
         };
@@ -117,12 +117,12 @@ public class InputScalers {
      * Logarithmic scaling
      *
      * @param logBase the base of the logarithm
-     * @return the InputScaler
+     * @return the Function
      */
-    public static InputScaler logarithmic(final double logBase) {
-        return new InputScaler() {
+    public static Function logarithmic(final double logBase) {
+        return new Function() {
             @Override
-            public double scale(double input) {
+            public double f(double input) {
                 if (logBase > 0) {
                     //a log function including the points (0,0) and (1,1)
                     return Math.log(logBase * input + 1) / Math.log(logBase + 1);
@@ -139,9 +139,9 @@ public class InputScalers {
      * @param pointX   x
      * @param pointY   y
      * @param maxValue the maximum value of the input
-     * @return the InputScaler
+     * @return the Function
      */
-    public static InputScaler piecewise(double pointX, double pointY, double maxValue) {
+    public static Function piecewise(double pointX, double pointY, double maxValue) {
         final double x = Utility.motorLimit(Math.abs(pointX));
         final double y = Utility.motorLimit(Math.abs(pointY));
         final double max = Utility.motorLimit(Math.abs(maxValue));
@@ -157,9 +157,9 @@ public class InputScalers {
         } else {
             slope2 = (y - max) / (x - 1);
         }
-        return new InputScaler() {
+        return new Function() {
             @Override
-            public double scale(double input) {
+            public double f(double input) {
                 double output;
                 if (Math.abs(input) < x) {
                     output = slope1 * Math.abs(input);

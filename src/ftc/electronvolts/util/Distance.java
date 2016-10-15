@@ -11,15 +11,25 @@ public class Distance {
     private static final double M_PER_MM = 1e-3;
     private static final double M_PER_UM = 1e-6;
     private static final double M_PER_NM = 1e-9;
-
     private static final double M_PER_FT = 0.3048;
     private static final double M_PER_IN = 0.0254;
-
     private static final double M_PER_YD = 0.9144;
-
     private static final double M_PER_MI = 1609.34;
     private static final double M_PER_NAUT_MI = 1852;
+    
 
+    private static final double KM_PER_M = 1 / M_PER_KM;
+    private static final double CM_PER_M = 1 / M_PER_CM;
+    private static final double MM_PER_M = 1 / M_PER_MM;
+    private static final double UM_PER_M = 1 / M_PER_UM;
+    private static final double NM_PER_M = 1 / M_PER_NM;
+    private static final double FT_PER_M = 1 / M_PER_FT;
+    private static final double IN_PER_M = 1 / M_PER_IN;
+    private static final double YD_PER_M = 1 / M_PER_YD;
+    private static final double MI_PER_M = 1 / M_PER_MI;
+    private static final double NAUT_MI_PER_M = 1 / M_PER_NAUT_MI;
+
+    
     private final double meters;
 
     private Distance(double meters) {
@@ -80,42 +90,42 @@ public class Distance {
     }
 
     public double kilometers() {
-        return meters / M_PER_KM;
+        return meters * KM_PER_M;
     }
 
     public double centimeters() {
-        return meters / M_PER_CM;
+        return meters * CM_PER_M;
     }
 
     public double millimeters() {
-        return meters / M_PER_MM;
+        return meters * MM_PER_M;
     }
 
     public double micrometers() {
-        return meters / M_PER_UM;
+        return meters * UM_PER_M;
     }
 
     public double nanometers() {
-        return meters / M_PER_NM;
+        return meters * NM_PER_M;
     }
 
     public double feet() {
-        return meters / M_PER_FT;
+        return meters * FT_PER_M;
     }
 
     public double inches() {
-        return meters / M_PER_IN;
+        return meters * IN_PER_M;
     }
 
     public double yards() {
-        return meters / M_PER_YD;
+        return meters * YD_PER_M;
     }
 
     public double miles() {
-        return meters / M_PER_MI;
+        return meters * MI_PER_M;
     }
 
     public double nauticalMiles() {
-        return meters / M_PER_NAUT_MI;
+        return meters * NAUT_MI_PER_M;
     }
 }

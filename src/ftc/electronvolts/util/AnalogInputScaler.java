@@ -5,17 +5,17 @@ package ftc.electronvolts.util;
  *
  * Manages the scaling of an analog input such as a joystick
  */
-public class AnalogInputManager implements InputExtractor<Double> {
+public class AnalogInputScaler implements InputExtractor<Double> {
     private double value = 0;
 
     private final InputExtractor<Double> extractor;
-    private final InputScaler inputScaler;
+    private final Function inputScaler;
 
     /**
      * @param extractor   the input extractor
      * @param inputScaler the input scaler to use for scaling the input
      */
-    public AnalogInputManager(InputExtractor<Double> extractor, InputScaler inputScaler) {
+    public AnalogInputScaler(InputExtractor<Double> extractor, Function inputScaler) {
         this.extractor = extractor;
         this.inputScaler = inputScaler;
     }
@@ -26,7 +26,7 @@ public class AnalogInputManager implements InputExtractor<Double> {
      * @return the value
      */
     public double update() {
-        value = inputScaler.scale(extractor.getValue());
+        value = inputScaler.f(extractor.getValue());
         return value;
     }
 

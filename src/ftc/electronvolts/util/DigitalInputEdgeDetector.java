@@ -6,7 +6,7 @@ package ftc.electronvolts.util;
  * A class that is very useful for joystick control.
  * It does edge detection for a digital input.
  */
-public class DigitalInputManager implements InputExtractor<Boolean> {
+public class DigitalInputEdgeDetector implements InputExtractor<Boolean> {
     private Boolean currentValue = false;
     private Boolean previousValue;
     private InputExtractor<Boolean> extractor;
@@ -14,7 +14,7 @@ public class DigitalInputManager implements InputExtractor<Boolean> {
     /**
      * @param extractor the InputExtractor to do edge detection on
      */
-    public DigitalInputManager(InputExtractor<Boolean> extractor) {
+    public DigitalInputEdgeDetector(InputExtractor<Boolean> extractor) {
         this.extractor = extractor;
     }
 
