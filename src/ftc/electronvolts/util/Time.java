@@ -6,6 +6,10 @@ package ftc.electronvolts.util;
  */
 
 public class Time {
+	/*
+	 * Constants to relate various units to seconds
+	 * The reciprocal of each constant is calculated once to be used multiple times later
+	 */
     private static final double S_PER_NS = 1e-9;
     private static final double S_PER_US = 1e-6;
     private static final double S_PER_MS = 0.001;
@@ -27,17 +31,82 @@ public class Time {
     private static final double MONTH_PER_S = 1 / S_PER_MONTH;
     private static final double YEAR_PER_S = 1 / S_PER_YEAR;
 
-    
+    // The time in seconds
     private final double seconds;
     
+    /**
+     * private constructor to create a Time object from a value in seconds
+     * @param seconds the time in seconds
+     */
     private Time(double seconds) {
         this.seconds = seconds;
     }
 
+    /**
+     * 
+     * @return the absolute value of the time
+     */
     public Time abs() {
         return new Time(Math.abs(seconds));
     }
+    
+    /**
+     * 
+     * @return the sign of the angle
+     */
+    public double signum() {
+    	return Math.signum(seconds);
+    }
+    
+    /**
+     * Adds two Times together
+     * @param time1 the first Time object
+     * @param time2 the second Time object
+     * @return the resulting Time
+     */
+    public static Time add(Time time1, Time time2) {
+    	return new Time(time1.seconds + time2.seconds);
+    }
+    
+    /**
+     * Subtracts time2 from time1
+     * @param time1 the first Time object
+     * @param time2 the second Time object
+     * @return the resulting Time
+     */
+    public static Time subtract(Time time1, Time time2) {
+    	return new Time(time1.seconds - time2.seconds);
+    }
+    
+    /**
+     * Multiplies a Time object by a number
+     * @param time the Time object
+     * @param number the number to multiply by
+     * @return the resulting Time
+     */
+    public static Time multiply(Time time, double number) {
+    	return new Time(time.seconds * number);
+    }
+    
+    /**
+     * Divides a Time object by a number
+     * @param time the Time object
+     * @param number the number to divide by
+     * @return the resulting Time
+     */
+    public static Time divide(Time time, double number) {
+    	return new Time(time.seconds / number);
+    }
+    
+    /**
+     * Create a Time that has a value of 0
+     * @return the created Time
+     */
+    public static Time zero() {
+    	return new Time(0);
+    }
 
+    //create Time objects from various units
     public static Time fromSeconds(double v) {
         return new Time(v);
     }
@@ -78,6 +147,7 @@ public class Time {
         return new Time(v * S_PER_YEAR);
     }
 
+    //get time in various units
     public double seconds() {
         return seconds;
     }

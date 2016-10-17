@@ -10,24 +10,75 @@ public class Velocity {
     private final Time time;
 
     public Velocity(Distance distance, Time time) {
-        this.distance = distance;
-        this.time = time;
+    	this.distance = distance;
+    	this.time = time;
+    }
+    
+    public static Velocity zero() {
+    	return new Velocity(Distance.zero(), Time.fromSeconds(1));
     }
 
-    public Distance getDistance() {
-        return distance;
+    public Distance getDistance(Time time) {
+    	//distance = velocity * time
+        return Distance.fromMeters(metersPerSecond() * time.seconds());
     }
 
-    public Time getTime() {
-        return time;
+    public Time getTime(Distance distance) {
+    	//time = distance / velocity
+        return Time.fromSeconds(distance.meters() / metersPerSecond());
     }
 
 
     public Velocity abs() {
         return new Velocity(distance.abs(), time.abs());
     }
+    
+    public double signum() {
+        return Math.signum(metersPerSecond());
+    }
+    
+    /**
+     * Adds two Velocities together
+     * @param velocity1 the first Velocity
+     * @param velocity2 the second Velocity
+     * @return the resulting Velocity
+     */
+    public static Velocity add(Velocity velocity1, Velocity velocity2) {
+    	return new Velocity(Distance.fromMeters(velocity1.metersPerSecond() + velocity2.metersPerSecond()), Time.fromSeconds(1));
+    }
+    
+    /**
+     * Subtracts velocity2 from velocity1
+     * @param velocity1 the first Velocity
+     * @param velocity2 the second Velocity
+     * @return the resulting Velocity
+     */
+    public static Velocity subtract(Velocity velocity1, Velocity velocity2) {
+    	return new Velocity(Distance.fromMeters(velocity1.metersPerSecond() - velocity2.metersPerSecond()), Time.fromSeconds(1));
+    }
+    
+    /**
+     * Multiplies a Velocity by a number
+     * @param velocity the Velocity
+     * @param number the number to multiply by
+     * @return the resulting Velocity
+     */
+    public static Velocity multiply(Velocity velocity1, double number) {
+    	return new Velocity(Distance.fromMeters(velocity1.metersPerSecond() * number), Time.fromSeconds(1));
+    }
+    
+    /**
+     * Divides a Velocity by a number
+     * @param velocity the Velocity
+     * @param number the number to divide by
+     * @return the resulting Velocity
+     */
+    public static Velocity divide(Velocity velocity1, double number) {
+    	return new Velocity(Distance.fromMeters(velocity1.metersPerSecond() * number), Time.fromSeconds(1));
+    }
 
-
+    
+    //get velocity in various units
     public double metersPerNanosecond() {
         return distance.meters() / time.nanoseconds();
     }
