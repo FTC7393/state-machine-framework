@@ -8,5 +8,14 @@ package ftc.electronvolts.util;
 public enum TeamColor {
     RED,
     BLUE,
-    UNKNOWN
+    UNKNOWN;
+    
+    public static TeamColor fromString(String s){
+    	s = s.toUpperCase();
+    	if (s.contains("BLUE"))	return BLUE;
+    	if (s.contains("RED"))	return RED;
+    	if (s.contains("B"))	return BLUE;
+    	if (s.contains("R"))	return RED;
+    	return UNKNOWN;
+    }
 }
