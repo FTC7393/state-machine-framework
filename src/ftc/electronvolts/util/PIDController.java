@@ -28,7 +28,7 @@ public class PIDController {
     }
 
     /**
-     * @param setPoint the target avlue
+     * @param setPoint the target value
      * @param input    the actual value
      * @return the output of the PID
      */

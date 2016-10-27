@@ -50,8 +50,6 @@ public class Vector3D {
         return z;
     }
 
-    //
-
     /**
      * uses the Pythagorean theorem
      *
@@ -60,8 +58,6 @@ public class Vector3D {
     public double getLength() {
         return Math.sqrt(x * x + y * y + z * z);
     }
-
-    //
 
     /**
      * Order matters for the cross product
@@ -77,10 +73,8 @@ public class Vector3D {
         return new Vector3D(x, y, z);
     }
 
-    //
-
     /**
-     * The order does not matter for the cross product
+     * The order does not matter for the dot product
      *
      * @param v1 one vector
      * @param v2 another vector

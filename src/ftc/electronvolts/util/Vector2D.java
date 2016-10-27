@@ -6,7 +6,7 @@ package ftc.electronvolts.util;
  */
 
 public class Vector2D {
-    //the 3 components of the vector
+    //the 2 components of the vector
     private final double x;
     private final double y;
 
@@ -52,8 +52,6 @@ public class Vector2D {
     public double getLength() {
         return Math.sqrt(x * x + y * y);
     }
-
-    //
 
     /**
      * The order does not matter for the cross product

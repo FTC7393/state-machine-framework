@@ -8,7 +8,7 @@ import ftc.electronvolts.util.MatchTimer;
 /**
  * This file was made by the electronVolts, FTC team 7393
  *
- * This is a factory class fo the EndCondition interface.
+ * This is a factory class for the EndCondition interface.
  * It contains methods which return some useful end conditions that can be used not only in the
  * state machine, but also anywhere in your code.
  *

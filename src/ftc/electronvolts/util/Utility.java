@@ -6,14 +6,24 @@ package ftc.electronvolts.util;
  */
 public class Utility {
     /**
-     * limits the value to between min and max
+     * limits the value to be between a and b
      *
      * @param input the value to be limited
-     * @param min   the minimum value
-     * @param max   the maximum value
-     * @return the input limited to the range from min to max
+     * @param a     one end of the range
+     * @param b     the other end of the range
+     * @return the input limited to the range between a and b
      */
-    public static double limit(double input, double min, double max) {
+    public static double limit(double input, double a, double b) {
+    	if(a == b) return a; // if the ends of the range are equal
+    	
+    	//set min and max to a and b, making sure that min < max
+    	double min = a, max = b;
+    	if(a > b){
+    		min = b;
+    		max = a;
+    	}
+    	
+    	//limit the input to be min < input < max
         if (input > max) return max;
         if (input < min) return min;
         return input;
@@ -24,7 +34,7 @@ public class Utility {
      *
      * @param input the value to be limited
      * @param max   the max absolute value
-     * @return the input limited to the range from -max to max
+     * @return the input limited to be between -max to max
      */
     public static double mirrorLimit(double input, double max) {
         return limit(input, -max, max);
@@ -37,7 +47,7 @@ public class Utility {
      * @return the input limited to the range from -1 to 1
      */
     public static double motorLimit(double input) {
-        return limit(input, -1, 1);
+        return mirrorLimit(input, 1);
     }
 
     /**

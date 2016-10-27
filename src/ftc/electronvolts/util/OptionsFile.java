@@ -45,10 +45,10 @@ public class OptionsFile {
      * @param file the file to read from
      * @return the OptionsFile
      */
-    public static OptionsFile fromFile(File file) {
+    public OptionsFile(File file) {
+        values = new HashMap<>();
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
-            Map<String, String> newvalues = new HashMap<>();
             try {
                 String line;
                 while ((line = br.readLine()) != null) {
@@ -56,7 +56,7 @@ public class OptionsFile {
                         String[] elements = line.split("=");
                         String key = elements[0].trim();
                         String value = elements[1].trim();
-                        newvalues.put(key, value);
+                        values.put(key, value);
                     } catch (IndexOutOfBoundsException e) {
                         e.printStackTrace();
                     }
@@ -70,9 +70,8 @@ public class OptionsFile {
                     e.printStackTrace();
                 }
             }
-            return new OptionsFile(newvalues);
         } catch (FileNotFoundException e1) {
-            return new OptionsFile();
+        	e1.printStackTrace();
         }
     }
 
@@ -87,12 +86,52 @@ public class OptionsFile {
      * add a value to the map
      *
      * @param tag   the name of the value
-     * @param value the value
+     * @param value the value (a String)
      */
     public void add(String tag, String value) {
         values.put(tag, value);
     }
 
+    /**
+     * add a value to the map
+     *
+     * @param tag   the name of the value
+     * @param value the value (any Object)
+     */
+    public void add(String tag, Object value) {
+        values.put(tag, value.toString());
+    }
+
+    /**
+     * add a value to the map
+     *
+     * @param tag   the name of the value
+     * @param value the value (an int)
+     */
+    public void add(String tag, int value) {
+        values.put(tag, String.valueOf(value));
+    }
+
+    /**
+     * add a value to the map
+     *
+     * @param tag   the name of the value
+     * @param value the value (a double)
+     */
+    public void add(String tag, double value) {
+        values.put(tag, String.valueOf(value));
+    }
+
+    /**
+     * add a value to the map
+     *
+     * @param tag   the name of the value
+     * @param value the value (a boolean)
+     */
+    public void add(String tag, boolean value) {
+        values.put(tag, String.valueOf(value));
+    }
+    
     /**
      * Get the value as a String
      *

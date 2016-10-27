@@ -7,7 +7,7 @@ package ftc.electronvolts.util;
  */
 public class MatchTimer {
     private final long matchLengthMillis;
-    private long startTime, previousTime, deltaTime, now;
+    private long startTime, deltaTime, now;
     private boolean hasStopped = false;
 
     /**
@@ -24,7 +24,10 @@ public class MatchTimer {
      */
     public void start() {
         startTime = System.currentTimeMillis();
-        previousTime = startTime;
+        now = startTime;
+        deltaTime = 0;
+        
+        hasStopped = false;
     }
 
     /**
@@ -33,6 +36,7 @@ public class MatchTimer {
      * @return the time between the last call of update() and now
      */
     public long update() {
+    	long previousTime = now;
         now = System.currentTimeMillis();
         deltaTime = now - previousTime;
         previousTime = now;
@@ -63,7 +67,7 @@ public class MatchTimer {
      * @return the time left in a match
      */
     public long getTimeLeft() {
-        return matchLengthMillis - (now - startTime);
+        return matchLengthMillis - getElapsedTime();
     }
 
     /**
@@ -79,10 +83,31 @@ public class MatchTimer {
      * @return if this is the first loop that the match has been over
      */
     public boolean isMatchJustOver() {
-        if (matchLengthMillis >= 0 && now - startTime >= matchLengthMillis && !hasStopped) {
+        if (isMatchOver() && !hasStopped) {
             hasStopped = true;
             return true;
         }
         return false;
     }
+
+    /**
+     * @return the length of the match in milliseconds
+     */
+	public long getMatchLengthMillis() {
+		return matchLengthMillis;
+	}
+
+	/**
+	 * @return the time the match started in milliseconds
+	 */
+	public long getStartTime() {
+		return startTime;
+	}
+
+	/**
+	 * @return the time of the last call to update()
+	 */
+	public long getNow() {
+		return now;
+	}
 }

@@ -33,10 +33,11 @@ public class Logger {
         this.directory = directory;
         this.fileName = fileName;
         this.fileExtension = fileExtension;
-        titles = "time";
+        StringBuilder sb = new StringBuilder("time");
         for (String name : inputNames) {
-            titles = titles + "\t" + name;
+            sb.append("\t").append(name);
         }
+        titles = sb.append("\n").toString();
         this.inputs = inputs;
     }
 
@@ -54,7 +55,7 @@ public class Logger {
         try {
             fileStream = new PrintStream(new FileOutputStream(file));
 
-            fileStream.printf(titles + "\n");
+            fileStream.printf(titles);
             return true;
         } catch (IOException e) {
             return false;
@@ -68,11 +69,11 @@ public class Logger {
     public void act() {
         long now = System.currentTimeMillis();
         if (fileStream != null) {
-            String line = String.valueOf(now - logStart);
+            StringBuilder line = new StringBuilder(String.valueOf(now - logStart));
             for (InputExtractor<?> input : inputs) {
-                line += String.valueOf(input.getValue());
+                line.append("\t").append(input.getValue());
             }
-            fileStream.printf(line + "\n");
+            fileStream.printf(line.append("\n").toString());
         }
     }
 
