@@ -44,7 +44,6 @@ public class DigitalInputEdgeDetector implements InputExtractor<Boolean> {
         return currentValue;
     }
 
-
     /**
      * @return if the input just turned from false to true
      */

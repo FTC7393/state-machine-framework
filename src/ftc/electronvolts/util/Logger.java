@@ -12,7 +12,8 @@ import java.util.List;
 /**
  * This file was made by the electronVolts, FTC team 7393
  *
- * A logger that takes a list of InputExtractors and logs each on them in a column in a file
+ * A logger that takes a list of InputExtractors and logs each on them in a
+ * column in a file
  */
 public class Logger {
 
@@ -23,11 +24,11 @@ public class Logger {
     private final List<InputExtractor<?>> inputs;
 
     /**
-     * @param directory     the directory where the file will be
-     * @param fileName      the name of the file
+     * @param directory the directory where the file will be
+     * @param fileName the name of the file
      * @param fileExtension the file's extension (.txt for example)
-     * @param inputNames    the list of the column titles
-     * @param inputs        the list of input extractors
+     * @param inputNames the list of the column titles
+     * @param inputs the list of input extractors
      */
     public Logger(String directory, String fileName, String fileExtension, List<String> inputNames, List<InputExtractor<?>> inputs) {
         this.directory = directory;
@@ -41,9 +42,9 @@ public class Logger {
         this.inputs = inputs;
     }
 
-//    public boolean start(){
-//        return start(Environment.getExternalStorageDirectory());
-//    }
+    // public boolean start(){
+    // return start(Environment.getExternalStorageDirectory());
+    // }
 
     /**
      * write the column titles to the file
@@ -51,7 +52,8 @@ public class Logger {
     public boolean start(File dir) {
         logStart = System.currentTimeMillis();
 
-        File file = new File(dir + "/" + directory, fileName + logStart + fileExtension);
+        File file = new File(dir + "/" + directory, fileName + logStart
+                + fileExtension);
         try {
             fileStream = new PrintStream(new FileOutputStream(file));
 
@@ -59,7 +61,7 @@ public class Logger {
             return true;
         } catch (IOException e) {
             return false;
-//            Log.e(fileName, "File cannot be opened");
+            // Log.e(fileName, "File cannot be opened");
         }
     }
 
@@ -69,7 +71,8 @@ public class Logger {
     public void act() {
         long now = System.currentTimeMillis();
         if (fileStream != null) {
-            StringBuilder line = new StringBuilder(String.valueOf(now - logStart));
+            StringBuilder line = new StringBuilder(String.valueOf(now
+                    - logStart));
             for (InputExtractor<?> input : inputs) {
                 line.append("\t").append(input.getValue());
             }

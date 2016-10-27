@@ -6,10 +6,11 @@ package ftc.electronvolts.util;
  */
 
 public class Distance {
-	/*
-	 * Constants to relate various units to meters
-	 * The reciprocal of each constant is calculated once to be used multiple times later
-	 */
+    /*
+     * Constants to relate various units to meters
+     * The reciprocal of each constant is calculated once to be used multiple
+     * times later
+     */
     private static final double M_PER_KM = 1e+3;
     private static final double M_PER_CM = 1e-2;
     private static final double M_PER_MM = 1e-3;
@@ -20,7 +21,6 @@ public class Distance {
     private static final double M_PER_YD = 0.9144;
     private static final double M_PER_MI = 1609.34;
     private static final double M_PER_NAUT_MI = 1852;
-    
 
     private static final double KM_PER_M = 1 / M_PER_KM;
     private static final double CM_PER_M = 1 / M_PER_CM;
@@ -33,11 +33,12 @@ public class Distance {
     private static final double MI_PER_M = 1 / M_PER_MI;
     private static final double NAUT_MI_PER_M = 1 / M_PER_NAUT_MI;
 
-    //The distance in meters
+    // The distance in meters
     private final double meters;
 
     /**
      * Private constructor to create a Distance object from meters
+     * 
      * @param meters the number of meters
      */
     private Distance(double meters) {
@@ -51,6 +52,7 @@ public class Distance {
     public Distance abs() {
         return new Distance(Math.abs(meters));
     }
+
     /**
      * 
      * @return the sign of the distance
@@ -61,53 +63,58 @@ public class Distance {
 
     /**
      * Adds two Distances together
+     * 
      * @param distance1 the first Distance
      * @param distance2 the second Distance
      * @return the resulting Distance
      */
     public static Distance add(Distance distance1, Distance distance2) {
-    	return new Distance(distance1.meters + distance2.meters);
+        return new Distance(distance1.meters + distance2.meters);
     }
-    
+
     /**
      * Subtracts distance2 from distance1
+     * 
      * @param distance1 the first Distance
      * @param distance2 the second Distance
      * @return the resulting Distance
      */
     public static Distance subtract(Distance distance1, Distance distance2) {
-    	return new Distance(distance1.meters - distance2.meters);
+        return new Distance(distance1.meters - distance2.meters);
     }
-    
+
     /**
      * Multiplies a Distance by a number
+     * 
      * @param distance the Distance
      * @param number the number to multiply by
      * @return the resulting Distance
      */
     public static Distance multiply(Distance distance, double number) {
-    	return new Distance(distance.meters * number);
+        return new Distance(distance.meters * number);
     }
-    
+
     /**
      * Divides a Distance by a number
+     * 
      * @param distance the Distance
      * @param number the number to divide by
      * @return the resulting Distance
      */
     public static Distance divide(Distance distance, double number) {
-    	return new Distance(distance.meters / number);
+        return new Distance(distance.meters / number);
     }
-    
+
     /**
      * Create a Distance that has a value of 0
+     * 
      * @return the created Distance
      */
     public static Distance zero() {
-    	return new Distance(0);
+        return new Distance(0);
     }
 
-    //Create Distance objects from various units
+    // Create Distance objects from various units
     public static Distance fromMeters(double v) {
         return new Distance(v);
     }
@@ -152,8 +159,7 @@ public class Distance {
         return new Distance(v * M_PER_NAUT_MI);
     }
 
-
-    //get distance in various units
+    // get distance in various units
     public double meters() {
         return meters;
     }

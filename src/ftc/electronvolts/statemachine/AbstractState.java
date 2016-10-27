@@ -8,15 +8,17 @@ import java.util.List;
  * AbstractState is a simple state that handles transitions.
  */
 public abstract class AbstractState implements State {
-    private final List<Transition> transitions; //List of possible transitions to other states
+    // List of possible transitions to other states
+    private final List<Transition> transitions;
 
     private boolean isRunning = false;
     private final StateName stateName;
 
     /**
-     * An abstract state must contain a list of transitions, containing end conditions and their respective states.
+     * An abstract state must contain a list of transitions, containing end
+     * conditions and their respective states.
      *
-     * @param stateName   the name of this state
+     * @param stateName the name of this state
      * @param transitions the list of transitions
      * @see Transition
      */
@@ -35,14 +37,15 @@ public abstract class AbstractState implements State {
         return stateName;
     }
 
-
     /**
      * Implementation of the act() method in the State interface
-     * Cycles through Transitions to run one of the next states if its EndCondition has been met
-     * Does "edge detection" on the state, running init() for the first cycle,
-     * run() for subsequent cycles, and dispose() for the last cycle.
+     * Cycles through Transitions to run one of the next states if its
+     * EndCondition has been met. Does "edge detection" on the state, running
+     * init() for the first cycle, run() for subsequent cycles, and dispose()
+     * for the last cycle.
      *
-     * @return The name of the state to be run next cycle (returns itself if there are no state changes)
+     * @return The name of the state to be run next cycle (returns itself if
+     *         there are no state changes)
      */
     @Override
     public StateName act() {

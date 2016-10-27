@@ -5,7 +5,7 @@ package ftc.electronvolts.util;
  * Date Created: 9/30/16
  */
 public class Vector3D {
-    //the 3 components of the vector
+    // the 3 components of the vector
     private final double x;
     private final double y;
     private final double z;
@@ -14,7 +14,7 @@ public class Vector3D {
      * create a vector using polar coordinates with z = 0
      *
      * @param magnitude the magnitude of the 2-D vector
-     * @param angle     the direction of the 2-D vector
+     * @param angle the direction of the 2-D vector
      * @return the created vector
      */
     public static Vector3D fromPolar2D(double magnitude, Angle angle) {
@@ -37,7 +37,7 @@ public class Vector3D {
         this.z = z;
     }
 
-    //getters
+    // getters
     public double getX() {
         return x;
     }
@@ -84,19 +84,22 @@ public class Vector3D {
         return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
     }
 
-
     private final static double closeToZero = 1.0e-3;
 
     /**
-     * This helps when using a gyro sensor or any type of 360 degree rotation mechanism
+     * This helps when using a gyro sensor or any type of 360 degree rotation
+     * mechanism
      *
-     * @param ref    the reference direction, assumed to have no z component
-     * @param vector the vector to be measured against the reference to find the angular separation, also assumed to have no z component
-     * @return angular separation between -pi and pi. If vector is to the right of reference, then it is positive.
+     * @param ref the reference direction, assumed to have no z component
+     * @param vector the vector to be measured against the reference to find the
+     *            angular separation, also assumed to have no z component
+     * @return angular separation between -pi and pi. If vector is to the right
+     *         of reference, then it is positive.
      */
     public static Angle signedAngularSeparation(Vector3D ref, Vector3D vector) {
         Vector3D cross = crossProduct(ref, vector);
-        // If the vectors are too closely aligned, then return zero for separation.
+        // If the vectors are too closely aligned, then return zero for
+        // separation.
         if (Math.abs(cross.z) < closeToZero) {
             return Angle.fromRadians(0);
         }
@@ -106,11 +109,13 @@ public class Vector3D {
         // Make sure a * b is not too close to zero 0
         double lengths = ref.getLength() * vector.getLength();
         if (lengths < closeToZero) {
-            // this is really an error, but to keep the robot from crashing, just return 0
+            // this is really an error, but to keep the robot from crashing,
+            // just return 0
             return Angle.fromRadians(0);
         }
         double dot = dotProduct(ref, vector);
 
-        return Angle.fromRadians(Math.signum(cross.z) * Math.acos(dot / lengths));
+        return Angle.fromRadians(Math.signum(cross.z)
+                * Math.acos(dot / lengths));
     }
 }

@@ -94,7 +94,7 @@ public class DeadZones {
      * center is usually zero so that the deadzone is +/-delta
      *
      * @param center the center of the deadzone
-     * @param delta  the delta on either side of the deadzone
+     * @param delta the delta on either side of the deadzone
      * @return the DeadZone
      */
     public static DeadZone deltaDeadZone(double center, double delta) {

@@ -1,7 +1,5 @@
 package ftc.electronvolts.util;
 
-//import android.os.Environment;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,16 +26,6 @@ public class OptionsFile {
     public OptionsFile(Map<String, String> values) {
         this.values = values;
     }
-
-//    /**
-//     * retrieve an OptionsFile from a file
-//     * @param filename the file to read from
-//     * @return the OptionsFile
-//     */
-//    public static OptionsFile fromFile(String filename){
-//        File file = new File(Environment.getExternalStorageDirectory(), filename);
-//        return fromFile(file);
-//    }
 
     /**
      * retrieve an OptionsFile from a file
@@ -71,7 +59,7 @@ public class OptionsFile {
                 }
             }
         } catch (FileNotFoundException e1) {
-        	e1.printStackTrace();
+            e1.printStackTrace();
         }
     }
 
@@ -85,7 +73,7 @@ public class OptionsFile {
     /**
      * add a value to the map
      *
-     * @param tag   the name of the value
+     * @param tag the name of the value
      * @param value the value (a String)
      */
     public void add(String tag, String value) {
@@ -95,7 +83,7 @@ public class OptionsFile {
     /**
      * add a value to the map
      *
-     * @param tag   the name of the value
+     * @param tag the name of the value
      * @param value the value (any Object)
      */
     public void add(String tag, Object value) {
@@ -105,7 +93,7 @@ public class OptionsFile {
     /**
      * add a value to the map
      *
-     * @param tag   the name of the value
+     * @param tag the name of the value
      * @param value the value (an int)
      */
     public void add(String tag, int value) {
@@ -115,7 +103,7 @@ public class OptionsFile {
     /**
      * add a value to the map
      *
-     * @param tag   the name of the value
+     * @param tag the name of the value
      * @param value the value (a double)
      */
     public void add(String tag, double value) {
@@ -125,13 +113,13 @@ public class OptionsFile {
     /**
      * add a value to the map
      *
-     * @param tag   the name of the value
+     * @param tag the name of the value
      * @param value the value (a boolean)
      */
     public void add(String tag, boolean value) {
         values.put(tag, String.valueOf(value));
     }
-    
+
     /**
      * Get the value as a String
      *
@@ -145,7 +133,7 @@ public class OptionsFile {
     /**
      * Get the value as an Integer
      *
-     * @param tag      the tag to get
+     * @param tag the tag to get
      * @param fallback the value to use if it is null
      * @return the value associated with the tag
      */
@@ -160,7 +148,7 @@ public class OptionsFile {
     /**
      * Get the value as a Double
      *
-     * @param tag      the tag to get
+     * @param tag the tag to get
      * @param fallback the value to use if it is null
      * @return the value associated with the tag
      */
@@ -175,7 +163,7 @@ public class OptionsFile {
     /**
      * Get the value as a Boolean
      *
-     * @param tag      the tag to get
+     * @param tag the tag to get
      * @param fallback the value to use if it is null
      * @return the value associated with the tag
      */
@@ -187,15 +175,6 @@ public class OptionsFile {
         }
     }
 
-//    /**
-//     * store the values to a file
-//     * @param filename the name of the file
-//     * @return whether or not it worked
-//     */
-//    public boolean writeToFile(String filename){
-//        return writeToFile(new File(Environment.getExternalStorageDirectory(), filename));
-//    }
-
     /**
      * store the values to a file
      *
@@ -206,7 +185,8 @@ public class OptionsFile {
         try {
             FileOutputStream fos = new FileOutputStream(file);
             PrintWriter pw = new PrintWriter(fos);
-            pw.println(values.toString().replaceAll("\\{|\\}", "").replaceAll(", ", "\n"));
+            pw.println(values.toString().replaceAll("\\{|\\}", "").replaceAll(
+                    ", ", "\n"));
             pw.close();
             return true;
         } catch (FileNotFoundException e1) {

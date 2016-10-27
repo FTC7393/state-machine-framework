@@ -5,8 +5,10 @@ package ftc.electronvolts.statemachine;
  *
  * BasicAbstractState removes the need to use transitions.
  * It requires that the state manages when it should be completed.
- * It is used when the end condition is directly linked to the state's action, such as a state that
- * detects red or blue using a color sensor and activates a different state based on the result, or
+ * It is used when the end condition is directly linked to the state's action,
+ * such as a state that
+ * detects red or blue using a color sensor and activates a different state
+ * based on the result, or
  * a state that turns a servo and exits when the servo is done.
  */
 public abstract class BasicAbstractState implements State {
@@ -32,11 +34,13 @@ public abstract class BasicAbstractState implements State {
 
     /**
      * Implementation of the act() method in the State interface
-     * Cycles through Transitions to run one of the next states if its EndCondition has been met
+     * Cycles through Transitions to run one of the next states if its
+     * EndCondition has been met
      * Does "edge detection" on the state, running init() for the first cycle,
      * run() for subsequent cycles, and dispose() for the last cycle.
      *
-     * @return The name of the state to be run next cycle (returns itself if there are no state changes)
+     * @return The name of the state to be run next cycle (returns itself if
+     *         there are no state changes)
      */
     @Override
     public StateName act() {
@@ -67,8 +71,10 @@ public abstract class BasicAbstractState implements State {
     public abstract boolean isDone();
 
     /**
-     * The possible next states are passed in through the constructor, and one of them is chosen here.
-     * This lets the state define how the decision is made about the next state. It could have any
+     * The possible next states are passed in through the constructor, and one
+     * of them is chosen here.
+     * This lets the state define how the decision is made about the next state.
+     * It could have any
      * number of next states for any number of reasons, for example:
      * 0 next states fo a stop state
      * 1 next state for a servo turn state

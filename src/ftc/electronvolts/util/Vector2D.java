@@ -6,7 +6,7 @@ package ftc.electronvolts.util;
  */
 
 public class Vector2D {
-    //the 2 components of the vector
+    // the 2 components of the vector
     private final double x;
     private final double y;
 
@@ -14,7 +14,7 @@ public class Vector2D {
      * create a vector using polar coordinates
      *
      * @param magnitude the magnitude of the 2-D vector
-     * @param angle     the direction of the 2-D vector
+     * @param angle the direction of the 2-D vector
      * @return the created vector
      */
     public static Vector2D fromPolar2D(double magnitude, Angle angle) {
@@ -35,7 +35,7 @@ public class Vector2D {
         this.y = y;
     }
 
-    //getters
+    // getters
     public double getX() {
         return x;
     }

@@ -13,7 +13,7 @@ public class AnalogInputScaler implements InputExtractor<Double> {
     private final Function inputScaler;
 
     /**
-     * @param extractor   the input extractor
+     * @param extractor the input extractor
      * @param inputScaler the input scaler to use for scaling the input
      */
     public AnalogInputScaler(InputExtractor<Double> extractor, Function inputScaler) {
@@ -27,7 +27,7 @@ public class AnalogInputScaler implements InputExtractor<Double> {
      * @return the scaled value
      */
     public double update() {
-    	rawValue = extractor.getValue();
+        rawValue = extractor.getValue();
         value = inputScaler.f(rawValue);
         return value;
     }
@@ -43,7 +43,7 @@ public class AnalogInputScaler implements InputExtractor<Double> {
     /**
      * @return the raw value of the input
      */
-	public double getRawValue() {
-		return rawValue;
-	}
+    public double getRawValue() {
+        return rawValue;
+    }
 }

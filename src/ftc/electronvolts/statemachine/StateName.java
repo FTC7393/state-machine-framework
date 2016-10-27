@@ -3,7 +3,8 @@ package ftc.electronvolts.statemachine;
 /**
  * This file was made by the electronVolts, FTC team 7393
  *
- * This class is meant to be implemented with an enum containing the list of state names.
+ * This class is meant to be implemented with an enum containing the list of
+ * state names.
  */
 public interface StateName {
     /**

@@ -30,7 +30,7 @@ public class Functions {
         return new Function() {
             @Override
             public double f(double input) {
-                return input * input * input; //Math.signum(input);
+                return input * input * input; // Math.signum(input);
             }
         };
     }
@@ -124,8 +124,9 @@ public class Functions {
             @Override
             public double f(double input) {
                 if (logBase > 0) {
-                    //a log function including the points (0,0) and (1,1)
-                    return Math.log(logBase * input + 1) / Math.log(logBase + 1);
+                    // a log function including the points (0,0) and (1,1)
+                    return Math.log(logBase * input + 1)
+                            / Math.log(logBase + 1);
                 } else {
                     return input;
                 }
@@ -136,8 +137,8 @@ public class Functions {
     /**
      * a line from (-1,-1) to (-x,-y) to (0,0) to (x,y) to (1,1)
      *
-     * @param pointX   x
-     * @param pointY   y
+     * @param pointX x
+     * @param pointY y
      * @param maxValue the maximum value of the input
      * @return the Function
      */

@@ -13,7 +13,8 @@ public class MatchTimer {
     /**
      * The match-timer needs to know how long the match will last.
      *
-     * @param matchLengthMillis the length of the match. If negative, the match continues indefinitely
+     * @param matchLengthMillis the length of the match. If negative, the match
+     *            continues indefinitely
      */
     public MatchTimer(long matchLengthMillis) {
         this.matchLengthMillis = matchLengthMillis;
@@ -26,7 +27,7 @@ public class MatchTimer {
         startTime = System.currentTimeMillis();
         now = startTime;
         deltaTime = 0;
-        
+
         hasStopped = false;
     }
 
@@ -36,7 +37,7 @@ public class MatchTimer {
      * @return the time between the last call of update() and now
      */
     public long update() {
-    	long previousTime = now;
+        long previousTime = now;
         now = System.currentTimeMillis();
         deltaTime = now - previousTime;
         previousTime = now;
@@ -93,21 +94,21 @@ public class MatchTimer {
     /**
      * @return the length of the match in milliseconds
      */
-	public long getMatchLengthMillis() {
-		return matchLengthMillis;
-	}
+    public long getMatchLengthMillis() {
+        return matchLengthMillis;
+    }
 
-	/**
-	 * @return the time the match started in milliseconds
-	 */
-	public long getStartTime() {
-		return startTime;
-	}
+    /**
+     * @return the time the match started in milliseconds
+     */
+    public long getStartTime() {
+        return startTime;
+    }
 
-	/**
-	 * @return the time of the last call to update()
-	 */
-	public long getNow() {
-		return now;
-	}
+    /**
+     * @return the time of the last call to update()
+     */
+    public long getNow() {
+        return now;
+    }
 }

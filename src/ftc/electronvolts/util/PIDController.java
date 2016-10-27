@@ -15,9 +15,9 @@ public class PIDController {
     /**
      * create a new PID controller
      *
-     * @param pGain     p constant
-     * @param iGain     i constant
-     * @param dGain     d constant
+     * @param pGain p constant
+     * @param iGain i constant
+     * @param dGain d constant
      * @param maxOutput the max value of the
      */
     public PIDController(double pGain, double iGain, double dGain, double maxOutput) {
@@ -29,7 +29,7 @@ public class PIDController {
 
     /**
      * @param setPoint the target value
-     * @param input    the actual value
+     * @param input the actual value
      * @return the output of the PID
      */
     public double computeCorrection(double setPoint, double input) {
@@ -46,13 +46,15 @@ public class PIDController {
                 double error = setPoint - input;
                 iTerm += iGain * error * timeChange;
                 iTerm = Utility.mirrorLimit(iTerm, maxOutput);
-                double dInput = (input - lastInput) / timeChange; //compute dInput instead of dError to avoid spikes
+                
+                // compute dInput instead of dError to avoid spikes
+                double dInput = (input - lastInput) / timeChange;
 
-                //Compute PID Output
+                // Compute PID Output
                 output = pGain * error + iTerm - dGain * dInput;
                 output = Utility.mirrorLimit(output, maxOutput);
 
-                //Remember some variables for next time
+                // Remember some variables for next time
                 lastInput = input;
                 lastTime = now;
             }
