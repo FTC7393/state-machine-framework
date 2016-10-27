@@ -1,0 +1,73 @@
+package ftc.electronvolts.test;
+
+import static org.junit.Assert.*;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+import org.junit.Test;
+
+import ftc.electronvolts.util.InputExtractor;
+import ftc.electronvolts.util.Logger;
+
+public class LoggerTest {
+
+    @Test
+    public void testLogger() {
+        List<String> inputNames = new ArrayList<>();
+        List<InputExtractor<?>> inputs = new ArrayList<>();
+
+        inputNames.add("state");
+        inputs.add(new InputExtractor<String>() {
+
+            @Override
+            public String getValue() {
+                return "SAMPLE_TEXT";
+            }
+        });
+
+        inputNames.add("sensor");
+        inputs.add(new InputExtractor<Double>() {
+
+            @Override
+            public Double getValue() {
+                return 0.5;
+            }
+        });
+
+        Logger l = new Logger(".", "log", ".txt", inputNames, inputs);
+        l.start(new File("."));
+        l.act();
+        l.act();
+        l.stop();
+        File f = new File(l.getFileName());
+        Scanner s = null;
+        try {
+            s = new Scanner(f);
+            assertEquals("time", s.next());
+            assertEquals("state", s.next());
+            assertEquals("sensor", s.next());
+
+            assertEquals(1, Integer.parseInt(s.next()), 3);
+            assertEquals("SAMPLE_TEXT", s.next());
+            assertEquals(0.5, Double.parseDouble(s.next()), 0);
+
+            assertEquals(3, Integer.parseInt(s.next()), 3);
+            assertEquals("SAMPLE_TEXT", s.next());
+            assertEquals(0.5, Double.parseDouble(s.next()), 0);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            fail("File not found");
+        } finally {
+            f.delete();
+            if (s != null) {
+                s.close();
+            }
+            // System.out.println("file deleted");
+        }
+    }
+
+}

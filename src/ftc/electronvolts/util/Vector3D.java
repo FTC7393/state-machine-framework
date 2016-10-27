@@ -5,23 +5,65 @@ package ftc.electronvolts.util;
  * Date Created: 9/30/16
  */
 public class Vector3D {
-    // the 3 components of the vector
+    /*
+     * the 3 components of the vector
+     */
     private final double x;
     private final double y;
     private final double z;
 
+    /*
+     * the spherical coordinates
+     */
+    private final double l;
+    private final Angle theta;
+    private final Angle phi;
+
     /**
      * create a vector using polar coordinates with z = 0
      *
-     * @param magnitude the magnitude of the 2-D vector
-     * @param angle the direction of the 2-D vector
-     * @return the created vector
+     * @param magnitude the magnitude of the Vector2D
+     * @param theta the direction of the Vector2D
+     * @return the created Vector3D
      */
-    public static Vector3D fromPolar2D(double magnitude, Angle angle) {
-        double angleRads = angle.radians();
-        double x = magnitude * Math.cos(angleRads);
-        double y = magnitude * Math.sin(angleRads);
-        return new Vector3D(x, y, 0);
+    public static Vector3D fromPolar2D(double magnitude, Angle theta) {
+        return from2D(new Vector2D(magnitude, theta));
+    }
+
+    /**
+     * create a vector from a Vector2D with z = 0
+     * 
+     * @param vector2D the 2D vector to use
+     * @return the created Vector3D
+     */
+    public static Vector3D from2D(Vector2D vector2D) {
+        return new Vector3D(vector2D.getX(), vector2D.getY(), 0);
+    }
+
+    /**
+     * Create a vector using spherical coordinates
+     * 
+     * @param magnitude the magnitude of the 3D vector
+     * @param theta the direction in the x-y plane
+     * @param phi the z direction
+     * @return
+     */
+    public Vector3D(double magnitude, Angle theta, Angle phi) {
+        double thetaRads = theta.radians();
+        double phiRads = phi.radians();
+
+        // http://mathinsight.org/spherical_coordinates
+        // x = ρ sinϕ cosθ
+        // y = ρ sinϕ sinθ
+        // z = ρ cosϕ
+        
+        this.x = magnitude * Math.sin(phiRads) * Math.cos(thetaRads);
+        this.y = magnitude * Math.sin(phiRads) * Math.sin(thetaRads);
+        this.z = magnitude * Math.cos(phiRads);
+        
+        this.l = magnitude;
+        this.theta = theta;
+        this.phi = phi;
     }
 
     /**
@@ -35,28 +77,63 @@ public class Vector3D {
         this.x = x;
         this.y = y;
         this.z = z;
+        
+        //Pythagorean theorem
+        this.l = Math.sqrt(x * x + y * y + z * z);
+        
+        //compute spherical coordinates
+        phi = Angle.fromRadians(Math.acos(z / l));
+        theta = Angle.fromRadians(Math.atan2(y, x));
     }
 
-    // getters
+
+    /**
+     * @return the x component of the vector
+     */
     public double getX() {
         return x;
     }
 
+    /**
+     * @return the y component of the vector
+     */
     public double getY() {
         return y;
     }
 
+    /**
+     * @return the z component of the vector
+     */
     public double getZ() {
         return z;
     }
 
     /**
-     * uses the Pythagorean theorem
-     *
      * @return the length or magnitude of the vector
      */
     public double getLength() {
-        return Math.sqrt(x * x + y * y + z * z);
+        return l;
+    }
+
+    /**
+     * @return the z direction
+     */
+    public Angle getPhi() {
+        return phi;
+    }
+
+    /**
+     * @return the x-y direction
+     */
+    public Angle getTheta() {
+        return theta;
+    }
+
+    /**
+     * @return a new vector that is normalized (length = 1)
+     */
+    public Vector3D normalized() {
+        return new Vector3D(x / l, y / l, z / l);
     }
 
     /**
@@ -83,39 +160,17 @@ public class Vector3D {
     public static double dotProduct(Vector3D v1, Vector3D v2) {
         return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
     }
-
-    private final static double closeToZero = 1.0e-3;
-
+    
     /**
-     * This helps when using a gyro sensor or any type of 360 degree rotation
-     * mechanism
-     *
-     * @param ref the reference direction, assumed to have no z component
-     * @param vector the vector to be measured against the reference to find the
-     *            angular separation, also assumed to have no z component
-     * @return angular separation between -pi and pi. If vector is to the right
-     *         of reference, then it is positive.
+     * 
+     * @param v1 one vector
+     * @param v2 another vector
+     * @return the angle between the two vectors
      */
-    public static Angle signedAngularSeparation(Vector3D ref, Vector3D vector) {
-        Vector3D cross = crossProduct(ref, vector);
-        // If the vectors are too closely aligned, then return zero for
-        // separation.
-        if (Math.abs(cross.z) < closeToZero) {
-            return Angle.fromRadians(0);
-        }
-        // To get the angle:
-        // a dot b = a * b * cos(angle)
-        // so angle = acos[ (a dot b) / (a * b) ]
-        // Make sure a * b is not too close to zero 0
-        double lengths = ref.getLength() * vector.getLength();
-        if (lengths < closeToZero) {
-            // this is really an error, but to keep the robot from crashing,
-            // just return 0
-            return Angle.fromRadians(0);
-        }
-        double dot = dotProduct(ref, vector);
-
-        return Angle.fromRadians(Math.signum(cross.z)
-                * Math.acos(dot / lengths));
+    public static Angle angularSeparation(Vector3D v1, Vector3D v2){
+        //             a dot b
+        //cos theta = ---------
+        //            |a| * |b|
+        return Angle.fromRadians(Math.acos(dotProduct(v1, v2) / (v1.l * v2.l)));
     }
 }

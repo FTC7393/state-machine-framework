@@ -21,6 +21,7 @@ public class Logger {
     private PrintStream fileStream;
     private final String directory, fileName, fileExtension;
     private String titles;
+    private String fullFileName;
     private final List<InputExtractor<?>> inputs;
 
     /**
@@ -52,8 +53,8 @@ public class Logger {
     public boolean start(File dir) {
         logStart = System.currentTimeMillis();
 
-        File file = new File(dir + "/" + directory, fileName + logStart
-                + fileExtension);
+        fullFileName = fileName + logStart + fileExtension;
+        File file = new File(dir + "/" + directory, fullFileName);
         try {
             fileStream = new PrintStream(new FileOutputStream(file));
 
@@ -87,5 +88,9 @@ public class Logger {
         if (fileStream != null) {
             fileStream.close();
         }
+    }
+
+    public String getFileName() {
+        return fullFileName;
     }
 }

@@ -1,5 +1,7 @@
 package ftc.electronvolts.util;
 
+import java.util.Objects;
+
 /**
  * This file was made by the electronVolts, FTC team 7393
  * Date Created: 2/2/16
@@ -95,6 +97,26 @@ public class Angle {
      */
     public static Angle zero() {
         return new Angle(0);
+    }
+
+    /**
+     * custom equals() method to compare values
+     * https://www.sitepoint.com/implement-javas-equals-method-correctly/
+     */
+    @Override
+    public boolean equals(Object o) {
+        // self check
+        if (this == o)
+            return true;
+        // null check
+        if (o == null)
+            return false;
+        // type check and cast
+        if (getClass() != o.getClass())
+            return false;
+        Angle angle = (Angle) o;
+        // field comparison
+        return Objects.equals(radians, angle.radians);
     }
 
     /**

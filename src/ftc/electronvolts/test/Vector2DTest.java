@@ -10,21 +10,16 @@ import ftc.electronvolts.util.Vector2D;
 public class Vector2DTest {
 
     @Test
-    public void testFromPolar2D() {
+    public void testVector2DDoubleAngle() {
         Vector2D v;
 
-        v = Vector2D.fromPolar2D(10, Angle.fromDegrees(30));
+        v = new Vector2D(10, Angle.fromDegrees(30));
         assertEquals(5 * Math.sqrt(3), v.getX(), 1e-10);
         assertEquals(5, v.getY(), 1e-10);
 
-        v = Vector2D.fromPolar2D(10, Angle.fromDegrees(90));
+        v = new Vector2D(10, Angle.fromDegrees(90));
         assertEquals(0, v.getX(), 1e-10);
         assertEquals(10, v.getY(), 1e-10);
-    }
-
-    @Test
-    public void testVector2D() {
-        new Vector2D(3, 4);
     }
 
     @Test
@@ -52,23 +47,50 @@ public class Vector2DTest {
     }
 
     @Test
+    public void testNormalized() {
+        assertEquals(1, new Vector2D(1, -2).normalized().getLength(), 1e-10);
+        assertEquals(1, new Vector2D(-4.3, 5).normalized().getLength(), 1e-10);
+        assertEquals(1, new Vector2D(6.8, Angle.fromDegrees(10)).normalized().getLength(), 1e-10);
+    }
+
+    @Test
     public void testDotProduct() {
-        assertEquals(5, Vector2D.dotProduct(new Vector2D(1, 2), new Vector2D(1,
-                2)), 0);
-        assertEquals(-35, Vector2D.dotProduct(new Vector2D(-1.5, 5),
-                new Vector2D(100, 23)), 0);
+        assertEquals(5, Vector2D.dotProduct(new Vector2D(1, 2), new Vector2D(1, 2)), 0);
+        assertEquals(-35, Vector2D.dotProduct(new Vector2D(-1.5, 5), new Vector2D(100, 23)), 0);
     }
 
     @Test
     public void testGetDirection() {
         assertEquals(45, new Vector2D(1, 1).getDirection().degrees(), 0);
         assertEquals(135, new Vector2D(-1, 1).getDirection().degrees(), 0);
-        assertEquals(-30, new Vector2D(Math.sqrt(3), -1).getDirection()
-                .degrees(), 1e-10);
+        assertEquals(-30, new Vector2D(Math.sqrt(3), -1).getDirection().degrees(), 1e-10);
         assertEquals(0, new Vector2D(9, 0).getDirection().degrees(), 0);
         assertEquals(90, new Vector2D(0, 13).getDirection().degrees(), 0);
         assertEquals(180, new Vector2D(-9, 0).getDirection().degrees(), 0);
         assertEquals(-90, new Vector2D(0, -13).getDirection().degrees(), 0);
+    }
+
+    @Test
+    public void testSignedAngularSeparation() {
+        Vector2D v1;
+        Vector2D v2;
+
+        v1 = new Vector2D(1, 2);
+        v2 = new Vector2D(1, 2);
+        assertEquals(0, Vector2D.signedAngularSeparation(v1, v2).degrees(), 1e-10);
+
+        v1 = new Vector2D(0, 2);
+        v2 = new Vector2D(2, 0);
+        assertEquals(-90, Vector2D.signedAngularSeparation(v1, v2).degrees(), 1e-10);
+
+        v1 = new Vector2D(1, Angle.zero());
+        v2 = new Vector2D(2, Angle.fromDegrees(50));
+        assertEquals(50, Vector2D.signedAngularSeparation(v1, v2).degrees(), 1e-10);
+
+        v1 = new Vector2D(1, Angle.zero());
+        v2 = new Vector2D(2, Angle.fromRadians(2));
+        assertEquals(2, Vector2D.signedAngularSeparation(v1, v2).radians(), 1e-10);
+
     }
 
 }

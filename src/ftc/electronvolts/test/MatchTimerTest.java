@@ -7,6 +7,7 @@ import org.junit.Test;
 import ftc.electronvolts.util.MatchTimer;
 
 public class MatchTimerTest {
+    private static int MILLIS_ERROR = 10;
 
     @Test
     public void testMatchTimer() {
@@ -43,12 +44,12 @@ public class MatchTimerTest {
 
         delay(30);
         update = m.update();
-        assertEquals(30, update, 5);
+        assertEquals(30, update, MILLIS_ERROR);
         assertTrue(update == m.getDeltaTime());
 
         delay(30);
         update = m.update();
-        assertEquals(30, update, 5);
+        assertEquals(30, update, MILLIS_ERROR);
         assertTrue(update == m.getDeltaTime());
     }
 
@@ -59,11 +60,11 @@ public class MatchTimerTest {
 
         delay(30);
         m.update();
-        assertEquals(30, m.getElapsedTime(), 5);
+        assertEquals(30, m.getElapsedTime(), MILLIS_ERROR);
 
         delay(30);
         m.update();
-        assertEquals(60, m.getElapsedTime(), 10);
+        assertEquals(60, m.getElapsedTime(), 2 * MILLIS_ERROR);
     }
 
     @Test
@@ -73,11 +74,11 @@ public class MatchTimerTest {
 
         delay(30);
         m.update();
-        assertEquals(2000 - 30, m.getTimeLeft(), 5);
+        assertEquals(2000 - 30, m.getTimeLeft(), MILLIS_ERROR);
 
         delay(30);
         m.update();
-        assertEquals(2000 - 60, m.getTimeLeft(), 10);
+        assertEquals(2000 - 60, m.getTimeLeft(), 2 * MILLIS_ERROR);
     }
 
     @Test

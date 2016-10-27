@@ -1,5 +1,7 @@
 package ftc.electronvolts.util;
 
+import java.util.Objects;
+
 /**
  * This file was made by the electronVolts, FTC team 7393
  * Date Created: 10/4/16
@@ -19,7 +21,7 @@ public class Distance {
     private static final double M_PER_FT = 0.3048;
     private static final double M_PER_IN = 0.0254;
     private static final double M_PER_YD = 0.9144;
-    private static final double M_PER_MI = 1609.34;
+    private static final double M_PER_MI = 1609.344;
     private static final double M_PER_NAUT_MI = 1852;
 
     private static final double KM_PER_M = 1 / M_PER_KM;
@@ -112,6 +114,26 @@ public class Distance {
      */
     public static Distance zero() {
         return new Distance(0);
+    }
+    
+    /**
+     * custom equals() method to compare values
+     * https://www.sitepoint.com/implement-javas-equals-method-correctly/
+     */
+    @Override
+    public boolean equals(Object o) {
+        // self check
+        if (this == o)
+            return true;
+        // null check
+        if (o == null)
+            return false;
+        // type check and cast
+        if (getClass() != o.getClass())
+            return false;
+        Distance distance = (Distance) o;
+        // field comparison
+        return Objects.equals(meters, distance.meters);
     }
 
     // Create Distance objects from various units

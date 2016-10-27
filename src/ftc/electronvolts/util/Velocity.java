@@ -1,5 +1,7 @@
 package ftc.electronvolts.util;
 
+import java.util.Objects;
+
 /**
  * This file was made by the electronVolts, FTC team 7393
  * Date Created: 10/5/16
@@ -44,8 +46,7 @@ public class Velocity {
      * @return the resulting Velocity
      */
     public static Velocity add(Velocity velocity1, Velocity velocity2) {
-        return new Velocity(Distance.fromMeters(velocity1.metersPerSecond()
-                + velocity2.metersPerSecond()), Time.fromSeconds(1));
+        return new Velocity(Distance.fromMeters(velocity1.metersPerSecond() + velocity2.metersPerSecond()), Time.fromSeconds(1));
     }
 
     /**
@@ -56,8 +57,7 @@ public class Velocity {
      * @return the resulting Velocity
      */
     public static Velocity subtract(Velocity velocity1, Velocity velocity2) {
-        return new Velocity(Distance.fromMeters(velocity1.metersPerSecond()
-                - velocity2.metersPerSecond()), Time.fromSeconds(1));
+        return new Velocity(Distance.fromMeters(velocity1.metersPerSecond() - velocity2.metersPerSecond()), Time.fromSeconds(1));
     }
 
     /**
@@ -68,8 +68,7 @@ public class Velocity {
      * @return the resulting Velocity
      */
     public static Velocity multiply(Velocity velocity1, double number) {
-        return new Velocity(Distance.fromMeters(velocity1.metersPerSecond()
-                * number), Time.fromSeconds(1));
+        return new Velocity(Distance.fromMeters(velocity1.metersPerSecond() * number), Time.fromSeconds(1));
     }
 
     /**
@@ -80,8 +79,24 @@ public class Velocity {
      * @return the resulting Velocity
      */
     public static Velocity divide(Velocity velocity1, double number) {
-        return new Velocity(Distance.fromMeters(velocity1.metersPerSecond()
-                * number), Time.fromSeconds(1));
+        return new Velocity(Distance.fromMeters(velocity1.metersPerSecond() * number), Time.fromSeconds(1));
+    }
+
+    /**
+     * custom equals() method to compare values
+     * https://www.sitepoint.com/implement-javas-equals-method-correctly/
+     */
+    @Override
+    public boolean equals(Object o) {
+        // self check
+        if (this == o) return true;
+        // null check
+        if (o == null) return false;
+        // type check and cast
+        if (getClass() != o.getClass()) return false;
+        Velocity velocity = (Velocity) o;
+        // field comparison
+        return Objects.equals(metersPerSecond(), velocity.metersPerSecond());
     }
 
     // get velocity in various units
