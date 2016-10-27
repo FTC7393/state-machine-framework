@@ -7,8 +7,8 @@ package ftc.electronvolts.util;
  * It does edge detection for a digital input.
  */
 public class DigitalInputEdgeDetector implements InputExtractor<Boolean> {
-    private Boolean currentValue = false;
-    private Boolean previousValue;
+    private Boolean currentValue = null;
+    private Boolean previousValue = null;
     private InputExtractor<Boolean> extractor;
 
     /**
@@ -24,8 +24,16 @@ public class DigitalInputEdgeDetector implements InputExtractor<Boolean> {
      * @return the current value of the input
      */
     public boolean update() {
-        previousValue = currentValue;
-        currentValue = extractor.getValue();
+        // if this is the first call to update()
+        if (currentValue == null) {
+            // set currentValue and previousValue to the reading so no edges are
+            // triggered
+            currentValue = extractor.getValue();
+            previousValue = currentValue;
+        } else {
+            previousValue = currentValue;
+            currentValue = extractor.getValue();
+        }
         return currentValue;
     }
 

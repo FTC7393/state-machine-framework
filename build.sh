@@ -11,33 +11,52 @@ then
   exit 1
 fi
 
+#blacklist separated by spaces
+blacklist="ftc/electronvolts/test"
+
 #the path to the jar file to be created/overwritten
 file="build/state-machine-framework-$1.jar"
 
 #the build path where all the .class files are
-#out="out/production/state-machine-framework/"
-#out="build/"
 out="bin/"
 
 source_dir="src/"
-package="ftc/"
+package="ftc"
 
 #the source directory
 sources="build/state-machine-framework-$1-sources.jar"
 
 #the location of the project where the jar file should be copied to
-#dir="../ftc20151105/FtcRobotController/libs/"
-#dir="../ftc20151104/libs/"
 dir="$HOME/AndroidStudio/ftc7393/libs/"
 
+echo "<=== BLACKLIST ===>"
+whitelist=`cd "$out"; find "$package" -type f`
+for item in $blacklist
+do
+  whitelist=`echo "$whitelist" | grep -v "$item"`
+done
+
+opts=""
+for item in $whitelist
+do
+  opts="$opts -C $out $item"
+done
+
+whitelistSrc=`cd "$source_dir"; find "$package" -type f`
+for item in $blacklist
+do
+  whitelistSrc=`echo "$whitelistSrc" | grep -v "$item"`
+done
+
 echo "<=== COMPILED ===>"
-echo jar cf "$file" -C "$out" "$package"
-jar cf "$file" -C "$out" "$package" #create the jar file
+echo jar cf "$file" $opts
+jar cf "$file" $opts #create the jar file
 #the -C option tells the utility to cd into $out before creating the jar file
 
 echo "<=== SOURCES ===>"
 cd "$source_dir"
-zip -r "../$sources" "$package"
+echo zip -r "../$sources" "$package/" -i $whitelistSrc
+zip -r "../$sources" "$package/" -i $whitelistSrc
 cd ..
 
 echo "<=== GIT ADD ===>"
@@ -55,5 +74,3 @@ echo cp "$file" "$dir"
 cp "$file" "$dir" #copy the jar file
 echo cp "$sources" "$dir"
 cp "$sources" "$dir" #copy the sources
-
-
