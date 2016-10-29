@@ -19,6 +19,7 @@ public enum TeamColor {
      * @return the TeamColor corresponding to that string
      */
     public static TeamColor fromString(String s) {
+    	if (s==null)return UNKNOWN;
         s = s.toUpperCase(); // convert the input to upper case
 
         boolean foundRed = s.contains("RED"); // look for RED in the input
