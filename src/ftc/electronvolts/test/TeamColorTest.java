@@ -10,6 +10,8 @@ public class TeamColorTest {
 
     @Test
     public void testFromString() {
+        assertEquals(TeamColor.UNKNOWN, TeamColor.fromString(null));
+        assertEquals(TeamColor.UNKNOWN, TeamColor.fromString(""));
         assertEquals(TeamColor.UNKNOWN, TeamColor.fromString("  "));
         assertEquals(TeamColor.RED, TeamColor.fromString(" r"));
         assertEquals(TeamColor.BLUE, TeamColor.fromString(" b"));
