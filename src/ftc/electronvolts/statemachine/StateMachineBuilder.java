@@ -183,4 +183,17 @@ public class StateMachineBuilder {
     public StateMachine build(StateName firstStateName) {
         return new StateMachine(stateMap, firstStateName);
     }
+    
+    /**
+     * Add a state that moves to continueStateName for the first n times it is called, then moves
+     * to doneStateName after that
+     * 
+     * @param stateName the name of the state
+     * @param n the number of times to return continueStateName
+     * @param continueStateName will be transitioned to first
+     * @param doneStateName will be transitioned to after
+     */
+    public void addCount(StateName stateName, int n, StateName continueStateName, StateName doneStateName) {
+        add(States.count(stateName, n, continueStateName, doneStateName));
+    }
 }

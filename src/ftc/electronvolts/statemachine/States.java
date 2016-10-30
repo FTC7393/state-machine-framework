@@ -30,8 +30,7 @@ public class States {
      * @return the created State
      */
     public static State subStates(StateName stateName, final StateMachineBuilder stateMachineBuilder, final Map<StateName, StateName> subStateToState) {
-        StateName firstState = stateMachineBuilder.build()
-                .getCurrentStateName();
+        StateName firstState = stateMachineBuilder.build().getCurrentStateName();
         for (Map.Entry<StateName, StateName> entry : subStateToState.entrySet()) {
             StateName subState = entry.getKey();
             stateMachineBuilder.add(basicEmpty(subState, firstState));
@@ -47,8 +46,7 @@ public class States {
             @Override
             public boolean isDone() {
                 stateMachine.act();
-                for (Map.Entry<StateName, StateName> entry : subStateToState
-                        .entrySet()) {
+                for (Map.Entry<StateName, StateName> entry : subStateToState.entrySet()) {
                     // if the current state is one of the ending sub-states
                     if (stateMachine.getCurrentStateName() == entry.getKey()) {
                         // go to the corresponding super-state
@@ -67,6 +65,8 @@ public class States {
     }
 
     /**
+     * "Go back from whence you came -- and never return!"
+     * 
      * A state that never returns
      *
      * @param stateName the name of the state
@@ -91,7 +91,10 @@ public class States {
     }
 
     /**
-     * An empty state
+     * "An empty-head thinks mischief is fun, but a mindful person relishes wisdom."
+     * (Proverbs 2^10-1)
+     * 
+     * An empty state.
      *
      * @param stateName the name of the state
      * @param transitions the transitions to be considered
@@ -114,6 +117,12 @@ public class States {
     }
 
     /**
+     * "Stop! The cup is full!" said Tokusan.
+     * 
+     * "Exactly," said Master Ryutan. "You are like this cup; you are full of
+     * ideas. You come and ask for teaching, but your cup is full; I can't put
+     * anything in. Before I can teach you, you'll have to empty your cup."
+     * 
      * An empty state.
      *
      * @param stateName the name of the state
@@ -139,6 +148,13 @@ public class States {
     }
 
     /**
+     * "She set up a great loom in her palace, and set to weaving a web of
+     * threads long and fine. Then she said to us: 'Young men, my suitors
+     * now that the great Odysseus has perished, wait, though you are eager
+     * to marry me, until I finish this web, so that my weaving will not be
+     * useless and wasted.'"
+     * ~Penelope, the Odyssey
+     * 
      * A state used to run a thread. Useful for off-loading computer intensive
      * tasks such as image processing.
      *
@@ -167,6 +183,10 @@ public class States {
     }
 
     /**
+     * "The power of the Executive Branch is vested in the President of the
+     * United States, who also acts as head of state and Commander-in-Chief of
+     * the armed forces."
+     * 
      * This is used to do branching and decision trees in the state machine
      * can be used for doing different things depending on which side of the
      * field you are on
@@ -200,6 +220,10 @@ public class States {
     }
 
     /**
+     * "Established by Article I of the Constitution, the Legislative Branch
+     * consists of the House of Representatives and the Senate, which together
+     * form the United States Congress."
+     * 
      * This is used to do branching and decision trees in the state machine
      * can be used for doing different things depending on which side of the
      * field you are on
@@ -236,6 +260,10 @@ public class States {
     }
 
     /**
+     * "Where the Executive and Legislative branches are elected by the people,
+     * members of the Judicial Branch are appointed by the President and
+     * confirmed by the Senate."
+     * 
      * This is used to do branching and decision trees in the state machine
      * using a result
      * acquired while it is running, and to communicate between threads
@@ -267,6 +295,42 @@ public class States {
                 } else {
                     return falseStateName;
                 }
+            }
+        };
+    }
+
+    /**
+     * Count von Count: Five bananas. Six bananas. SEVEN BANANAS!
+     * [thunder strikes]
+     * Count von Count: Ah, ah, ah. Now, that was silly. Wouldn't you agree, my
+     * bats? Ah, ah, ah.
+     * 
+     * Moves to continueStateName for the first n times it is called, then moves
+     * to doneStateName after that
+     * 
+     * @param stateName the name of the state
+     * @param n the number of times to return continueStateName
+     * @param continueStateName will be transitioned to first
+     * @param doneStateName will be transitioned to after
+     * @return the created State
+     */
+    public static State count(StateName stateName, final int n, final StateName continueStateName, final StateName doneStateName) {
+        return new BasicAbstractState(stateName) {
+            int i = 0;
+
+            @Override
+            public void init() {
+                i++;
+            }
+
+            @Override
+            public boolean isDone() {
+                return true;
+            }
+
+            @Override
+            public StateName getNextStateName() {
+                return i <= n ? continueStateName : doneStateName;
             }
         };
     }
