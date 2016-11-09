@@ -92,5 +92,10 @@ public class Vector2DTest {
         assertEquals(2, Vector2D.signedAngularSeparation(v1, v2).radians(), 1e-10);
 
     }
+    
+    @Test
+    public void testToString(){
+        assertEquals("(2.0, 3.0)", new Vector2D(2,3).toString());
+    }
 
 }

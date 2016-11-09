@@ -144,4 +144,10 @@ public class Vector3DTest {
         assertEquals(2, Vector3D.angularSeparation(v1, v2).radians(), 1e-10);
     }
 
+
+    
+    @Test
+    public void testToString(){
+        assertEquals("(2.0, 3.0, 4.0)", new Vector3D(2,3,4).toString());
+    }
 }

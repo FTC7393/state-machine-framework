@@ -173,4 +173,10 @@ public class Vector3D {
         //            |a| * |b|
         return Angle.fromRadians(Math.acos(dotProduct(v1, v2) / (v1.l * v2.l)));
     }
+
+    @Override
+    public String toString() {
+        return "(" + x + ", " + y + ", " + z + ")";
+    }
+
 }

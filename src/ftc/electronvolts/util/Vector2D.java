@@ -132,4 +132,9 @@ public class Vector2D {
 
         return Angle.fromRadians(Math.signum(cross.getZ()) * Math.acos(dot / lengths));
     }
+
+    @Override
+    public String toString() {
+        return "(" + x + ", " + y + ")";
+    }
 }
