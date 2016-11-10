@@ -38,4 +38,18 @@ public enum TeamColor {
         if (foundB && !foundR) return BLUE; // if it found B but not R
         return UNKNOWN; // if it found both or neither.
     }
+    
+    /**
+     * @return the opposite color
+     */
+    public TeamColor opposite() {
+        switch (this) {
+            case RED:
+                return BLUE;
+            case BLUE:
+                return RED;
+            default:
+                return UNKNOWN;
+        }
+    }
 }

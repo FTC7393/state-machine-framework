@@ -42,5 +42,12 @@ public class TeamColorTest {
         assertEquals(TeamColor.UNKNOWN, TeamColor.fromString("bluered"));
         assertEquals(TeamColor.BLUE, TeamColor.fromString("blueblue"));
     }
+    
+    @Test
+    public void testOpposite(){
+        assertEquals(TeamColor.RED, TeamColor.BLUE.opposite());
+        assertEquals(TeamColor.BLUE, TeamColor.RED.opposite());
+        assertEquals(TeamColor.UNKNOWN, TeamColor.UNKNOWN.opposite());
+    }
 
 }
