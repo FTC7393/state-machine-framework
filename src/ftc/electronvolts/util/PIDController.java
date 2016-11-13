@@ -5,7 +5,7 @@ package ftc.electronvolts.util;
  *
  * A PID controller to use for controlling motors
  */
-public class PIDController {
+public class PIDController implements ControlLoop {
     private final double pGain, iGain, dGain;
     private final double maxOutput;
     private double iTerm = 0;
@@ -18,7 +18,7 @@ public class PIDController {
      * @param pGain p constant
      * @param iGain i constant
      * @param dGain d constant
-     * @param maxOutput the max value of the
+     * @param maxOutput the max value of the output and iTerm
      */
     public PIDController(double pGain, double iGain, double dGain, double maxOutput) {
         this.pGain = pGain;
