@@ -6,14 +6,17 @@ import java.util.Map;
  * This file was made by the electronVolts, FTC team 7393
  *
  * This class uses the stateMap made by the stateMachineBuilder to run the
- * states and preform the transitions between them
+ * states and perform the transitions between them
  */
 public class StateMachine {
-    private final Map<StateName, State> stateMap; // This links the names of
-                                                  // each state to the actual
-                                                  // state
-    private State currentState; // the current active state
-    private StateName currentStateName; // the name of the current state
+    // This links the names of each state to the actual state
+    private final Map<StateName, State> stateMap;
+    
+    // the current active state
+    private State currentState;
+    
+    // the name of the current state
+    private StateName currentStateName;
 
     /**
      * @param stateMap the state machine structure

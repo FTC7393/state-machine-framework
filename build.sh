@@ -33,6 +33,7 @@ echo "<=== BLACKLIST ===>"
 whitelist=`cd "$out"; find "$package" -type f`
 for item in $blacklist
 do
+  echo "$item"
   whitelist=`echo "$whitelist" | grep -v "$item"`
 done
 
@@ -60,6 +61,7 @@ zip -r "../$sources" "$package/" -i $whitelistSrc
 cd ..
 
 echo "<=== GIT ADD ===>"
+echo git add "$file" "$sources"
 git add "$file" "$sources"
 
 echo "<=== COPY ===>"
@@ -74,3 +76,9 @@ echo cp "$file" "$dir"
 cp "$file" "$dir" #copy the jar file
 echo cp "$sources" "$dir"
 cp "$sources" "$dir" #copy the sources
+
+echo cd "$dir"
+cd "$dir"
+#add them to the other project's git repository
+echo git add `basename "$file"` `basename "$sources"`
+git add `basename "$file"` `basename "$sources"`

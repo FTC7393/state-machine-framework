@@ -1,4 +1,4 @@
-package ftc.electronvolts.test;
+package ftc.electronvolts.test.util;
 
 import static org.junit.Assert.*;
 

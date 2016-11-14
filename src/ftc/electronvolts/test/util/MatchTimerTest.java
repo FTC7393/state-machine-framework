@@ -1,4 +1,4 @@
-package ftc.electronvolts.test;
+package ftc.electronvolts.test.util;
 
 import static org.junit.Assert.*;
 
@@ -17,24 +17,13 @@ public class MatchTimerTest {
         new MatchTimer(-100000);
     }
 
-    // @Test
-    // public void testStart() {
-    // fail("Not yet implemented");
-    // }
-
     public static void delay(long ms) {
         try {
             Thread.sleep(ms);
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
-
-    // @Test
-    // public void testUpdate() {
-    // fail("Not yet implemented");
-    // }
 
     @Test
     public void testGetDeltaTime() {

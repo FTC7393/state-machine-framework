@@ -30,10 +30,9 @@ public class States {
      * @return the created State
      */
     public static State subStates(StateName stateName, final StateMachineBuilder stateMachineBuilder, final Map<StateName, StateName> subStateToState) {
-        StateName firstState = stateMachineBuilder.build().getCurrentStateName();
         for (Map.Entry<StateName, StateName> entry : subStateToState.entrySet()) {
             StateName subState = entry.getKey();
-            stateMachineBuilder.add(basicEmpty(subState, firstState));
+            stateMachineBuilder.addStop(subState);
         }
         final StateMachine stateMachine = stateMachineBuilder.build();
         return new BasicAbstractState(stateName) {
@@ -47,10 +46,12 @@ public class States {
             public boolean isDone() {
                 stateMachine.act();
                 for (Map.Entry<StateName, StateName> entry : subStateToState.entrySet()) {
+                    StateName subState = entry.getKey();
+                    StateName state = entry.getValue();
                     // if the current state is one of the ending sub-states
-                    if (stateMachine.getCurrentStateName() == entry.getKey()) {
+                    if (stateMachine.getCurrentStateName() == subState) {
                         // go to the corresponding super-state
-                        nextStateName = entry.getValue();
+                        nextStateName = state;
                         return true;
                     }
                 }

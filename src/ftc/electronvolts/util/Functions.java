@@ -8,6 +8,95 @@ package ftc.electronvolts.util;
  */
 public class Functions {
     /**
+     * A constant function y(x) = c
+     * 
+     * @param c the constant
+     * @return the created Function
+     */
+    public static Function constant(final double c) {
+        return new Function() {
+            @Override
+            public double f(double x) {
+                return c;
+            }
+        };
+    }
+
+    /**
+     * A linear function y(x) = mx + b
+     * 
+     * @param m the slope
+     * @param b the y-intercept
+     * @return the created Function
+     */
+    public static Function linear(final double m, final double b) {
+        return new Function() {
+            @Override
+            public double f(double x) {
+                return m * x + b;
+            }
+        };
+    }
+
+    /**
+     * A quadratic function y(x) = ax^2 + bx + c
+     * 
+     * @param a the squared coefficient
+     * @param b the linear coefficient
+     * @param c the constant coefficient
+     * @return the created Function
+     */
+    public static Function quadratic(final double a, final double b, final double c) {
+        return new Function() {
+            @Override
+            public double f(double x) {
+                return a * x * x + b * x + c;
+            }
+        };
+    }
+
+    /**
+     * A cubic function y(x) = ax^3 + bx^2 + cx + d
+     * 
+     * @param a the cubed coefficient
+     * @param b the squared coefficient
+     * @param c the linear coefficient
+     * @param d the constant coefficient
+     * @return the created Function
+     */
+    public static Function cubic(final double a, final double b, final double c, final double d) {
+        return new Function() {
+            @Override
+            public double f(double x) {
+                return a * x * x * x + b * x * x + c * x + d;
+            }
+        };
+    }
+
+    /**
+     * A polynomial function:
+     * y(x) = a[n]*x^n + a[n-1]*x^(n-1) + ... + a[2]*x^2 + a[1]*x + a[0]
+     * note: the first coefficient is the constant term, not the highest term
+     * 
+     * @param coefficients the constants for each x term
+     * @return the created Function
+     */
+    public static Function polynomial(final double[] coefficients) {
+        return new Function() {
+            @Override
+            public double f(double x) {
+                double output = 0;
+                double xPart = 1;
+                for (int i = 0; i < coefficients.length; i++) {
+                    output += coefficients[i] * xPart;
+                    xPart *= x;
+                }
+                return output;
+            }
+        };
+    }
+
+    /**
      * The output = the input squared with the sign retained
      *
      * @return the created Function
@@ -15,8 +104,8 @@ public class Functions {
     public static Function squared() {
         return new Function() {
             @Override
-            public double f(double input) {
-                return input * input * Math.signum(input);
+            public double f(double x) {
+                return x * x * Math.signum(x);
             }
         };
     }
@@ -24,29 +113,29 @@ public class Functions {
     /**
      * The output = the input cubed
      *
-     * @return the created InputScaler
+     * @return the created Function
      */
     public static Function cubed() {
         return new Function() {
             @Override
-            public double f(double input) {
-                return input * input * input; // Math.signum(input);
+            public double f(double x) {
+                return x * x * x;
             }
         };
     }
 
     /**
      * @param deadZone the deadzone to use
-     * @return the Function
+     * @return the created Function
      */
     public static Function deadzone(final DeadZone deadZone) {
         return new Function() {
             @Override
-            public double f(double input) {
-                if (deadZone.isInside(input)) {
+            public double f(double x) {
+                if (deadZone.isInside(x)) {
                     return 0;
                 } else {
-                    return input;
+                    return x;
                 }
             }
         };
@@ -57,29 +146,29 @@ public class Functions {
      *
      * @param min the min value
      * @param max the min value
-     * @return the Function
+     * @return the created Function
      */
     public static Function limit(final double min, final double max) {
         return new Function() {
             @Override
-            public double f(double input) {
-                return Utility.limit(input, min, max);
+            public double f(double x) {
+                return Utility.limit(x, min, max);
             }
         };
     }
 
     /**
-     * Combines 2 Functions like a composite function f(g(x))
+     * Combines 2 Functions like a composite function b(a(x))
      *
-     * @param inner g(x)
-     * @param outer f(x)
-     * @return the Function
+     * @param inner a(x)
+     * @param outer b(x)
+     * @return the created Function
      */
     public static Function composite(final Function inner, final Function outer) {
         return new Function() {
             @Override
-            public double f(double input) {
-                return outer.f(inner.f(input));
+            public double f(double x) {
+                return outer.f(inner.f(x));
             }
         };
     }
@@ -87,13 +176,13 @@ public class Functions {
     /**
      * No modification to the input
      *
-     * @return the Function
+     * @return the created Function
      */
     public static Function none() {
         return new Function() {
             @Override
-            public double f(double input) {
-                return input;
+            public double f(double x) {
+                return x;
             }
         };
     }
@@ -101,34 +190,58 @@ public class Functions {
     /**
      * Multiplies the input by a constant
      *
-     * @param scalingFactor the constant to multiply by
-     * @return the Function
+     * @param m the slope
+     * @return the created Function
      */
-    public static Function linear(final double scalingFactor) {
-        return new Function() {
-            @Override
-            public double f(double input) {
-                return input * scalingFactor;
-            }
-        };
+    public static Function linear(final double m) {
+        return linear(m, 0);
     }
 
     /**
      * Logarithmic scaling
      *
      * @param logBase the base of the logarithm
-     * @return the Function
+     * @return the created Function
      */
     public static Function logarithmic(final double logBase) {
         return new Function() {
             @Override
-            public double f(double input) {
+            public double f(double x) {
                 if (logBase > 0) {
+                    double sign = Math.signum(x);
+                    x = Math.abs(x);
                     // a log function including the points (0,0) and (1,1)
-                    return Math.log(logBase * input + 1)
-                            / Math.log(logBase + 1);
+                    return sign * Math.log(logBase * x + 1) / Math.log(logBase + 1);
                 } else {
-                    return input;
+                    return x;
+                }
+            }
+        };
+    }
+
+    /**
+     * e^ax based scaling
+     * for a != 0
+     * y(x) = signum(x) * (e^abs(ax)-1)/(e^a-1)
+     * 
+     * for a = 0
+     * y(x) = x
+     * 
+     *
+     * @param a constant value that determines how curved the function is
+     * @return the created Function
+     */
+    public static Function eBased(final double a) {
+        return new Function() {
+            @Override
+            public double f(double x) {
+                if (a == 0) {
+                    return x;
+                } else {
+                    double sign = Math.signum(x);
+                    x = Math.abs(x);
+                    // a e-based function including the points (0,0) and (1,1)
+                    return sign * Math.expm1(a*x)/Math.expm1(a);
                 }
             }
         };
@@ -140,7 +253,7 @@ public class Functions {
      * @param pointX x
      * @param pointY y
      * @param maxValue the maximum value of the input
-     * @return the Function
+     * @return the created Function
      */
     public static Function piecewise(double pointX, double pointY, double maxValue) {
         final double x = Utility.motorLimit(Math.abs(pointX));
@@ -159,16 +272,12 @@ public class Functions {
             slope2 = (y - max) / (x - 1);
         }
         return new Function() {
-            @Override
             public double f(double input) {
-                double output;
                 if (Math.abs(input) < x) {
-                    output = slope1 * Math.abs(input);
+                    return slope1 * input;
                 } else {
-                    output = slope2 * (Math.abs(input) - x) + y;
+                    return Utility.motorLimit((slope2 * (Math.abs(input) - x) + y) * Math.signum(input));
                 }
-
-                return Utility.motorLimit(output * Math.signum(input));
             }
         };
     }

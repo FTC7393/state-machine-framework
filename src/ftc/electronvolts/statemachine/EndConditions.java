@@ -101,7 +101,7 @@ public class EndConditions {
 
             @Override
             public boolean isDone() {
-                return (counter > maxCount);
+                return counter >= maxCount;
             }
         };
     }
@@ -123,7 +123,8 @@ public class EndConditions {
 
             @Override
             public boolean isDone() {
-                return (counter++ >= maxCount);
+                counter++;
+                return counter >= maxCount;
             }
         };
     }

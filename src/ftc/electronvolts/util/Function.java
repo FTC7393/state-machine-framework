@@ -6,5 +6,5 @@ package ftc.electronvolts.util;
  * An interface that defines a scaling function
  */
 public interface Function {
-    double f(double input);
+    double f(double x);
 }

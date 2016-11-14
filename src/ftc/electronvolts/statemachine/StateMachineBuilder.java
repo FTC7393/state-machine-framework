@@ -142,6 +142,15 @@ public class StateMachineBuilder {
     }
 
     /**
+     * Adds an empty state that does nothing and moves to the next state
+     * @param stateName the name of the state
+     * @param nextStateName the name of the state to go to next
+     */
+    public void addBasicEmpty(StateName stateName, StateName nextStateName) {
+        add(States.basicEmpty(stateName, nextStateName));
+    }
+
+    /**
      * Adds a stop state to the stateMap
      *
      * @param stateName name of the stop state

@@ -32,10 +32,11 @@ public class PIDController implements ControlLoop {
      * @param input the actual value
      * @return the output of the PID
      */
+    @Override
     public double computeCorrection(double setPoint, double input) {
         long now = System.currentTimeMillis();
         double output = 0;
-        if (lastTime == -1) {
+        if (lastTime < 0) {
             lastTime = now;
         } else {
             double timeChange = now - lastTime;
@@ -62,8 +63,10 @@ public class PIDController implements ControlLoop {
         return output;
     }
 
+    @Override
     public void initialize() {
         lastInput = input;
         iTerm = 0;
+        lastTime = -1;
     }
 }
