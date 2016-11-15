@@ -7,6 +7,7 @@ import java.util.Map;
 
 import ftc.electronvolts.util.MatchTimer;
 import ftc.electronvolts.util.ResultReceiver;
+import ftc.electronvolts.util.Time;
 
 /**
  * This file was made by the electronVolts, FTC team 7393
@@ -65,10 +66,15 @@ public class StateMachineBuilder {
     }
 
     /**
-     * @see EndConditions
+     * Create a new transition with a timed end condition
+     *
+     * @param duration the amount of time to wait before advancing to the
+     *            next state
+     * @param nextStateName the enum value associated with the next state
+     * @return a list containing the one transition
      */
-    public EndCondition timed(long durationMillis) {
-        return EndConditions.timed(durationMillis);
+    public List<Transition> ts(Time duration, StateName nextStateName) {
+        return ts(EndConditions.timed(duration), nextStateName);
     }
 
     /**
@@ -88,8 +94,18 @@ public class StateMachineBuilder {
      * @param nextStateName the name of the next state
      */
     public void addWait(StateName stateName, long durationMillis, StateName nextStateName) {
-        add(States.empty(stateName, ts(EndConditions.timed(durationMillis),
-                nextStateName)));
+        add(States.empty(stateName, ts(EndConditions.timed(durationMillis), nextStateName)));
+    }
+
+    /**
+     * Add an empty state that waits a certain duration
+     *
+     * @param stateName the enum value to be associated with the wait state
+     * @param duration the length of time to wait in millis
+     * @param nextStateName the name of the next state
+     */
+    public void addWait(StateName stateName, Time duration, StateName nextStateName) {
+        add(States.empty(stateName, ts(EndConditions.timed(duration), nextStateName)));
     }
 
     /**
@@ -103,8 +119,21 @@ public class StateMachineBuilder {
      * @see MatchTimer
      */
     public void addWait(StateName stateName, MatchTimer matchTimer, long durationMillis, StateName nextStateName) {
-        add(States.empty(stateName, ts(EndConditions.matchTimed(matchTimer,
-                durationMillis), nextStateName)));
+        add(States.empty(stateName, ts(EndConditions.matchTimed(matchTimer, durationMillis), nextStateName)));
+    }
+
+    /**
+     * Add an empty state that waits until a certain amount of time has passed
+     * since the beginning of the match
+     *
+     * @param stateName the enum value to be associated with the wait state
+     * @param matchTimer a reference to the match timer object
+     * @param duration how much time from the match start to wait
+     * @param nextStateName the name of the next state
+     * @see MatchTimer
+     */
+    public void addWait(StateName stateName, MatchTimer matchTimer, Time duration, StateName nextStateName) {
+        add(States.empty(stateName, ts(EndConditions.matchTimed(matchTimer, duration), nextStateName)));
     }
 
     /**
@@ -125,8 +154,7 @@ public class StateMachineBuilder {
      * @param nullStateName the state to go to if the condition is null
      */
     public void addBranch(StateName stateName, Boolean condition, StateName trueStateName, StateName falseStateName, StateName nullStateName) {
-        add(States.branch(stateName, condition, trueStateName, falseStateName,
-                nullStateName));
+        add(States.branch(stateName, condition, trueStateName, falseStateName, nullStateName));
     }
 
     /**
@@ -137,12 +165,12 @@ public class StateMachineBuilder {
      * @param nullStateName the state to go to if the receiver returns null
      */
     public void addBranch(StateName stateName, ResultReceiver<Boolean> receiver, StateName trueStateName, StateName falseStateName, StateName nullStateName) {
-        add(States.branch(stateName, receiver, trueStateName, falseStateName,
-                nullStateName));
+        add(States.branch(stateName, receiver, trueStateName, falseStateName, nullStateName));
     }
 
     /**
      * Adds an empty state that does nothing and moves to the next state
+     * 
      * @param stateName the name of the state
      * @param nextStateName the name of the state to go to next
      */
@@ -192,9 +220,10 @@ public class StateMachineBuilder {
     public StateMachine build(StateName firstStateName) {
         return new StateMachine(stateMap, firstStateName);
     }
-    
+
     /**
-     * Add a state that moves to continueStateName for the first n times it is called, then moves
+     * Add a state that moves to continueStateName for the first n times it is
+     * called, then moves
      * to doneStateName after that
      * 
      * @param stateName the name of the state

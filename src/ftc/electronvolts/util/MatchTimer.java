@@ -20,6 +20,10 @@ public class MatchTimer {
         this.matchLengthMillis = matchLengthMillis;
     }
 
+    public MatchTimer(Time matchLength) {
+        this.matchLengthMillis = (long) matchLength.milliseconds();
+    }
+
     /**
      * Start the match timer. Should be called in init method of project.
      */

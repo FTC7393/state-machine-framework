@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import ftc.electronvolts.util.MatchTimer;
+import ftc.electronvolts.util.Time;
 
 public class MatchTimerTest {
     private static int MILLIS_ERROR = 10;
@@ -109,6 +110,7 @@ public class MatchTimerTest {
     @Test
     public void testGetMatchLengthMillis() {
         assertEquals(new MatchTimer(2000).getMatchLengthMillis(), 2000);
+        assertEquals(new MatchTimer(Time.fromSeconds(2)).getMatchLengthMillis(), 2000);
     }
 
     @Test

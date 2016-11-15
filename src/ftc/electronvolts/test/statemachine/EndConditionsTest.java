@@ -1,4 +1,4 @@
-package ftc.electronvolts.test.util;
+package ftc.electronvolts.test.statemachine;
 
 import static org.junit.Assert.*;
 
@@ -12,6 +12,7 @@ import ftc.electronvolts.statemachine.EndConditions;
 import ftc.electronvolts.util.InputExtractor;
 import ftc.electronvolts.util.InputExtractors;
 import ftc.electronvolts.util.MatchTimer;
+import ftc.electronvolts.util.Time;
 
 public class EndConditionsTest {
 
@@ -65,14 +66,19 @@ public class EndConditionsTest {
 
     @Test
     public void testTimed() {
-        EndCondition e = EndConditions.timed(20);
+        EndCondition e1 = EndConditions.timed(20);
+        EndCondition e2 = EndConditions.timed(Time.fromSeconds(0.020));
         for (int i = 0; i < 2; i++) {
-            e.init();
-            assertFalse(e.isDone());
+            e1.init();
+            e2.init();
+            assertFalse(e1.isDone());
+            assertFalse(e2.isDone());
             delay(10);
-            assertFalse(e.isDone());
+            assertFalse(e1.isDone());
+            assertFalse(e2.isDone());
             delay(10);
-            assertTrue(e.isDone());
+            assertTrue(e1.isDone());
+            assertTrue(e2.isDone());
         }
     }
 

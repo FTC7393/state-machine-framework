@@ -4,6 +4,7 @@ import java.util.List;
 
 import ftc.electronvolts.util.InputExtractor;
 import ftc.electronvolts.util.MatchTimer;
+import ftc.electronvolts.util.Time;
 
 /**
  * This file was made by the electronVolts, FTC team 7393
@@ -41,6 +42,16 @@ public class EndConditions {
     }
 
     /**
+     * An end condition that finishes after a certain amount of time
+     *
+     * @param duration the amount of time to wait before finishing
+     * @return the end condition
+     */
+    public static EndCondition timed(Time duration) {
+        return timed((long) duration.milliseconds());
+    }
+
+    /**
      * An end condition that finishes after a certain amount of time since the
      * start of the match has passed
      *
@@ -60,6 +71,18 @@ public class EndConditions {
                 return matchTimer.getElapsedTime() >= millisFromMatchStart;
             }
         };
+    }
+    
+    /**
+     * An end condition that finishes after a certain amount of time since the
+     * start of the match has passed
+     *
+     * @param matchTimer a reference to the match timer object
+     * @param timeFromMatchStart how long from the match start to wait
+     * @return the end condition
+     */
+    public static EndCondition matchTimed(MatchTimer matchTimer, Time timeFromMatchStart) {
+        return matchTimed(matchTimer, (long) timeFromMatchStart.milliseconds());
     }
 
     /**
@@ -267,11 +290,9 @@ public class EndConditions {
             @Override
             public boolean isDone() {
                 if (inclusive) {
-                    return inputExtractorA.getValue() >= inputExtractorB
-                            .getValue();
+                    return inputExtractorA.getValue() >= inputExtractorB.getValue();
                 } else {
-                    return inputExtractorA.getValue() > inputExtractorB
-                            .getValue();
+                    return inputExtractorA.getValue() > inputExtractorB.getValue();
                 }
             }
         };
@@ -366,7 +387,6 @@ public class EndConditions {
      * @return the end condition
      */
     public static EndCondition valueCloseTo(InputExtractor<Double> inputExtractor, double target, double tolerance, boolean inclusive) {
-        return valueBetween(inputExtractor, target - tolerance, target
-                + tolerance, inclusive);
+        return valueBetween(inputExtractor, target - tolerance, target + tolerance, inclusive);
     }
 }
