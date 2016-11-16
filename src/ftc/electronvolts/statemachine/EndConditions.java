@@ -4,7 +4,7 @@ import java.util.List;
 
 import ftc.electronvolts.util.InputExtractor;
 import ftc.electronvolts.util.MatchTimer;
-import ftc.electronvolts.util.Time;
+import ftc.electronvolts.util.units.Time;
 
 /**
  * This file was made by the electronVolts, FTC team 7393

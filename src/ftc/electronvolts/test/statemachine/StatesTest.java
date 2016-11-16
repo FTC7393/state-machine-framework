@@ -33,7 +33,7 @@ public class StatesTest {
         
         Map<StateName, StateName> subStateToState = new HashMap<>();
         subStateToState.put(S.SUB_STATE4, S.STATE2);
-        State s = States.subStates(S.STATE1, b, subStateToState);
+        State s = States.subStates(S.STATE1, subStateToState, b);
 
         assertEquals(S.STATE1, s.act());
         assertEquals(S.STATE1, s.act());
@@ -74,10 +74,10 @@ public class StatesTest {
     public void testBranchStateNameBooleanStateNameStateName() {
         State s;
 
-        s = States.branch(S.STATE1, true, S.STATE2, S.STATE3);
+        s = States.branch(S.STATE1, S.STATE2, S.STATE3, true);
         assertEquals(S.STATE2, s.act());
 
-        s = States.branch(S.STATE1, false, S.STATE2, S.STATE3);
+        s = States.branch(S.STATE1, S.STATE2, S.STATE3, false);
         assertEquals(S.STATE3, s.act());
     }
 
@@ -85,14 +85,14 @@ public class StatesTest {
     public void testBranchStateNameBooleanStateNameStateNameStateName() {
         State s;
 
-        s = States.branch(S.STATE1, true, S.STATE1, S.STATE2, S.STATE3);
+        s = States.branch(S.STATE1, S.STATE1, S.STATE2, S.STATE3, true);
         assertEquals(S.STATE1, s.act());
 
-        s = States.branch(S.STATE1, false, S.STATE1, S.STATE2, S.STATE3);
+        s = States.branch(S.STATE1, S.STATE1, S.STATE2, S.STATE3, false);
         assertEquals(S.STATE2, s.act());
 
         Boolean b = null;
-        s = States.branch(S.STATE1, b, S.STATE1, S.STATE2, S.STATE3);
+        s = States.branch(S.STATE1, S.STATE1, S.STATE2, S.STATE3, b);
         assertEquals(S.STATE3, s.act());
     }
 
@@ -102,21 +102,21 @@ public class StatesTest {
         ResultReceiver<Boolean> resultReceiver = new BasicResultReceiver<>();
 
         resultReceiver.setValue(true);
-        s = States.branch(S.STATE1, resultReceiver, S.STATE1, S.STATE2, S.STATE3);
+        s = States.branch(S.STATE1, S.STATE1, S.STATE2, S.STATE3, resultReceiver);
         assertEquals(S.STATE1, s.act());
 
         resultReceiver.setValue(false);
-        s = States.branch(S.STATE1, resultReceiver, S.STATE1, S.STATE2, S.STATE3);
+        s = States.branch(S.STATE1, S.STATE1, S.STATE2, S.STATE3, resultReceiver);
         assertEquals(S.STATE2, s.act());
 
         resultReceiver.setValue(null);
-        s = States.branch(S.STATE1, resultReceiver, S.STATE1, S.STATE2, S.STATE3);
+        s = States.branch(S.STATE1, S.STATE1, S.STATE2, S.STATE3, resultReceiver);
         assertEquals(S.STATE3, s.act());
     }
 
     @Test
     public void testCount() {
-        State s = States.count(S.STATE1, 2, S.STATE2, S.STATE3);
+        State s = States.count(S.STATE1, S.STATE2, S.STATE3, 2);
         assertEquals(S.STATE2, s.act());
         assertEquals(S.STATE2, s.act());
         assertEquals(S.STATE3, s.act());

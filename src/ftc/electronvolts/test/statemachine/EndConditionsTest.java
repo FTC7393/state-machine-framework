@@ -12,7 +12,7 @@ import ftc.electronvolts.statemachine.EndConditions;
 import ftc.electronvolts.util.InputExtractor;
 import ftc.electronvolts.util.InputExtractors;
 import ftc.electronvolts.util.MatchTimer;
-import ftc.electronvolts.util.Time;
+import ftc.electronvolts.util.units.Time;
 
 public class EndConditionsTest {
 

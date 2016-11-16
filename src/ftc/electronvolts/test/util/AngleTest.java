@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import ftc.electronvolts.util.Angle;
+import ftc.electronvolts.util.units.Angle;
 
 public class AngleTest {
 
@@ -183,20 +183,5 @@ public class AngleTest {
         assertEquals(45, Angle.fromRotations(0.125).degrees(), 0);
         assertEquals(0.125, Angle.fromRotations(0.125).rotations(), 0);
     }
-
-    // @Test
-    // public void testRadians() {
-    // fail("Not yet implemented");
-    // }
-    //
-    // @Test
-    // public void testDegrees() {
-    // fail("Not yet implemented");
-    // }
-    //
-    // @Test
-    // public void testRotations() {
-    // fail("Not yet implemented");
-    // }
 
 }

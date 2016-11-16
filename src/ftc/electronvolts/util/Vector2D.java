@@ -1,5 +1,7 @@
 package ftc.electronvolts.util;
 
+import ftc.electronvolts.util.units.Angle;
+
 /**
  * This file was made by the electronVolts, FTC team 7393
  * Date Created: 10/1/16

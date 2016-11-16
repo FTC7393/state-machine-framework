@@ -7,7 +7,7 @@ import java.util.Map;
 
 import ftc.electronvolts.util.MatchTimer;
 import ftc.electronvolts.util.ResultReceiver;
-import ftc.electronvolts.util.Time;
+import ftc.electronvolts.util.units.Time;
 
 /**
  * This file was made by the electronVolts, FTC team 7393
@@ -68,8 +68,8 @@ public class StateMachineBuilder {
     /**
      * Create a new transition with a timed end condition
      *
-     * @param duration the amount of time to wait before advancing to the
-     *            next state
+     * @param duration the amount of time to wait before advancing to the next
+     *            state
      * @param nextStateName the enum value associated with the next state
      * @return a list containing the one transition
      */
@@ -90,10 +90,10 @@ public class StateMachineBuilder {
      * Add an empty state that waits a certain duration
      *
      * @param stateName the enum value to be associated with the wait state
-     * @param durationMillis the length of time to wait in millis
      * @param nextStateName the name of the next state
+     * @param durationMillis the length of time to wait in millis
      */
-    public void addWait(StateName stateName, long durationMillis, StateName nextStateName) {
+    public void addWait(StateName stateName, StateName nextStateName, long durationMillis) {
         add(States.empty(stateName, ts(EndConditions.timed(durationMillis), nextStateName)));
     }
 
@@ -101,10 +101,10 @@ public class StateMachineBuilder {
      * Add an empty state that waits a certain duration
      *
      * @param stateName the enum value to be associated with the wait state
-     * @param duration the length of time to wait in millis
      * @param nextStateName the name of the next state
+     * @param duration the length of time to wait
      */
-    public void addWait(StateName stateName, Time duration, StateName nextStateName) {
+    public void addWait(StateName stateName, StateName nextStateName, Time duration) {
         add(States.empty(stateName, ts(EndConditions.timed(duration), nextStateName)));
     }
 
@@ -113,12 +113,12 @@ public class StateMachineBuilder {
      * since the beginning of the match
      *
      * @param stateName the enum value to be associated with the wait state
+     * @param nextStateName the name of the next state
      * @param matchTimer a reference to the match timer object
      * @param durationMillis how many millis from the match start to wait
-     * @param nextStateName the name of the next state
      * @see MatchTimer
      */
-    public void addWait(StateName stateName, MatchTimer matchTimer, long durationMillis, StateName nextStateName) {
+    public void addWait(StateName stateName, StateName nextStateName, MatchTimer matchTimer, long durationMillis) {
         add(States.empty(stateName, ts(EndConditions.matchTimed(matchTimer, durationMillis), nextStateName)));
     }
 
@@ -127,45 +127,45 @@ public class StateMachineBuilder {
      * since the beginning of the match
      *
      * @param stateName the enum value to be associated with the wait state
+     * @param nextStateName the name of the next state
      * @param matchTimer a reference to the match timer object
      * @param duration how much time from the match start to wait
-     * @param nextStateName the name of the next state
      * @see MatchTimer
      */
-    public void addWait(StateName stateName, MatchTimer matchTimer, Time duration, StateName nextStateName) {
+    public void addWait(StateName stateName, StateName nextStateName, MatchTimer matchTimer, Time duration) {
         add(States.empty(stateName, ts(EndConditions.matchTimed(matchTimer, duration), nextStateName)));
     }
 
     /**
      * @param stateName the enum value to be associated with the wait state
-     * @param condition the boolean to decide which branch to go to
      * @param trueStateName the state to go to if the condition is true
      * @param falseStateName the state to go to if the condition is false
+     * @param condition the boolean to decide which branch to go to
      */
-    public void addBranch(StateName stateName, boolean condition, StateName trueStateName, StateName falseStateName) {
-        add(States.branch(stateName, condition, trueStateName, falseStateName));
+    public void addBranch(StateName stateName, StateName trueStateName, StateName falseStateName, boolean condition) {
+        add(States.branch(stateName, trueStateName, falseStateName, condition));
     }
 
     /**
      * @param stateName the enum value to be associated with the wait state
-     * @param condition the boolean to decide which branch to go to
      * @param trueStateName the state to go to if the condition is true
      * @param falseStateName the state to go to if the condition is false
      * @param nullStateName the state to go to if the condition is null
+     * @param condition the boolean to decide which branch to go to
      */
-    public void addBranch(StateName stateName, Boolean condition, StateName trueStateName, StateName falseStateName, StateName nullStateName) {
-        add(States.branch(stateName, condition, trueStateName, falseStateName, nullStateName));
+    public void addBranch(StateName stateName, StateName trueStateName, StateName falseStateName, StateName nullStateName, Boolean condition) {
+        add(States.branch(stateName, trueStateName, falseStateName, nullStateName, condition));
     }
 
     /**
      * @param stateName the enum value to be associated with the wait state
-     * @param receiver the receiver that decides which branch to go to
      * @param trueStateName the state to go to if the receiver returns true
      * @param falseStateName the state to go to if the receiver returns false
      * @param nullStateName the state to go to if the receiver returns null
+     * @param receiver the receiver that decides which branch to go to
      */
-    public void addBranch(StateName stateName, ResultReceiver<Boolean> receiver, StateName trueStateName, StateName falseStateName, StateName nullStateName) {
-        add(States.branch(stateName, receiver, trueStateName, falseStateName, nullStateName));
+    public void addBranch(StateName stateName, StateName trueStateName, StateName falseStateName, StateName nullStateName, ResultReceiver<Boolean> receiver) {
+        add(States.branch(stateName, trueStateName, falseStateName, nullStateName, receiver));
     }
 
     /**
@@ -192,11 +192,24 @@ public class StateMachineBuilder {
      * tasks such as image processing.
      *
      * @param stateName the name of the state
+     * @param nextStateName the next state to be transitioned to immediately
      * @param thread the thread to be run at the start of the state
-     * @param nextStateName the next state to be run immediately
      */
-    public void addThread(StateName stateName, Thread thread, StateName nextStateName) {
-        add(States.runThread(stateName, thread, nextStateName));
+    public void addThread(StateName stateName, StateName nextStateName, Thread thread) {
+        add(States.runThread(stateName, nextStateName, thread));
+    }
+
+    /**
+     * Add a state that moves to continueStateName for the first n times it is
+     * called, then moves to doneStateName after that
+     * 
+     * @param stateName the name of the state
+     * @param continueStateName will be transitioned to first
+     * @param doneStateName will be transitioned to after
+     * @param n the number of times to return continueStateName
+     */
+    public void addCount(StateName stateName, StateName continueStateName, StateName doneStateName, int n) {
+        add(States.count(stateName, continueStateName, doneStateName, n));
     }
 
     /**
@@ -219,19 +232,5 @@ public class StateMachineBuilder {
 
     public StateMachine build(StateName firstStateName) {
         return new StateMachine(stateMap, firstStateName);
-    }
-
-    /**
-     * Add a state that moves to continueStateName for the first n times it is
-     * called, then moves
-     * to doneStateName after that
-     * 
-     * @param stateName the name of the state
-     * @param n the number of times to return continueStateName
-     * @param continueStateName will be transitioned to first
-     * @param doneStateName will be transitioned to after
-     */
-    public void addCount(StateName stateName, int n, StateName continueStateName, StateName doneStateName) {
-        add(States.count(stateName, n, continueStateName, doneStateName));
     }
 }

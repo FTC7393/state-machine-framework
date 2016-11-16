@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import ftc.electronvolts.util.Time;
+import ftc.electronvolts.util.units.Time;
 
 public class TimeTest {
 

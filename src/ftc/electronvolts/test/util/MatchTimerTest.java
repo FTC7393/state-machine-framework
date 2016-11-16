@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import ftc.electronvolts.util.MatchTimer;
-import ftc.electronvolts.util.Time;
+import ftc.electronvolts.util.units.Time;
 
 public class MatchTimerTest {
     private static int MILLIS_ERROR = 10;

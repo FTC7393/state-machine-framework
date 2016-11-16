@@ -1,66 +1,73 @@
 package ftc.electronvolts.test.util;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import org.junit.Test;
 
+import ftc.electronvolts.util.units.Angle;
+import ftc.electronvolts.util.units.AngularVelocity;
 import ftc.electronvolts.util.units.Distance;
 import ftc.electronvolts.util.units.Time;
-import ftc.electronvolts.util.units.Velocity;
 
-public class VelocityTest {
+public class AngularVelocityTest {
 
-    private static final Velocity fiveMetersPerSecond = new Velocity(Distance.fromMeters(5), Time.fromSeconds(1));
-    private static final Velocity minusFiveMetersPerSecond = new Velocity(Distance.fromMeters(-5), Time.fromSeconds(1));
+    private static final AngularVelocity fiveRadiansPerSecond = new AngularVelocity(Angle.fromRadians(5), Time.fromSeconds(1));
+    private static final AngularVelocity minusFiveRadiansPerSecond = new AngularVelocity(Angle.fromRadians(-5), Time.fromSeconds(1));
 
-    private static final Velocity fiveFeetPerSecond = new Velocity(Distance.fromFeet(5), Time.fromSeconds(1));
-    private static final Velocity minusFiveFeetPerSecond = new Velocity(Distance.fromFeet(-5), Time.fromSeconds(1));
+    private static final AngularVelocity fiveDegreesPerSecond = new AngularVelocity(Angle.fromDegrees(5), Time.fromSeconds(1));
+    private static final AngularVelocity minusFiveDegreesPerSecond = new AngularVelocity(Angle.fromDegrees(-5), Time.fromSeconds(1));
 
-    private static final Velocity fiveMilesPerHour = new Velocity(Distance.fromMiles(5), Time.fromHours(1));
+    private static final AngularVelocity fiveRotationsPerMinute = new AngularVelocity(Angle.fromRotations(5), Time.fromMinutes(1));
+    private static final AngularVelocity minusFiveRotationsPerMinute = new AngularVelocity(Angle.fromRotations(-5), Time.fromMinutes(1));
 
     @Test
     public void testZero() {
-        assertEquals(0, Velocity.zero().centimetersPerDay(), 0);
-        assertEquals(0, Velocity.zero().feetPerSecond(), 0);
-        assertEquals(0, Velocity.zero().inchesPerMinute(), 0);
-        assertEquals(0, Velocity.zero().kilometersPerMonth(), 0);
-        assertEquals(0, Velocity.zero().metersPerSecond(), 0);
-        assertEquals(0, Velocity.zero().yardsPerYear(), 0);
-        assertEquals(0, Velocity.zero().nauticalMilesPerMonth(), 0);
+        assertEquals(0, AngularVelocity.zero().radiansPerDay(), 0);
+        assertEquals(0, AngularVelocity.zero().radiansPerMinute(), 0);
+        assertEquals(0, AngularVelocity.zero().radiansPerSecond(), 0);
+
+        assertEquals(0, AngularVelocity.zero().degreesPerSecond(), 0);
+        assertEquals(0, AngularVelocity.zero().degreesPerMonth(), 0);
+        assertEquals(0, AngularVelocity.zero().degreesPerYear(), 0);
+
+        assertEquals(0, AngularVelocity.zero().rotationsPerMillisecond(), 0);
+        assertEquals(0, AngularVelocity.zero().rotationsPerWeek(), 0);
+        assertEquals(0, AngularVelocity.zero().rotationsPerMicrosecond(), 0);
     }
 
     @Test
     public void testGetDistance() {
-        assertEquals(7.5, fiveMetersPerSecond.getDistance(Time.fromSeconds(1.5)).meters(), 0);
-        assertEquals(0, fiveMetersPerSecond.getDistance(Time.fromSeconds(0)).meters(), 0);
+        assertEquals(7.5, fiveRadiansPerSecond.getAngle(Time.fromSeconds(1.5)).radians(), 0);
+        assertEquals(0, fiveRadiansPerSecond.getAngle(Time.fromSeconds(0)).radians(), 0);
     }
 
     @Test
     public void testGetTime() {
-        assertEquals(3, fiveMetersPerSecond.getTime(Distance.fromMeters(15)).seconds(), 0);
-        assertEquals(0, fiveMetersPerSecond.getTime(Distance.fromMeters(0)).seconds(), 0);
+        assertEquals(3, fiveRadiansPerSecond.getTime(Angle.fromRadians(15)).seconds(), 0);
+        assertEquals(0, fiveRadiansPerSecond.getTime(Angle.fromRadians(0)).seconds(), 0);
     }
 
     @Test
     public void testAbs() {
-        assertEquals(5, minusFiveMetersPerSecond.abs().metersPerSecond(), 0);
-        assertEquals(0, Velocity.zero().abs().metersPerSecond(), 0);
-        assertEquals(5, fiveMetersPerSecond.abs().metersPerSecond(), 0);
+        assertEquals(5, minusFiveRadiansPerSecond.abs().radiansPerSecond(), 0);
+        assertEquals(0, AngularVelocity.zero().abs().radiansPerSecond(), 0);
+        assertEquals(5, fiveRadiansPerSecond.abs().radiansPerSecond(), 0);
 
-        assertEquals(5, minusFiveFeetPerSecond.abs().feetPerSecond(), 1e-10);
-        assertEquals(0, Velocity.zero().abs().feetPerSecond(), 1e-10);
-        assertEquals(5, fiveFeetPerSecond.abs().feetPerSecond(), 1e-10);
+        assertEquals(5, minusFiveDegreesPerSecond.abs().degreesPerSecond(), 1e-10);
+        assertEquals(0, AngularVelocity.zero().abs().degreesPerSecond(), 1e-10);
+        assertEquals(5, fiveDegreesPerSecond.abs().degreesPerSecond(), 1e-10);
     }
 
     @Test
     public void testSignum() {
-        assertEquals(-1, minusFiveMetersPerSecond.signum(), 0);
-        assertEquals(0, Velocity.zero().signum(), 0);
-        assertEquals(1, fiveMetersPerSecond.signum(), 0);
+        assertEquals(-1, minusFiveRadiansPerSecond.signum(), 0);
+        assertEquals(0, AngularVelocity.zero().signum(), 0);
+        assertEquals(1, fiveRadiansPerSecond.signum(), 0);
 
-        assertEquals(-1, minusFiveFeetPerSecond.signum(), 0);
-        assertEquals(0, Velocity.zero().signum(), 0);
-        assertEquals(1, fiveFeetPerSecond.signum(), 0);
+        assertEquals(-1, minusFiveDegreesPerSecond.signum(), 0);
+        assertEquals(0, AngularVelocity.zero().signum(), 0);
+        assertEquals(1, fiveDegreesPerSecond.signum(), 0);
     }
 
     @Test
@@ -137,44 +144,48 @@ public class VelocityTest {
 
     @Test
     public void testEqualsObject() {
-        assertNotEquals(fiveMetersPerSecond, null);
-        assertNotEquals(null, fiveMetersPerSecond);
-        assertEquals(fiveMetersPerSecond, fiveMetersPerSecond);
-        assertEquals(fiveMetersPerSecond, new Velocity(Distance.fromMeters(5), Time.fromSeconds(1)));
-        assertEquals(fiveMetersPerSecond, new Velocity(Distance.fromMeters(10), Time.fromSeconds(2)));
+        assertNotEquals(fiveRadiansPerSecond, null);
+        assertNotEquals(null, fiveRadiansPerSecond);
+        assertEquals(fiveRadiansPerSecond, fiveRadiansPerSecond);
+        assertEquals(fiveRadiansPerSecond, new AngularVelocity(Angle.fromRadians(5), Time.fromSeconds(1)));
+        assertEquals(fiveRadiansPerSecond, new AngularVelocity(Angle.fromRadians(10), Time.fromSeconds(2)));
     }
 
     @Test
-    public void testMetersPerSecond() {
-        assertEquals(5, fiveMetersPerSecond.metersPerSecond(), 0);
-        assertEquals(16.4041994751, fiveMetersPerSecond.feetPerSecond(), 1e-10);
-        assertEquals(11.1847, fiveMetersPerSecond.milesPerHour(), 1e-4);
+    public void testRadiansPerSecond() {
+        assertEquals(5, fiveRadiansPerSecond.radiansPerSecond(), 0);
+        assertEquals(5.0 * 180 / Math.PI, fiveRadiansPerSecond.degreesPerSecond(), 1e-9);
+        assertEquals(5.0 * 180 / Math.PI / 360 * 60, fiveRadiansPerSecond.rotationsPerMinute(), 1e-9);
 
-        assertEquals(-5, minusFiveMetersPerSecond.metersPerSecond(), 0);
-        assertEquals(-16.4041994751, minusFiveMetersPerSecond.feetPerSecond(), 1e-10);
-        assertEquals(-11.1847, minusFiveMetersPerSecond.milesPerHour(), 1e-4);
+        assertEquals(-5, minusFiveRadiansPerSecond.radiansPerSecond(), 0);
+        assertEquals(-5.0 * 180 / Math.PI, minusFiveRadiansPerSecond.degreesPerSecond(), 1e-9);
+        assertEquals(-5.0 * 180 / Math.PI / 360 * 60, minusFiveRadiansPerSecond.rotationsPerMinute(), 1e-9);
     }
 
     @Test
-    public void testFeetPerSecond() {
-        assertEquals(1.524, fiveFeetPerSecond.metersPerSecond(), 0);
-        assertEquals(5, fiveFeetPerSecond.feetPerSecond(), 1e-10);
-        assertEquals(3.40909, fiveFeetPerSecond.milesPerHour(), 1e-4);
+    public void testDegreesPerSecond() {
+        assertEquals(5.0 / 180 * Math.PI, fiveDegreesPerSecond.radiansPerSecond(), 1e-9);
+        assertEquals(5, fiveDegreesPerSecond.degreesPerSecond(), 0);
+        assertEquals(0.833333333333334, fiveDegreesPerSecond.rotationsPerMinute(), 1e-9);
 
-        assertEquals(-1.524, minusFiveFeetPerSecond.metersPerSecond(), 0);
-        assertEquals(-5, minusFiveFeetPerSecond.feetPerSecond(), 1e-10);
-        assertEquals(-3.40909, minusFiveFeetPerSecond.milesPerHour(), 1e-4);
+        assertEquals(-5.0 / 180 * Math.PI, minusFiveDegreesPerSecond.radiansPerSecond(), 1e-9);
+        assertEquals(-5, minusFiveDegreesPerSecond.degreesPerSecond(), 0);
+        assertEquals(-0.833333333333334, minusFiveDegreesPerSecond.rotationsPerMinute(), 1e-9);
     }
 
     @Test
-    public void testMilesPerHour() {
-        assertEquals(2.2352, fiveMilesPerHour.metersPerSecond(), 0);
-        assertEquals(7.33333333333, fiveMilesPerHour.feetPerSecond(), 1e-10);
-        assertEquals(5, fiveMilesPerHour.milesPerHour(), 0);
+    public void testRotationsPerMinute() {
+        assertEquals(0.523598775, fiveRotationsPerMinute.radiansPerSecond(), 1e-9);
+        assertEquals(30, fiveRotationsPerMinute.degreesPerSecond(), 1e-9);
+        assertEquals(5, fiveRotationsPerMinute.rotationsPerMinute(), 0);
+
+        assertEquals(-0.523598775, minusFiveRotationsPerMinute.radiansPerSecond(), 1e-9);
+        assertEquals(-30, minusFiveRotationsPerMinute.degreesPerSecond(), 1e-9);
+        assertEquals(-5, minusFiveRotationsPerMinute.rotationsPerMinute(), 0);
     }
     
     @Test
-    public void testGetAngularVelocity(){
-        assertEquals(0.5, fiveMetersPerSecond.getAngularVelocity(Distance.fromMeters(10)).radiansPerSecond(), 0);
+    public void testGetVelocity(){
+        assertEquals(20, fiveRadiansPerSecond.getVelocity(Distance.fromMeters(4)).metersPerSecond(), 0);
     }
 }

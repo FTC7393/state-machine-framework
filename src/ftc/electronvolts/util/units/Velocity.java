@@ -1,4 +1,4 @@
-package ftc.electronvolts.util;
+package ftc.electronvolts.util.units;
 
 import java.util.Objects;
 
@@ -11,13 +11,31 @@ public class Velocity {
     private final Distance distance;
     private final Time time;
 
+    /**
+     * Distance per Time
+     * 
+     * @param distance the Distance object
+     * @param time the Time object
+     */
     public Velocity(Distance distance, Time time) {
         this.distance = distance;
         this.time = time;
     }
 
+    /**
+     * Distance per 1 second
+     * 
+     * @param distance the Distance object
+     */
+    private Velocity(Distance distance) {
+        this(distance, Time.fromSeconds(1));
+    }
+
+    /**
+     * @return a Velocity with a value of 0
+     */
     public static Velocity zero() {
-        return new Velocity(Distance.zero(), Time.fromSeconds(1));
+        return new Velocity(Distance.zero());
     }
 
     public Distance getDistance(Time time) {
@@ -28,6 +46,11 @@ public class Velocity {
     public Time getTime(Distance distance) {
         // time = distance / velocity
         return Time.fromSeconds(distance.meters() / metersPerSecond());
+    }
+
+    public AngularVelocity getAngularVelocity(Distance radius) {
+        //angular velocity = velocity / radius
+        return new AngularVelocity(Angle.fromRadians(metersPerSecond() / radius.meters()), Time.fromSeconds(1));
     }
 
     public Velocity abs() {
@@ -46,7 +69,7 @@ public class Velocity {
      * @return the resulting Velocity
      */
     public static Velocity add(Velocity velocity1, Velocity velocity2) {
-        return new Velocity(Distance.fromMeters(velocity1.metersPerSecond() + velocity2.metersPerSecond()), Time.fromSeconds(1));
+        return new Velocity(Distance.fromMeters(velocity1.metersPerSecond() + velocity2.metersPerSecond()));
     }
 
     /**
@@ -57,7 +80,7 @@ public class Velocity {
      * @return the resulting Velocity
      */
     public static Velocity subtract(Velocity velocity1, Velocity velocity2) {
-        return new Velocity(Distance.fromMeters(velocity1.metersPerSecond() - velocity2.metersPerSecond()), Time.fromSeconds(1));
+        return new Velocity(Distance.fromMeters(velocity1.metersPerSecond() - velocity2.metersPerSecond()));
     }
 
     /**
@@ -67,8 +90,8 @@ public class Velocity {
      * @param number the number to multiply by
      * @return the resulting Velocity
      */
-    public static Velocity multiply(Velocity velocity1, double number) {
-        return new Velocity(Distance.fromMeters(velocity1.metersPerSecond() * number), Time.fromSeconds(1));
+    public static Velocity multiply(Velocity velocity, double number) {
+        return new Velocity(Distance.fromMeters(velocity.metersPerSecond() * number));
     }
 
     /**
@@ -78,8 +101,8 @@ public class Velocity {
      * @param number the number to divide by
      * @return the resulting Velocity
      */
-    public static Velocity divide(Velocity velocity1, double number) {
-        return new Velocity(Distance.fromMeters(velocity1.metersPerSecond() * number), Time.fromSeconds(1));
+    public static Velocity divide(Velocity velocity, double number) {
+        return new Velocity(Distance.fromMeters(velocity.metersPerSecond() * number));
     }
 
     /**
@@ -116,7 +139,7 @@ public class Velocity {
         return distance.meters() / time.seconds();
     }
 
-    public double metersPerMin() {
+    public double metersPerMinute() {
         return distance.meters() / time.minutes();
     }
 
@@ -156,7 +179,7 @@ public class Velocity {
         return distance.kilometers() / time.seconds();
     }
 
-    public double kilometersPerMin() {
+    public double kilometersPerMinute() {
         return distance.kilometers() / time.minutes();
     }
 
@@ -196,7 +219,7 @@ public class Velocity {
         return distance.centimeters() / time.seconds();
     }
 
-    public double centimetersPerMin() {
+    public double centimetersPerMinute() {
         return distance.centimeters() / time.minutes();
     }
 
@@ -236,7 +259,7 @@ public class Velocity {
         return distance.millimeters() / time.seconds();
     }
 
-    public double millimetersPerMin() {
+    public double millimetersPerMinute() {
         return distance.millimeters() / time.minutes();
     }
 
@@ -276,7 +299,7 @@ public class Velocity {
         return distance.micrometers() / time.seconds();
     }
 
-    public double micrometersPerMin() {
+    public double micrometersPerMinute() {
         return distance.micrometers() / time.minutes();
     }
 
@@ -316,7 +339,7 @@ public class Velocity {
         return distance.nanometers() / time.seconds();
     }
 
-    public double nanometersPerMin() {
+    public double nanometersPerMinute() {
         return distance.nanometers() / time.minutes();
     }
 
@@ -356,7 +379,7 @@ public class Velocity {
         return distance.feet() / time.seconds();
     }
 
-    public double feetPerMin() {
+    public double feetPerMinunte() {
         return distance.feet() / time.minutes();
     }
 
@@ -396,7 +419,7 @@ public class Velocity {
         return distance.inches() / time.seconds();
     }
 
-    public double inchesPerMin() {
+    public double inchesPerMinute() {
         return distance.inches() / time.minutes();
     }
 
@@ -436,7 +459,7 @@ public class Velocity {
         return distance.yards() / time.seconds();
     }
 
-    public double yardsPerMin() {
+    public double yardsPerMinute() {
         return distance.yards() / time.minutes();
     }
 
@@ -476,7 +499,7 @@ public class Velocity {
         return distance.miles() / time.seconds();
     }
 
-    public double milesPerMin() {
+    public double milesPerMinute() {
         return distance.miles() / time.minutes();
     }
 
@@ -516,7 +539,7 @@ public class Velocity {
         return distance.nauticalMiles() / time.seconds();
     }
 
-    public double nauticalMilesPerMin() {
+    public double nauticalMilesPerMinute() {
         return distance.nauticalMiles() / time.minutes();
     }
 

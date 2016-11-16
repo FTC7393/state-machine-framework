@@ -109,7 +109,7 @@ public class StateMachineBuilderTest {
     public void testAddCount() {
         StateMachineBuilder b = new StateMachineBuilder(S.STATE1);
         b.addBasicEmpty(S.STATE1, S.STATE2);
-        b.addCount(S.STATE2, 2, S.STATE1, S.STATE3);
+        b.addCount(S.STATE2, S.STATE1, S.STATE3, 2);
         b.addStop(S.STATE3);
 
         StateMachine stateMachine = b.build();

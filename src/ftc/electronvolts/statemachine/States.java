@@ -22,14 +22,12 @@ public class States {
      * state of another state machine so your state can act while your state
      * machine acts, dawg."
      * 
-     * @param stateName the name of the state that contains the sub-state
-     *            machine
+     * @param stateName the name of the state that contains the sub-state machine
+     * @param subStateToState map that links the sub states to the states in the main state machine
      * @param stateMachineBuilder the builder to add the sub-states to
-     * @param subStateToState map that links the sub states to the states in the
-     *            main state machine
      * @return the created State
      */
-    public static State subStates(StateName stateName, final StateMachineBuilder stateMachineBuilder, final Map<StateName, StateName> subStateToState) {
+    public static State subStates(StateName stateName, final Map<StateName, StateName> subStateToState, final StateMachineBuilder stateMachineBuilder) {
         for (Map.Entry<StateName, StateName> entry : subStateToState.entrySet()) {
             StateName subState = entry.getKey();
             stateMachineBuilder.addStop(subState);
@@ -160,11 +158,11 @@ public class States {
      * tasks such as image processing.
      *
      * @param stateName the name of the state
-     * @param thread the thread to be run at the start of the state
      * @param nextStateName the next state to be run immediately
+     * @param thread the thread to be run at the start of the state
      * @return the created State
      */
-    public static State runThread(StateName stateName, final Thread thread, final StateName nextStateName) {
+    public static State runThread(StateName stateName, final StateName nextStateName, final Thread thread) {
         return new BasicAbstractState(stateName) {
             @Override
             public void init() {
@@ -193,12 +191,12 @@ public class States {
      * field you are on
      *
      * @param stateName the name of the state
-     * @param condition the boolean to decide which branch to go to
      * @param trueStateName the state to go to if the condition is true
      * @param falseStateName the state to go to if the condition is false
+     * @param condition the boolean to decide which branch to go to
      * @return the created State
      */
-    public static State branch(StateName stateName, final boolean condition, final StateName trueStateName, final StateName falseStateName) {
+    public static State branch(StateName stateName, final StateName trueStateName, final StateName falseStateName, final boolean condition) {
         return new BasicAbstractState(stateName) {
             @Override
             public void init() {
@@ -230,13 +228,13 @@ public class States {
      * field you are on
      *
      * @param stateName the name of the state
-     * @param condition the boolean to decide which branch to go to
      * @param trueStateName the state to go to if the condition is true
      * @param falseStateName the state to go to if the condition is false
      * @param nullStateName the state to go to if the condition is null
+     * @param condition the boolean to decide which branch to go to
      * @return the created State
      */
-    public static State branch(StateName stateName, final Boolean condition, final StateName trueStateName, final StateName falseStateName, final StateName nullStateName) {
+    public static State branch(StateName stateName, final StateName trueStateName, final StateName falseStateName, final StateName nullStateName, final Boolean condition) {
         return new BasicAbstractState(stateName) {
             @Override
             public void init() {
@@ -270,13 +268,13 @@ public class States {
      * acquired while it is running, and to communicate between threads
      *
      * @param stateName the name of the state
-     * @param receiver the receiver that decides which branch to go to
      * @param trueStateName the state to go to if the receiver returns true
      * @param falseStateName the state to go to if the receiver returns false
      * @param nullStateName the state to go to if the receiver returns null
+     * @param receiver the receiver that decides which branch to go to
      * @return the created State
      */
-    public static State branch(StateName stateName, final ResultReceiver<Boolean> receiver, final StateName trueStateName, final StateName falseStateName, final StateName nullStateName) {
+    public static State branch(StateName stateName, final StateName trueStateName, final StateName falseStateName, final StateName nullStateName, final ResultReceiver<Boolean> receiver) {
         return new BasicAbstractState(stateName) {
             @Override
             public void init() {
@@ -310,12 +308,12 @@ public class States {
      * to doneStateName after that
      * 
      * @param stateName the name of the state
-     * @param n the number of times to return continueStateName
      * @param continueStateName will be transitioned to first
      * @param doneStateName will be transitioned to after
+     * @param n the number of times to return continueStateName
      * @return the created State
      */
-    public static State count(StateName stateName, final int n, final StateName continueStateName, final StateName doneStateName) {
+    public static State count(StateName stateName, final StateName continueStateName, final StateName doneStateName, final int n) {
         return new BasicAbstractState(stateName) {
             int i = 0;
 

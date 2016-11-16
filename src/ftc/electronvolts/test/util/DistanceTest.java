@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import ftc.electronvolts.util.Distance;
+import ftc.electronvolts.util.units.Distance;
 
 public class DistanceTest {
 

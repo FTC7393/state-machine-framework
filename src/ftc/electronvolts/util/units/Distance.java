@@ -1,4 +1,4 @@
-package ftc.electronvolts.util;
+package ftc.electronvolts.util.units;
 
 import java.util.Objects;
 
