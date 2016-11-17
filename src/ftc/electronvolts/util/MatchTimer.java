@@ -23,7 +23,11 @@ public class MatchTimer {
     }
 
     public MatchTimer(Time matchLength) {
-        this.matchLengthMillis = (long) matchLength.milliseconds();
+        if (matchLength == null) {
+            this.matchLengthMillis = -1;
+        } else {
+            this.matchLengthMillis = (long) matchLength.milliseconds();
+        }
     }
 
     /**

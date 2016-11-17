@@ -16,6 +16,8 @@ public class MatchTimerTest {
         new MatchTimer(2000);
         new MatchTimer(-1);
         new MatchTimer(-100000);
+        new MatchTimer(Time.fromSeconds(10));
+        assertTrue(new MatchTimer(null).getMatchLengthMillis() < 0);
     }
 
     public static void delay(long ms) {
