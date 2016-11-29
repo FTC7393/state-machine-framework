@@ -80,46 +80,112 @@ public class OptionsFileTest {
     }
 
     @Test
-    public void testGetAsString() {
+    public void testGetAsString1() {
         OptionsFile o = new OptionsFile();
         o.add("A", "text");
         assertEquals("text", o.getAsString("A"));
+        assertEquals("text", o.getAsString("A", ""));
+        o.add("A", null);
+        assertEquals(null, o.getAsString("A"));
+        assertEquals("", o.getAsString("A", ""));
+
+        assertEquals("", o.getAsString("B", ""));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetAsString2() {
+        OptionsFile o = new OptionsFile();
+        o.getAsString("A");
     }
 
     @Test
-    public void testGetAsInteger() {
+    public void testGetAsInteger1() {
         OptionsFile o = new OptionsFile();
         o.add("A", "1");
-        assertEquals(new Integer(1), o.getAsInteger("A", null));
+        assertEquals(new Integer(1), o.getAsInteger("A"));
+        assertEquals(new Integer(1), o.getAsInteger("A", 0));
+        o.add("A", null);
+        assertEquals(null, o.getAsInteger("A"));
+        assertEquals(new Integer(0), o.getAsInteger("A", 0));
+        assertEquals(new Integer(0), o.getAsInteger("B", 0));
     }
 
-    @Test
-    public void testGetAsDouble() {
+    @Test(expected = NumberFormatException.class)
+    public void testGetAsInteger2() {
         OptionsFile o = new OptionsFile();
-        o.add("A", "1.2");
-        assertEquals(new Double(1.2), o.getAsDouble("A", null));
+        o.add("A", "");
+        o.getAsInteger("A");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetAsInteger3() {
+        OptionsFile o = new OptionsFile();
+        o.getAsInteger("A");
     }
 
     @Test
-    public void testGetAsBoolean() {
+    public void testGetAsDouble1() {
+        OptionsFile o = new OptionsFile();
+        o.add("A", "1");
+        assertEquals(new Double(1), o.getAsDouble("A"));
+        assertEquals(new Double(1), o.getAsDouble("A", 0.0));
+        o.add("A", null);
+        assertEquals(null, o.getAsDouble("A"));
+        assertEquals(new Double(0), o.getAsDouble("A", 0.0));
+        assertEquals(new Double(0), o.getAsDouble("B", 0.0));
+    }
+
+    @Test(expected = NumberFormatException.class)
+    public void testGetAsDouble2() {
+        OptionsFile o = new OptionsFile();
+        o.add("A", "");
+        o.getAsDouble("A");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetAsDouble3() {
+        OptionsFile o = new OptionsFile();
+        o.getAsDouble("A");
+    }
+
+    @Test
+    public void testGetAsBoolean1() {
         OptionsFile o = new OptionsFile();
         o.add("A", "true");
-        assertEquals(new Boolean(true), o.getAsBoolean("A", null));
+        assertEquals(new Boolean(true), o.getAsBoolean("A"));
+        assertEquals(new Boolean(true), o.getAsBoolean("A", false));
+        o.add("A", null);
+        assertEquals(null, o.getAsBoolean("A"));
+        assertEquals(new Boolean(false), o.getAsBoolean("A", false));
+        assertEquals(new Boolean(false), o.getAsBoolean("B", false));
+    }
+
+    @Test(expected = NumberFormatException.class)
+    public void testGetAsBoolean2() {
+        OptionsFile o = new OptionsFile();
+        o.add("A", "");
+        o.getAsBoolean("A");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetAsBoolean3() {
+        OptionsFile o = new OptionsFile();
+        o.getAsBoolean("A");
     }
 
     @Test
     public void testWriteToFile() {
         File file = new File("OptionsFile.txt");
-        
+
         OptionsFile o = new OptionsFile();
         o.add("A", "text");
 
         assertTrue(o.writeToFile(file));
-        
+
         OptionsFile o2 = new OptionsFile(file);
-        
+
         assertEquals("text", o2.getAsString("A"));
-        
+
         file.delete();
     }
 

@@ -16,6 +16,8 @@ public class UtilityTest {
         assertEquals(3, Utility.limit(3.2, 3, -2), 0);
         assertEquals(1, Utility.limit(1, -2, 3), 0);
         assertEquals(1, Utility.limit(1, 3, -2), 0);
+
+        assertEquals(Double.NaN, Utility.limit(Double.NaN, -2, 3), 0);
     }
 
     @Test
@@ -30,6 +32,7 @@ public class UtilityTest {
 
     @Test
     public void testMotorLimit() {
+        assertEquals(-1, Utility.motorLimit(-1.0001), 0);
         assertEquals(-1, Utility.motorLimit(-1.5), 0);
         assertEquals(-1, Utility.motorLimit(-1), 0);
         assertEquals(-0.5, Utility.motorLimit(-0.5), 0);
@@ -37,6 +40,7 @@ public class UtilityTest {
         assertEquals(0.5, Utility.motorLimit(0.5), 0);
         assertEquals(1, Utility.motorLimit(1), 0);
         assertEquals(1, Utility.motorLimit(1.5), 0);
+        assertEquals(1, Utility.motorLimit(1.0001), 0);
     }
 
     @Test

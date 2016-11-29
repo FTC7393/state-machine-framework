@@ -13,8 +13,8 @@ import java.util.Map;
 /**
  * This file was made by the electronVolts, FTC team 7393
  *
- * This class stores and retrieves values from a file.
- * It should probably be replaced by an XML or JSON interpreter.
+ * This class stores and retrieves values from a file. It should probably be
+ * replaced by an XML or JSON interpreter.
  */
 public class OptionsFile {
     private Map<String, String> values;
@@ -127,7 +127,43 @@ public class OptionsFile {
      * @return the value associated with the tag
      */
     public String getAsString(String tag) {
+        if (!values.containsKey(tag)) {
+            throw new IllegalArgumentException();
+        }
         return values.get(tag);
+    }
+
+    /**
+     * Get the value as a String
+     *
+     * @param tag the tag to get
+     * @param fallback the value to use if it is null
+     * @return the value associated with the tag
+     */
+    public String getAsString(String tag, String fallback) {
+        String s = values.get(tag);
+        if (s == null) {
+            return fallback;
+        } else {
+            return s;
+        }
+    }
+
+    /**
+     * Get the value as an Integer
+     *
+     * @param tag the tag to get
+     * @return the value associated with the tag
+     */
+    public Integer getAsInteger(String tag) {
+        if (!values.containsKey(tag)) {
+            throw new IllegalArgumentException();
+        }
+        String value = values.get(tag);
+        if (value == null) {
+            return null;
+        }
+        return Integer.valueOf(value);
     }
 
     /**
@@ -149,6 +185,23 @@ public class OptionsFile {
      * Get the value as a Double
      *
      * @param tag the tag to get
+     * @return the value associated with the tag
+     */
+    public Double getAsDouble(String tag) {
+        if (!values.containsKey(tag)) {
+            throw new IllegalArgumentException();
+        }
+        String value = values.get(tag);
+        if (value == null) {
+            return null;
+        }
+        return Double.valueOf(value);
+    }
+
+    /**
+     * Get the value as a Double
+     *
+     * @param tag the tag to get
      * @param fallback the value to use if it is null
      * @return the value associated with the tag
      */
@@ -157,7 +210,32 @@ public class OptionsFile {
             return Double.valueOf(values.get(tag));
         } catch (NumberFormatException e) {
             return fallback;
+        } catch (NullPointerException e) {
+            return fallback;
         }
+    }
+
+    /**
+     * Get the value as a Boolean
+     *
+     * @param tag the tag to get
+     * @return the value associated with the tag
+     */
+    public Boolean getAsBoolean(String tag) {
+        if (!values.containsKey(tag)) {
+            throw new IllegalArgumentException();
+        }
+        String value = values.get(tag);
+        if (value == null) {
+            return null;
+        }
+        if("true".equalsIgnoreCase(value)){
+            return true;
+        }
+        if("false".equalsIgnoreCase(value)){
+            return false;
+        }
+        throw new NumberFormatException();
     }
 
     /**
@@ -185,8 +263,7 @@ public class OptionsFile {
         try {
             FileOutputStream fos = new FileOutputStream(file);
             PrintWriter pw = new PrintWriter(fos);
-            pw.println(values.toString().replaceAll("\\{|\\}", "").replaceAll(
-                    ", ", "\n"));
+            pw.println(values.toString().replaceAll("\\{|\\}", "").replaceAll(", ", "\n"));
             pw.close();
             return true;
         } catch (FileNotFoundException e1) {
