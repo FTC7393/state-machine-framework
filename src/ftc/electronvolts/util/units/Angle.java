@@ -16,6 +16,8 @@ public class Angle {
 
     private static double DEG_PER_RAD = 1 / RAD_PER_DEG;
     private static double ROT_PER_RAD = 1 / RAD_PER_ROT;
+    
+    private static Angle zero = new Angle(0);
 
     // holds the angle's value in radians
     private final double radians;
@@ -95,7 +97,7 @@ public class Angle {
      * @return the created Angle
      */
     public static Angle zero() {
-        return new Angle(0);
+        return zero;
     }
 
     @Override

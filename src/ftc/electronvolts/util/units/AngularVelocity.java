@@ -7,6 +7,8 @@ package ftc.electronvolts.util.units;
  */
 
 public class AngularVelocity {
+    private static final AngularVelocity zero = new AngularVelocity(Angle.zero());
+    
     private final Angle angle;
     private final Time time;
 
@@ -31,7 +33,7 @@ public class AngularVelocity {
     }
 
     public static AngularVelocity zero() {
-        return new AngularVelocity(Angle.zero());
+        return zero;
     }
 
     public Angle getAngle(Time time) {

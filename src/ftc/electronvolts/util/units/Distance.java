@@ -33,6 +33,8 @@ public class Distance {
     private static final double YD_PER_M = 1 / M_PER_YD;
     private static final double MI_PER_M = 1 / M_PER_MI;
     private static final double NAUT_MI_PER_M = 1 / M_PER_NAUT_MI;
+    
+    private static final Distance zero = new Distance(0);
 
     // The distance in meters
     private final double meters;
@@ -112,7 +114,7 @@ public class Distance {
      * @return the created Distance
      */
     public static Distance zero() {
-        return new Distance(0);
+        return zero;
     }
 
     @Override

@@ -7,6 +7,8 @@ package ftc.electronvolts.util.units;
  */
 
 public class Velocity {
+    private static final Velocity zero = new Velocity(Distance.zero());
+    
     private final Distance distance;
     private final Time time;
 
@@ -34,7 +36,7 @@ public class Velocity {
      * @return a Velocity with a value of 0
      */
     public static Velocity zero() {
-        return new Velocity(Distance.zero());
+        return zero;
     }
 
     public Distance getDistance(Time time) {

@@ -32,6 +32,8 @@ public class Time {
     private static final double MONTH_PER_S = 1 / S_PER_MONTH;
     private static final double YEAR_PER_S = 1 / S_PER_YEAR;
 
+    private static final Time zero = new Time(0);
+
     // The time in seconds
     private final double seconds;
 
@@ -110,7 +112,7 @@ public class Time {
      * @return the created Time
      */
     public static Time zero() {
-        return new Time(0);
+        return zero;
     }
 
     @Override
