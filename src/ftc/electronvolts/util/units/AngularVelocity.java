@@ -1,6 +1,5 @@
 package ftc.electronvolts.util.units;
 
-import java.util.Objects;
 
 /**
  * This file was made by the electronVolts, FTC team 7393
@@ -102,21 +101,24 @@ public class AngularVelocity {
         return new AngularVelocity(Angle.fromRadians(angularVelocity.radiansPerSecond() * number));
     }
 
-    /**
-     * custom equals() method to compare values
-     * https://www.sitepoint.com/implement-javas-equals-method-correctly/
-     */
     @Override
-    public boolean equals(Object o) {
-        // self check
-        if (this == o) return true;
-        // null check
-        if (o == null) return false;
-        // type check and cast
-        if (getClass() != o.getClass()) return false;
-        AngularVelocity angularVelocity = (AngularVelocity) o;
-        // field comparison
-        return Objects.equals(radiansPerSecond(), angularVelocity.radiansPerSecond());
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        long temp;
+        temp = Double.doubleToLongBits(radiansPerSecond());
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
+        AngularVelocity other = (AngularVelocity) obj;
+        if (Double.doubleToLongBits(radiansPerSecond()) != Double.doubleToLongBits(other.radiansPerSecond())) return false;
+        return true;
     }
 
     // get angular velocity in various units

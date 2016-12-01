@@ -1,6 +1,5 @@
 package ftc.electronvolts.util.units;
 
-import java.util.Objects;
 
 /**
  * This file was made by the electronVolts, FTC team 7393
@@ -99,24 +98,24 @@ public class Angle {
         return new Angle(0);
     }
 
-    /**
-     * custom equals() method to compare values
-     * https://www.sitepoint.com/implement-javas-equals-method-correctly/
-     */
     @Override
-    public boolean equals(Object o) {
-        // self check
-        if (this == o)
-            return true;
-        // null check
-        if (o == null)
-            return false;
-        // type check and cast
-        if (getClass() != o.getClass())
-            return false;
-        Angle angle = (Angle) o;
-        // field comparison
-        return Objects.equals(radians, angle.radians);
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        long temp;
+        temp = Double.doubleToLongBits(radians);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
+        Angle other = (Angle) obj;
+        if (Double.doubleToLongBits(radians) != Double.doubleToLongBits(other.radians)) return false;
+        return true;
     }
 
     /**

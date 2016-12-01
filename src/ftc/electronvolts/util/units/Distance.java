@@ -1,6 +1,5 @@
 package ftc.electronvolts.util.units;
 
-import java.util.Objects;
 
 /**
  * This file was made by the electronVolts, FTC team 7393
@@ -115,25 +114,25 @@ public class Distance {
     public static Distance zero() {
         return new Distance(0);
     }
-    
-    /**
-     * custom equals() method to compare values
-     * https://www.sitepoint.com/implement-javas-equals-method-correctly/
-     */
+
     @Override
-    public boolean equals(Object o) {
-        // self check
-        if (this == o)
-            return true;
-        // null check
-        if (o == null)
-            return false;
-        // type check and cast
-        if (getClass() != o.getClass())
-            return false;
-        Distance distance = (Distance) o;
-        // field comparison
-        return Objects.equals(meters, distance.meters);
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        long temp;
+        temp = Double.doubleToLongBits(meters);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
+        Distance other = (Distance) obj;
+        if (Double.doubleToLongBits(meters) != Double.doubleToLongBits(other.meters)) return false;
+        return true;
     }
 
     // Create Distance objects from various units

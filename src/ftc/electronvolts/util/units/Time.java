@@ -1,6 +1,5 @@
 package ftc.electronvolts.util.units;
 
-import java.util.Objects;
 
 /**
  * This file was made by the electronVolts, FTC team 7393
@@ -114,24 +113,24 @@ public class Time {
         return new Time(0);
     }
 
-    /**
-     * custom equals() method to compare values
-     * https://www.sitepoint.com/implement-javas-equals-method-correctly/
-     */
     @Override
-    public boolean equals(Object o) {
-        // self check
-        if (this == o)
-            return true;
-        // null check
-        if (o == null)
-            return false;
-        // type check and cast
-        if (getClass() != o.getClass())
-            return false;
-        Time time = (Time) o;
-        // field comparison
-        return Objects.equals(seconds, time.seconds);
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        long temp;
+        temp = Double.doubleToLongBits(seconds);
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
+        Time other = (Time) obj;
+        if (Double.doubleToLongBits(seconds) != Double.doubleToLongBits(other.seconds)) return false;
+        return true;
     }
 
     // create Time objects from various units

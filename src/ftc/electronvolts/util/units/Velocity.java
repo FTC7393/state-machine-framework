@@ -1,6 +1,5 @@
 package ftc.electronvolts.util.units;
 
-import java.util.Objects;
 
 /**
  * This file was made by the electronVolts, FTC team 7393
@@ -105,21 +104,24 @@ public class Velocity {
         return new Velocity(Distance.fromMeters(velocity.metersPerSecond() * number));
     }
 
-    /**
-     * custom equals() method to compare values
-     * https://www.sitepoint.com/implement-javas-equals-method-correctly/
-     */
     @Override
-    public boolean equals(Object o) {
-        // self check
-        if (this == o) return true;
-        // null check
-        if (o == null) return false;
-        // type check and cast
-        if (getClass() != o.getClass()) return false;
-        Velocity velocity = (Velocity) o;
-        // field comparison
-        return Objects.equals(metersPerSecond(), velocity.metersPerSecond());
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        long temp;
+        temp = Double.doubleToLongBits(metersPerSecond());
+        result = prime * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
+        Velocity other = (Velocity) obj;
+        if (Double.doubleToLongBits(metersPerSecond()) != Double.doubleToLongBits(other.metersPerSecond())) return false;
+        return true;
     }
 
     // get velocity in various units
