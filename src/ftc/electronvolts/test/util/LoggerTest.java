@@ -11,34 +11,29 @@ import java.util.Scanner;
 import org.junit.Test;
 
 import ftc.electronvolts.util.InputExtractor;
-import ftc.electronvolts.util.Logger;
+import ftc.electronvolts.util.files.Logger;
+import ftc.electronvolts.util.files.Logger.Column;
 
 public class LoggerTest {
 
     @Test
     public void testLogger() {
-        List<String> inputNames = new ArrayList<>();
-        List<InputExtractor<?>> inputs = new ArrayList<>();
-
-        inputNames.add("state");
-        inputs.add(new InputExtractor<String>() {
-
+        List<Column> columns = new ArrayList<>();
+        columns.add(new Column("state", new InputExtractor<String>() {
             @Override
             public String getValue() {
                 return "SAMPLE_TEXT";
             }
-        });
+        }));
 
-        inputNames.add("sensor");
-        inputs.add(new InputExtractor<Double>() {
-
+        columns.add(new Column("sensor", new InputExtractor<Double>() {
             @Override
             public Double getValue() {
                 return 0.5;
             }
-        });
+        }));
 
-        Logger l = new Logger(".", "log", ".txt", inputNames, inputs);
+        Logger l = new Logger("log", ".txt", columns);
         l.start(new File("."));
         l.act();
         l.act();

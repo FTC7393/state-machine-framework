@@ -1,36 +1,32 @@
 package ftc.electronvolts.test.util;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.IllegalFormatConversionException;
 import java.util.Map;
+import java.util.MissingResourceException;
 
 import org.junit.Test;
 
-import ftc.electronvolts.util.OptionsFile;
-import ftc.electronvolts.util.TeamColor;
+import ftc.electronvolts.util.Vector2D;
+import ftc.electronvolts.util.files.OptionsFile;
+import ftc.electronvolts.util.files.UtilConverters;
 
 public class OptionsFileTest {
 
     @Test
-    public void testOptionsFile() {
-        new OptionsFile();
-    }
-
-    @Test
-    public void testOptionsFileMapOfStringString() {
-        new OptionsFile(new HashMap<String, String>());
-    }
-
-    @Test
-    public void testOptionsFileFile() {
+    public void testOptionsFileConvertersFile() {
         File file = new File("OptionsFile.txt");
         try {
             file.createNewFile();
-            new OptionsFile(file);
+            new OptionsFile(UtilConverters.getInstance(), file);
         } catch (IOException e) {
+            fail();
             e.printStackTrace();
         }
 
@@ -41,150 +37,68 @@ public class OptionsFileTest {
     public void testGetValues() {
         Map<String, String> m = new HashMap<>();
         m.put("A", "1");
-        assertEquals(m, new OptionsFile(m).getValues());
+        assertEquals(m, new OptionsFile(UtilConverters.getInstance(), m).getValues());
     }
 
     @Test
-    public void testAddStringString() {
-        OptionsFile o = new OptionsFile();
-        o.add("A", "text");
-        assertEquals("text", o.getAsString("A"));
+    public void testGetTagFallback1() {
+        OptionsFile o = new OptionsFile(UtilConverters.getInstance());
+        o.set("A", 3.0);
+        assertEquals(3.0, o.get("A", 0.0), 0);
+
+        o.set("A", true);
+        assertEquals(true, o.get("A", false));
+    }
+
+    @Test(expected = MissingResourceException.class)
+    public void testGetTagFallback2() {
+        OptionsFile o = new OptionsFile(UtilConverters.getInstance());
+        o.get("A", new File(""));
     }
 
     @Test
-    public void testAddStringObject() {
-        OptionsFile o = new OptionsFile();
-        o.add("A", TeamColor.RED);
-        assertEquals("RED", o.getAsString("A"));
-    }
+    public void testGetTagClass1() {
+        OptionsFile o = new OptionsFile(UtilConverters.getInstance());
+        o.set("A", 3.0);
+        assertEquals(3.0, o.get("A", Double.class), 0);
 
-    @Test
-    public void testAddStringInt() {
-        OptionsFile o = new OptionsFile();
-        o.add("A", 3);
-        assertEquals(new Integer(3), o.getAsInteger("A", 0));
-    }
-
-    @Test
-    public void testAddStringDouble() {
-        OptionsFile o = new OptionsFile();
-        o.add("A", 5.4);
-        assertEquals(5.4, o.getAsDouble("A", 0.0), 0);
-    }
-
-    @Test
-    public void testAddStringBoolean() {
-        OptionsFile o = new OptionsFile();
-        o.add("A", true);
-        assertEquals(true, o.getAsBoolean("A", false));
-    }
-
-    @Test
-    public void testGetAsString1() {
-        OptionsFile o = new OptionsFile();
-        o.add("A", "text");
-        assertEquals("text", o.getAsString("A"));
-        assertEquals("text", o.getAsString("A", ""));
-        o.add("A", null);
-        assertEquals(null, o.getAsString("A"));
-        assertEquals("", o.getAsString("A", ""));
-
-        assertEquals("", o.getAsString("B", ""));
+        o.set("A", true);
+        assertEquals(true, o.get("A", Boolean.class));
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGetAsString2() {
-        OptionsFile o = new OptionsFile();
-        o.getAsString("A");
-    }
+    public void testGetTagClass2() {
+        OptionsFile o = new OptionsFile(UtilConverters.getInstance());
 
-    @Test
-    public void testGetAsInteger1() {
-        OptionsFile o = new OptionsFile();
-        o.add("A", "1");
-        assertEquals(new Integer(1), o.getAsInteger("A"));
-        assertEquals(new Integer(1), o.getAsInteger("A", 0));
-        o.add("A", null);
-        assertEquals(null, o.getAsInteger("A"));
-        assertEquals(new Integer(0), o.getAsInteger("A", 0));
-        assertEquals(new Integer(0), o.getAsInteger("B", 0));
+        o.get("A", Boolean.class);
     }
-
+    
     @Test(expected = NumberFormatException.class)
-    public void testGetAsInteger2() {
-        OptionsFile o = new OptionsFile();
-        o.add("A", "");
-        o.getAsInteger("A");
+    public void testGetTagClass3() {
+        OptionsFile o = new OptionsFile(UtilConverters.getInstance());
+        o.set("A", 0.2);
+        o.get("A", Integer.class);
     }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testGetAsInteger3() {
-        OptionsFile o = new OptionsFile();
-        o.getAsInteger("A");
-    }
-
-    @Test
-    public void testGetAsDouble1() {
-        OptionsFile o = new OptionsFile();
-        o.add("A", "1");
-        assertEquals(new Double(1), o.getAsDouble("A"));
-        assertEquals(new Double(1), o.getAsDouble("A", 0.0));
-        o.add("A", null);
-        assertEquals(null, o.getAsDouble("A"));
-        assertEquals(new Double(0), o.getAsDouble("A", 0.0));
-        assertEquals(new Double(0), o.getAsDouble("B", 0.0));
-    }
-
-    @Test(expected = NumberFormatException.class)
-    public void testGetAsDouble2() {
-        OptionsFile o = new OptionsFile();
-        o.add("A", "");
-        o.getAsDouble("A");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testGetAsDouble3() {
-        OptionsFile o = new OptionsFile();
-        o.getAsDouble("A");
-    }
-
-    @Test
-    public void testGetAsBoolean1() {
-        OptionsFile o = new OptionsFile();
-        o.add("A", "true");
-        assertEquals(new Boolean(true), o.getAsBoolean("A"));
-        assertEquals(new Boolean(true), o.getAsBoolean("A", false));
-        o.add("A", null);
-        assertEquals(null, o.getAsBoolean("A"));
-        assertEquals(new Boolean(false), o.getAsBoolean("A", false));
-        assertEquals(new Boolean(false), o.getAsBoolean("B", false));
-    }
-
-    @Test(expected = NumberFormatException.class)
-    public void testGetAsBoolean2() {
-        OptionsFile o = new OptionsFile();
-        o.add("A", "");
-        o.getAsBoolean("A");
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testGetAsBoolean3() {
-        OptionsFile o = new OptionsFile();
-        o.getAsBoolean("A");
+    
+    @Test(expected = IllegalFormatConversionException.class)
+    public void testGetTagClass4() {
+        OptionsFile o = new OptionsFile(UtilConverters.getInstance());
+        o.set("A", 0.2);
+        o.get("A", Vector2D.class);
     }
 
     @Test
     public void testWriteToFile() {
         File file = new File("OptionsFile.txt");
 
-        OptionsFile o = new OptionsFile();
-        o.add("A", "text");
+        OptionsFile o = new OptionsFile(UtilConverters.getInstance());
+        o.set("A", "text");
 
         assertTrue(o.writeToFile(file));
 
-        OptionsFile o2 = new OptionsFile(file);
+        OptionsFile o2 = new OptionsFile(UtilConverters.getInstance(), file);
 
-        assertEquals("text", o2.getAsString("A"));
+        assertEquals("text", o2.get("A", ""));
 
         file.delete();
     }
