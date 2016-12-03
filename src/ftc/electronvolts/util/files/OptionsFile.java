@@ -7,9 +7,10 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.IllegalFormatConversionException;
+import java.util.List;
 import java.util.Map;
 import java.util.MissingResourceException;
 
@@ -20,6 +21,8 @@ import java.util.MissingResourceException;
  * replaced by an XML or JSON interpreter.
  */
 public class OptionsFile {
+    private static final String DEFAULT_SEPARATOR = ",";
+
     /**
      * converts objects to and from strings
      */
@@ -92,21 +95,30 @@ public class OptionsFile {
     }
 
     /**
+     * store the values to a file
+     *
+     * @param file the file
+     * @return whether or not it worked
+     */
+    public boolean writeToFile(File file) {
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            PrintWriter pw = new PrintWriter(fos);
+            //convert the values map to a string, remove the curly braces, and replace the commas with newlines
+            pw.println(values.toString().replaceAll("\\{|\\}", "").replaceAll(", ", "\n"));
+            pw.close();
+            return true;
+        } catch (FileNotFoundException e1) {
+            e1.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
      * @return A map of all the values from the file
      */
     public Map<String, String> getValues() {
         return values;
-    }
-
-    /**
-     * set a value in the map
-     *
-     * @param tag the name of the value
-     * @param value the value (any Object)
-     */
-    public void set(String tag, Object value) {
-        //convert the value to a string and add the key-value pair to the values map
-        values.put(tag, value.toString());
     }
 
     /**
@@ -198,6 +210,158 @@ public class OptionsFile {
     }
 
     /**
+     * set a value in the map
+     *
+     * @param tag the name of the value
+     * @param object the Object to put into the map
+     */
+    public <T> void set(String tag, T object) {
+
+        //if the object is null, add a null value to the map
+        if (object == null) {
+            values.put(tag, null);
+            return;
+        }
+
+        //get the class to convert to
+        Class<T> clazz = (Class<T>) object.getClass();
+
+        //get the converter for the specified class
+        Converter<T> converter = converters.getConverter(clazz);
+
+        //throw an error if there is no converter for the class
+        if (converter == null) {
+            throw new MissingResourceException("No converter given.", converters.getClass().getName(), clazz.getName());
+        }
+
+        //convert the value to a string
+        String string = converter.toString(object);
+
+        //if the result is null, throw an exception
+        if (string == null) throw new IllegalFormatConversionException((char) 0, clazz);
+
+        //add the key-value pair to the values map
+        values.put(tag, string);
+    }
+
+    /**
+     * set an array of values in a map
+     * 
+     * @param tag the name of the value
+     * @param objects the array of objects to put in the map
+     */
+    public <T> void setArray(String tag, T[] objects) {
+        setArray(tag, objects, DEFAULT_SEPARATOR);
+    }
+    
+    /**
+     * set an array of values in a map
+     * 
+     * @param tag the name of the value
+     * @param objects the array of objects to put in the map
+     * @param separator the string to join the array elements with
+     */
+    public <T> void setArray(String tag, T[] objects, String separator) {
+        //if the object is null, add a null value to the map
+        if (objects == null) {
+            values.put(tag, null);
+            return;
+        }
+
+        //get the class to convert to
+        Class<T> clazz = (Class<T>) objects.getClass().getComponentType();
+
+        //get the converter for the specified class
+        Converter<T> converter = converters.getConverter(clazz);
+
+        //throw an error if there is no converter for the class
+        if (converter == null) {
+            throw new MissingResourceException("No converter given for \"" + clazz.getName() + "\".", converters.getClass().getName(), clazz.getName());
+        }
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        boolean first = true;
+        for (T object : objects) {
+            if (!first) stringBuilder.append(separator);
+            first = false;
+
+            //convert the value to a string
+            String string = converter.toString(object);
+
+            //if the result is null, throw an exception
+            if (string == null) throw new IllegalFormatConversionException((char) 0, clazz);
+
+            //append it to the string builder
+            stringBuilder.append(string);
+        }
+
+        //build the string
+        String string = stringBuilder.toString();
+
+        //add the key-value pair to the values map
+        values.put(tag, string);
+    }
+
+    /**
+     * 
+     * @param tag the name of the value
+     * @param clazz the class to convert to
+     * @return an array of the specified type
+     * @throws IllegalArgumentException if there is no converter for the given
+     *             type
+     */
+    public <T> T[] getArray(String tag, Class<T> clazz) {
+        return getArray(tag, clazz, DEFAULT_SEPARATOR);
+    }
+
+    /**
+     * 
+     * @param tag the name of the value
+     * @param clazz the class to convert to
+     * @param separator the string to separate the array elements with
+     * @return an array of the specified type
+     * @throws IllegalArgumentException if there is no converter for the given
+     *             type
+     */
+    public <T> T[] getArray(String tag, Class<T> clazz, String separator) {
+        //get the converter for the specified class
+        Converter<T> converter = converters.getConverter(clazz);
+
+        //throw an error if there is no converter for the class
+        if (converter == null) {
+            throw new MissingResourceException("No converter given.", converters.getClass().getName(), clazz.getName());
+        }
+
+        if (!values.containsKey(tag)) {
+            throw new IllegalArgumentException();
+        }
+
+        //get the value from the map
+        String string = values.get(tag);
+
+        //if the input is null, return null
+        if (string == null) return null;
+
+        //separate the string into parts
+        String[] parts = string.split(separator);
+
+        List<T> results = new ArrayList<>();
+        for (String part : parts) {
+
+            //convert the string to the object
+            T result = converter.fromString(part);
+
+            //if the result is null, throw an exception
+            if (result == null) throw new IllegalFormatConversionException((char) 0, clazz);
+
+            results.add(result);
+        }
+
+        return (T[]) results.toArray();
+    }
+
+    /**
      * @param tag the name of the value
      * @param fallback the value to use if none is found
      * @return the value converted to the specified type
@@ -218,7 +382,7 @@ public class OptionsFile {
 
     /**
      * @param tag the name of the value
-     * @param class the class to convert to
+     * @param clazz the class to convert to
      * @return the value converted to the specified type
      * @throws MissingResourceException if there is no converter for the given
      *             type
@@ -252,25 +416,5 @@ public class OptionsFile {
         if (result == null) throw new IllegalFormatConversionException((char) 0, clazz);
 
         return result;
-    }
-
-    /**
-     * store the values to a file
-     *
-     * @param file the file
-     * @return whether or not it worked
-     */
-    public boolean writeToFile(File file) {
-        try {
-            FileOutputStream fos = new FileOutputStream(file);
-            PrintWriter pw = new PrintWriter(fos);
-            //convert the values map to a string, remove the curly braces, and replace the commas with newlines
-            pw.println(values.toString().replaceAll("\\{|\\}", "").replaceAll(", ", "\n"));
-            pw.close();
-            return true;
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
-            return false;
-        }
     }
 }
