@@ -13,6 +13,7 @@ import java.util.IllegalFormatConversionException;
 import java.util.List;
 import java.util.Map;
 import java.util.MissingResourceException;
+import java.util.regex.Pattern;
 
 /**
  * This file was made by the electronVolts, FTC team 7393
@@ -319,7 +320,7 @@ public class OptionsFile {
      * 
      * @param tag the name of the value
      * @param clazz the class to convert to
-     * @param separator the string to separate the array elements with
+     * @param separator the string to separate the array elements with (not a regex)
      * @return an array of the specified type
      * @throws IllegalArgumentException if there is no converter for the given
      *             type
@@ -343,8 +344,8 @@ public class OptionsFile {
         //if the input is null, return null
         if (string == null) return null;
 
-        //separate the string into parts
-        String[] parts = string.split(separator);
+        //separate the string into parts. use the separator as a literal string, not a regex
+        String[] parts = string.split(Pattern.quote(separator));
 
         List<T> results = new ArrayList<>();
         for (String part : parts) {

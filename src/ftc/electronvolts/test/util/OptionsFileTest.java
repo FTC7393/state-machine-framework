@@ -190,13 +190,13 @@ public class OptionsFileTest {
     @Test
     public void testSetArrayGetArray() {
         OptionsFile o = new OptionsFile(UtilConverters.getInstance());
-        String s = ":";
+        String s = "|";
 
-        Integer[] array = new Integer[] { 1, 2, 3, -5 };
-        o.setArray("A", array, s);
-        assertArrayEquals(array, o.getArray("A", Integer.class, s));
-        o.setArray("A", array);
-        assertArrayEquals(array, o.getArray("A", Integer.class));
+        Integer[] array0 = new Integer[] { 1, 2, 3, -5 };
+        o.setArray("A", array0, s);
+        assertArrayEquals(array0, o.getArray("A", Integer.class, s));
+        o.setArray("A", array0);
+        assertArrayEquals(array0, o.getArray("A", Integer.class));
 
         Double[] array1 = new Double[] { 1.0, 2.2, 3.1, -5.6 };
         o.setArray("A", array1, s);
@@ -207,6 +207,12 @@ public class OptionsFileTest {
         Vector3D[] array2 = new Vector3D[] { new Vector3D(-1.2, 2, 3.4), new Vector3D(8.3, -1, -1) };
         o.setArray("A", array2, s);
         assertArrayEquals(array2, o.getArray("A", Vector3D.class, s));
+
+        String[] array3 = new String[] { "erg2345gwevf", "ygB7T867b", "8787tb87tbBT87B", "HGI7FGiutyf78" };
+        o.setArray("A", array3, s);
+        assertArrayEquals(array3, o.getArray("A", String.class, s));
+        o.setArray("A", array3);
+        assertArrayEquals(array3, o.getArray("A", String.class));
     }
 
     @Test
