@@ -6,8 +6,7 @@ package ftc.electronvolts.util;
  * A PID controller to use for controlling motors
  */
 public class PIDController implements ControlLoop {
-    private final double pGain, iGain, dGain;
-    private final double maxOutput;
+    private final double pGain, iGain, dGain, maxOutput;
     private double iTerm = 0;
     private double input = 0, lastInput = 0;
     private long lastTime = -1;
@@ -15,12 +14,26 @@ public class PIDController implements ControlLoop {
     /**
      * create a new PID controller
      *
-     * @param pGain p constant
-     * @param iGain i constant
-     * @param dGain d constant
-     * @param maxOutput the max value of the output and iTerm
+     * @param pGain p constant (cannot be negative)
+     * @param iGain i constant (cannot be negative)
+     * @param dGain d constant (cannot be negative)
+     * @param maxOutput the max value of the output and iTerm (cannot be
+     *            negative)
      */
     public PIDController(double pGain, double iGain, double dGain, double maxOutput) {
+        if (pGain < 0) {
+            throw new IllegalArgumentException("Illegal pGain constant \"" + pGain + "\". PID constants cannot be negative.");
+        }
+        if (iGain < 0) {
+            throw new IllegalArgumentException("Illegal iGain constant \"" + iGain + "\". PID constants cannot be negative.");
+        }
+        if (dGain < 0) {
+            throw new IllegalArgumentException("Illegal dGain constant \"" + dGain + "\". PID constants cannot be negative.");
+        }
+        if (maxOutput < 0) {
+            throw new IllegalArgumentException("Illegal maxOutput constant \"" + maxOutput + "\". PID constants cannot be negative.");
+        }
+
         this.pGain = pGain;
         this.iGain = iGain;
         this.dGain = dGain;
@@ -47,7 +60,7 @@ public class PIDController implements ControlLoop {
                 double error = setPoint - input;
                 iTerm += iGain * error * timeChange;
                 iTerm = Utility.mirrorLimit(iTerm, maxOutput);
-                
+
                 // compute dInput instead of dError to avoid spikes
                 double dInput = (input - lastInput) / timeChange;
 
@@ -63,6 +76,10 @@ public class PIDController implements ControlLoop {
         return output;
     }
 
+    /**
+     * Reset the PIDController to its initial state by resetting the iTerm and
+     * the lastTime
+     */
     @Override
     public void initialize() {
         lastInput = input;

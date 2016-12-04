@@ -21,6 +21,10 @@ public class PIDControllerTest {
     public void testPIDController() {
         new PIDController(0.1, 0, 0, 1);
         new PIDController(0.1, 0.1, 0.1, 1);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testPIDController1() {
         new PIDController(-0.1, -0.1, -0.1, 10);
     }
 
@@ -39,6 +43,8 @@ public class PIDControllerTest {
         assertEquals(0, pid.computeCorrection(0, 0), 0);
         delay(10);
         assertTrue(pid.computeCorrection(0, -1) > 0);
+        delay(10);
+        assertTrue(pid.computeCorrection(0, 1) < 0);
         delay(10);
         assertTrue(pid.computeCorrection(0, 1) < 0);
         delay(10);
