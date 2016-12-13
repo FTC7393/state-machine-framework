@@ -186,6 +186,18 @@ public class OptionsFileTest {
         o.set("A", 0.2);
         o.get("A", File.class);
     }
+    
+    @Test
+    public void testGetTagClassFallback() {
+        OptionsFile o = new OptionsFile(UtilConverters.getInstance());
+        assertEquals(true, o.get("a", Boolean.class, true));
+        assertEquals(false, o.get("a", Boolean.class, false));
+        assertEquals(null, o.get("a", Boolean.class, null));
+        o.set("a", true);
+        assertEquals(true, o.get("a", Boolean.class, null));
+        o.set("a", false);
+        assertEquals(false, o.get("a", Boolean.class, null));
+    }
 
     @Test
     public void testSetArrayGetArray() {

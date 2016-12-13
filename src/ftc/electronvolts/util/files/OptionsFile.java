@@ -260,7 +260,7 @@ public class OptionsFile {
      * 
      * @param tag the name of the value
      * @param objects the array of objects to put in the map
-     * @param separator the string to join the array elements with
+     * @param separator the string to join the array elements with. Cannot be in the output of the conversion for any item of the array
      */
     public <T> void setArray(String tag, T[] objects, String separator) {
         //if the object is null, add a null value to the map
@@ -292,6 +292,9 @@ public class OptionsFile {
 
             //if the result is null, throw an exception
             if (string == null) throw new IllegalFormatConversionException((char) 0, clazz);
+            if (string.contains(separator)) {
+                throw new IllegalArgumentException("Converted input \"" + string + "\" cannot contain separator \"" + separator + "\".");
+            }
 
             //append it to the string builder
             stringBuilder.append(string);
@@ -361,26 +364,7 @@ public class OptionsFile {
 
         return (T[]) results.toArray();
     }
-
-    /**
-     * @param tag the name of the value
-     * @param fallback the value to use if none is found
-     * @return the value converted to the specified type
-     * @throws IllegalArgumentException if there is no converter for the given
-     *             type
-     */
-    public <T> T get(String tag, T fallback) {
-        //get the class to convert to
-        Class<T> clazz = (Class<T>) fallback.getClass();
-
-        //try to convert, otherwise return the fallback
-        try {
-            return get(tag, clazz);
-        } catch (IllegalArgumentException e) {
-            return fallback;
-        }
-    }
-
+    
     /**
      * @param tag the name of the value
      * @param clazz the class to convert to
@@ -392,6 +376,10 @@ public class OptionsFile {
      *             converted to the specified object
      */
     public <T> T get(String tag, Class<T> clazz) {
+        if (clazz == null) {
+            throw new IllegalArgumentException("clazz cannot be null.");
+        }
+        
         //get the converter for the specified class
         Converter<T> converter = converters.getConverter(clazz);
 
@@ -418,4 +406,34 @@ public class OptionsFile {
 
         return result;
     }
+
+    /**
+     * @param tag the name of the value
+     * @param clazz the class to convert to
+     * @param fallback the value to use if the conversion fails
+     * @return the value converted to the specified type
+     */
+    public <T> T get(String tag, Class<T> clazz, T fallback) {
+        //try to convert, otherwise return the fallback
+        try {
+            return get(tag, clazz);
+        } catch (IllegalArgumentException e) {
+            return fallback;
+        }
+    }
+
+    /**
+     * @param tag the name of the value
+     * @param fallback the value to use if none is found
+     * @return the value converted to the specified type
+     * @throws IllegalArgumentException if there is no converter for the given
+     *             type
+     */
+    public <T> T get(String tag, T fallback) {
+        //get the class to convert to
+        Class<T> clazz = (Class<T>) fallback.getClass();
+        
+        return get(tag, clazz, fallback);
+    }
+
 }
