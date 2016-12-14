@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -22,7 +23,8 @@ import java.util.regex.Pattern;
  * replaced by an XML or JSON interpreter.
  */
 public class OptionsFile {
-    private static final String DEFAULT_SEPARATOR = ",";
+    private static final String DEFAULT_ARRAY_SEPARATOR = ",";
+    private static final String DEFAULT_SEPARATOR = "=";
 
     /**
      * converts objects to and from strings
@@ -61,37 +63,40 @@ public class OptionsFile {
     public OptionsFile(Converters converters, File file) {
         this.converters = converters;
         values = new HashMap<>();
+        BufferedReader br = null;
         try {
             //read each line of the file
-            BufferedReader br = new BufferedReader(new FileReader(file));
-            try {
-                String line;
-                while ((line = br.readLine()) != null) {
-                    try {
-                        //split the line at the "="
-                        String[] elements = line.split("=");
-
-                        //extract the key and value from the split line
-                        String key = elements[0].trim();
-                        String value = elements[1].trim();
-
-                        //put the key and value into the map
-                        values.put(key, value);
-                    } catch (IndexOutOfBoundsException e) {
-                        e.printStackTrace();
-                    }
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
+            br = new BufferedReader(new FileReader(file));
+            String separator = br.readLine();
+            if (separator == null) return;
+            String line;
+            while ((line = br.readLine()) != null) {
                 try {
-                    br.close();
-                } catch (IOException e) {
+                    //split the line at the "="
+                    String[] elements = line.split(separator);
+
+                    //extract the key and value from the split line
+                    String key = elements[0].trim();
+                    String value = elements[1].trim();
+
+                    //put the key and value into the map
+                    values.put(key, value);
+                } catch (IndexOutOfBoundsException e) {
                     e.printStackTrace();
                 }
             }
         } catch (FileNotFoundException e1) {
             e1.printStackTrace();
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        } finally {
+            try {
+                if (br != null) {
+                    br.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -103,14 +108,29 @@ public class OptionsFile {
      */
     public boolean writeToFile(File file) {
         try {
-            FileOutputStream fos = new FileOutputStream(file);
-            PrintWriter pw = new PrintWriter(fos);
-            //convert the values map to a string, remove the curly braces, and replace the commas with newlines
-            pw.println(values.toString().replaceAll("\\{|\\}", "").replaceAll(", ", "\n"));
-            pw.close();
+            FileWriter fw = new FileWriter(file);
+
+            String separator = DEFAULT_SEPARATOR;
+            boolean done = false;
+            while (!done) {
+                done = true;
+                for (Map.Entry<String, String> entry : values.entrySet()) {
+                    if (entry.getKey().contains(separator) || entry.getValue().contains(separator)) {
+                        done = false;
+                        separator += DEFAULT_SEPARATOR;
+                        break;
+                    }
+                }
+            }
+
+            fw.write(separator + "\n");
+            for (Map.Entry<String, String> entry : values.entrySet()) {
+                fw.write(entry.getKey() + separator + entry.getValue() + "\n");
+            }
+            fw.close();
             return true;
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
             return false;
         }
     }
@@ -252,15 +272,16 @@ public class OptionsFile {
      * @param objects the array of objects to put in the map
      */
     public <T> void setArray(String tag, T[] objects) {
-        setArray(tag, objects, DEFAULT_SEPARATOR);
+        setArray(tag, objects, DEFAULT_ARRAY_SEPARATOR);
     }
-    
+
     /**
      * set an array of values in a map
      * 
      * @param tag the name of the value
      * @param objects the array of objects to put in the map
-     * @param separator the string to join the array elements with. Cannot be in the output of the conversion for any item of the array
+     * @param separator the string to join the array elements with. Cannot be in
+     *            the output of the conversion for any item of the array
      */
     public <T> void setArray(String tag, T[] objects, String separator) {
         //if the object is null, add a null value to the map
@@ -316,14 +337,15 @@ public class OptionsFile {
      *             type
      */
     public <T> T[] getArray(String tag, Class<T> clazz) {
-        return getArray(tag, clazz, DEFAULT_SEPARATOR);
+        return getArray(tag, clazz, DEFAULT_ARRAY_SEPARATOR);
     }
 
     /**
      * 
      * @param tag the name of the value
      * @param clazz the class to convert to
-     * @param separator the string to separate the array elements with (not a regex)
+     * @param separator the string to separate the array elements with (not a
+     *            regex)
      * @return an array of the specified type
      * @throws IllegalArgumentException if there is no converter for the given
      *             type
@@ -364,7 +386,7 @@ public class OptionsFile {
 
         return (T[]) results.toArray();
     }
-    
+
     /**
      * @param tag the name of the value
      * @param clazz the class to convert to
@@ -379,7 +401,7 @@ public class OptionsFile {
         if (clazz == null) {
             throw new IllegalArgumentException("clazz cannot be null.");
         }
-        
+
         //get the converter for the specified class
         Converter<T> converter = converters.getConverter(clazz);
 
@@ -432,7 +454,7 @@ public class OptionsFile {
     public <T> T get(String tag, T fallback) {
         //get the class to convert to
         Class<T> clazz = (Class<T>) fallback.getClass();
-        
+
         return get(tag, clazz, fallback);
     }
 

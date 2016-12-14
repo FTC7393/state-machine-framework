@@ -9,9 +9,11 @@ import org.junit.Test;
 
 import ftc.electronvolts.statemachine.EndCondition;
 import ftc.electronvolts.statemachine.EndConditions;
+import ftc.electronvolts.util.BasicResultReceiver;
 import ftc.electronvolts.util.InputExtractor;
 import ftc.electronvolts.util.InputExtractors;
 import ftc.electronvolts.util.MatchTimer;
+import ftc.electronvolts.util.ResultReceiver;
 import ftc.electronvolts.util.units.Time;
 
 public class EndConditionsTest {
@@ -468,6 +470,17 @@ public class EndConditionsTest {
         assertFalse(e.isDone());
         e = EndConditions.valueCloseTo(ie, -2.5, 0.1, true);
         e.init();
+        assertFalse(e.isDone());
+    }
+    
+    @Test
+    public void testReceiverReady(){
+        ResultReceiver<Integer> r = new BasicResultReceiver<Integer>();
+        EndCondition e = EndConditions.receiverReady(r);
+        assertFalse(e.isDone());
+        r.setValue(3);
+        assertTrue(e.isDone());
+        r.clear();
         assertFalse(e.isDone());
     }
 

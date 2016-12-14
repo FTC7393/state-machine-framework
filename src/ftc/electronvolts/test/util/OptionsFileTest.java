@@ -225,6 +225,18 @@ public class OptionsFileTest {
         assertArrayEquals(array3, o.getArray("A", String.class, s));
         o.setArray("A", array3);
         assertArrayEquals(array3, o.getArray("A", String.class));
+        
+        String[] array4 = new String[] { "erg234,5=gwevf", "ygB7T-867b", "87====87tb87tbBT87B", "HGI7FGiu,,,,tyf78" };
+        o.setArray("A", array4, s);
+        assertArrayEquals(array4, o.getArray("A", String.class, s));
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testSetArrayGetArray1() {
+        OptionsFile o = new OptionsFile(UtilConverters.getInstance());
+        
+        String[] array = new String[] { "erg234,5=gwevf", "ygB7T-867b", "87====87tb87tbBT87B", "HGI7FGiu,,,,tyf78" };
+        o.setArray("A", array);
     }
 
     @Test
