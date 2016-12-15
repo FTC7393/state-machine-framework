@@ -46,11 +46,11 @@ public class LoggerTest {
             assertEquals("state", s.next());
             assertEquals("sensor", s.next());
 
-            assertEquals(1, Integer.parseInt(s.next()), 3);
+            assertEquals(1, Double.parseDouble(s.next()), 3);
             assertEquals("SAMPLE_TEXT", s.next());
             assertEquals(0.5, Double.parseDouble(s.next()), 0);
 
-            assertEquals(3, Integer.parseInt(s.next()), 3);
+            assertEquals(3, Double.parseDouble(s.next()), 3);
             assertEquals("SAMPLE_TEXT", s.next());
             assertEquals(0.5, Double.parseDouble(s.next()), 0);
         } catch (FileNotFoundException e) {

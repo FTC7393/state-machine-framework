@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import ftc.electronvolts.util.InputExtractor;
@@ -23,6 +25,11 @@ public class Logger {
             this.header = header;
             this.input = input;
         }
+    }
+
+    private static final DecimalFormat df = new DecimalFormat("#.#####");
+    static {
+        df.setRoundingMode(RoundingMode.HALF_UP);
     }
 
     private long logStart;
@@ -52,9 +59,9 @@ public class Logger {
      * write the column titles to the file
      */
     public boolean start(File dir) {
-        logStart = System.currentTimeMillis();
+        logStart = System.nanoTime();
 
-        fullFileName = fileName + logStart + fileExtension;
+        fullFileName = fileName + System.currentTimeMillis() + fileExtension;
         File file = new File(dir, fullFileName);
         try {
             fileStream = new PrintStream(new FileOutputStream(file));
@@ -71,8 +78,8 @@ public class Logger {
      */
     public void act() {
         if (fileStream != null) {
-            long now = System.currentTimeMillis();
-            StringBuilder line = new StringBuilder(String.valueOf(now - logStart));
+            long now = System.nanoTime();
+            StringBuilder line = new StringBuilder(df.format(1e-6 * (now - logStart)));
             for (Column column : columns) {
                 line.append("\t").append(column.input.getValue());
             }
