@@ -1,6 +1,6 @@
 package ftc.electronvolts.statemachine;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 
 import ftc.electronvolts.util.ResultReceiver;
@@ -99,7 +99,7 @@ public class States {
      * @param transitions the transitions to be considered
      * @return the created State
      */
-    public static State empty(StateName stateName, List<Transition> transitions) {
+    public static State empty(StateName stateName, Collection<Transition> transitions) {
         return new AbstractState(stateName, transitions) {
             @Override
             public void init() {

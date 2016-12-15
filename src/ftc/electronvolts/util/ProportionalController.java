@@ -1,5 +1,10 @@
 package ftc.electronvolts.util;
 
+/**
+ * This file was made by the electronVolts, FTC team 7393
+ *
+ * A proportional controller to use for controlling motors and other outputs
+ */
 public class ProportionalController implements ControlLoop {
     private final double gain, maxOutput, deadzone, minOutput;
 

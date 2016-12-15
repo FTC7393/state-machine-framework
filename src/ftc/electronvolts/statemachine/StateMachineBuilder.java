@@ -1,6 +1,7 @@
 package ftc.electronvolts.statemachine;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -176,6 +177,10 @@ public class StateMachineBuilder {
      */
     public void addBasicEmpty(StateName stateName, StateName nextStateName) {
         add(States.basicEmpty(stateName, nextStateName));
+    }
+    
+    public void addEmpty(StateName stateName, Collection<Transition> transitions) {
+        add(States.empty(stateName, transitions));
     }
 
     /**

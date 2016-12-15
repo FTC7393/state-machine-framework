@@ -3,11 +3,12 @@ package ftc.electronvolts.util;
 /**
  * This file was made by the electronVolts, FTC team 7393
  *
- * A PID controller to use for controlling motors
+ * A PID controller to use for controlling motors and other outputs
  */
 public class PIDController implements ControlLoop {
     private final double pGain, iGain, dGain, maxOutput;
-    private double iTerm = 0;
+    private final boolean hasIOrDComponent;
+    private double iTerm = 0, output = 0;
     private double input = 0, lastInput = 0;
     private long lastTime = -1;
 
@@ -38,6 +39,8 @@ public class PIDController implements ControlLoop {
         this.iGain = iGain;
         this.dGain = dGain;
         this.maxOutput = maxOutput;
+
+        hasIOrDComponent = (iGain != 0 || dGain != 0);
     }
 
     /**
@@ -48,31 +51,33 @@ public class PIDController implements ControlLoop {
     @Override
     public double computeCorrection(double setPoint, double input) {
         long now = System.currentTimeMillis();
-        double output = 0;
         if (lastTime < 0) {
             lastTime = now;
-        } else {
-            double timeChange = now - lastTime;
-            if (timeChange > 0) {
-                this.input = input;
-
-                // Compute all the working error variables
-                double error = setPoint - input;
-                iTerm += iGain * error * timeChange;
-                iTerm = Utility.mirrorLimit(iTerm, maxOutput);
-
-                // compute dInput instead of dError to avoid spikes
-                double dInput = (input - lastInput) / timeChange;
-
-                // Compute PID Output
-                output = pGain * error + iTerm - dGain * dInput;
-                output = Utility.mirrorLimit(output, maxOutput);
-
-                // Remember some variables for next time
-                lastInput = input;
-                lastTime = now;
-            }
         }
+
+        //time passed since last cycle
+        double dTime = now - lastTime;
+        if (dTime > 0 || !hasIOrDComponent) {
+            this.input = input;
+
+            // Compute all the working error variables
+            double error = setPoint - input;
+            iTerm += iGain * error * dTime;
+            iTerm = Utility.mirrorLimit(iTerm, maxOutput);
+
+            // compute dInput instead of dError to avoid spikes
+            double dInput = 0;
+            if (dTime > 0) dInput = (input - lastInput) / dTime;
+
+            // Compute PID Output
+            output = pGain * error + iTerm - dGain * dInput;
+            output = Utility.mirrorLimit(output, maxOutput);
+
+            // Remember some variables for next time
+            lastInput = input;
+            lastTime = now;
+        }
+
         return output;
     }
 
@@ -85,5 +90,8 @@ public class PIDController implements ControlLoop {
         lastInput = input;
         iTerm = 0;
         lastTime = -1;
+        if (hasIOrDComponent) {
+            output = 0;
+        }
     }
 }

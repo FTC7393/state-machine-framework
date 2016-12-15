@@ -1,6 +1,6 @@
 package ftc.electronvolts.statemachine;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * This file was made by the electronVolts, FTC team 7393
@@ -9,7 +9,7 @@ import java.util.List;
  */
 public abstract class AbstractState implements State {
     // List of possible transitions to other states
-    private final List<Transition> transitions;
+    private final Collection<Transition> transitions;
 
     private boolean isRunning = false;
     private final StateName stateName;
@@ -22,7 +22,7 @@ public abstract class AbstractState implements State {
      * @param transitions the list of transitions
      * @see Transition
      */
-    public AbstractState(StateName stateName, List<Transition> transitions) {
+    public AbstractState(StateName stateName, Collection<Transition> transitions) {
         this.stateName = stateName;
         this.transitions = transitions;
     }

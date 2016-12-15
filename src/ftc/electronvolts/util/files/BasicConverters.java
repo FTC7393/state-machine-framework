@@ -2,9 +2,16 @@ package ftc.electronvolts.util.files;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
+/**
+ * This file was made by the electronVolts, FTC team 7393
+ * 
+ * A basic implementation of Converters that includes Converter objects
+ * for all the class versions of the primitive types, and Strings
+ * 
+ * @see Converters
+ * @see Converter
+ */
 public class BasicConverters implements Converters {
     protected static final Map<Class<? extends Object>, Converter<?>> converterMap = new HashMap<>();
     static {
@@ -119,19 +126,19 @@ public class BasicConverters implements Converters {
         });
 
     }
-    
+
     private static Converters INSTANCE = new BasicConverters();
-    
-    protected BasicConverters(){}
-    
+
+    protected BasicConverters() {
+    }
+
     public static Converters getInstance() {
         return INSTANCE;
     }
-    
+
     @Override
     public <T> Converter<T> getConverter(Class<T> clazz) {
         return (Converter<T>) converterMap.get(clazz);
     }
-
 
 }

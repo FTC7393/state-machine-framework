@@ -1,6 +1,6 @@
 package ftc.electronvolts.util;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * This file was made by the electronVolts, FTC team 7393
@@ -9,14 +9,14 @@ import java.util.List;
  */
 public class DeadZones {
     /**
-     * @param deadZoneList the list of DeadZones to be combined
+     * @param deadZones the list of DeadZones to be combined
      * @return the composite DeadZone
      */
-    public static DeadZone any(final List<DeadZone> deadZoneList) {
+    public static DeadZone any(final Collection<DeadZone> deadZones) {
         return new DeadZone() {
             @Override
             public boolean isInside(double value) {
-                for (DeadZone deadZone : deadZoneList) {
+                for (DeadZone deadZone : deadZones) {
                     if (deadZone.isInside(value)) {
                         return true;
                     }
@@ -27,14 +27,14 @@ public class DeadZones {
     }
 
     /**
-     * @param deadZoneList the list of DeadZones to be combined
+     * @param deadZones the list of DeadZones to be combined
      * @return the composite DeadZone
      */
-    public static DeadZone all(final List<DeadZone> deadZoneList) {
+    public static DeadZone all(final Collection<DeadZone> deadZones) {
         return new DeadZone() {
             @Override
             public boolean isInside(double value) {
-                for (DeadZone deadZone : deadZoneList) {
+                for (DeadZone deadZone : deadZones) {
                     if (!deadZone.isInside(value)) {
                         return false;
                     }

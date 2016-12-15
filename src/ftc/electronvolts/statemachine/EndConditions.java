@@ -1,6 +1,6 @@
 package ftc.electronvolts.statemachine;
 
-import java.util.List;
+import java.util.Collection;
 
 import ftc.electronvolts.util.InputExtractor;
 import ftc.electronvolts.util.MatchTimer;
@@ -157,21 +157,21 @@ public class EndConditions {
      * An end condition that finishes if all of the specified end conditions are
      * true
      *
-     * @param endConditionList a list containing all of the end conditions
+     * @param endConditions a list containing all of the end conditions
      * @return the created EndCondition
      */
-    public static EndCondition all(final List<EndCondition> endConditionList) {
+    public static EndCondition all(final Collection<EndCondition> endConditions) {
         return new EndCondition() {
             @Override
             public void init() {
-                for (EndCondition e : endConditionList) {
+                for (EndCondition e : endConditions) {
                     e.init();
                 }
             }
 
             @Override
             public boolean isDone() {
-                for (EndCondition e : endConditionList) {
+                for (EndCondition e : endConditions) {
                     if (!e.isDone()) {
                         return false;
                     }
@@ -185,21 +185,21 @@ public class EndConditions {
      * An end condition that finishes if any of the specified end conditions are
      * true
      *
-     * @param endConditionList a list containing all of the end conditions
+     * @param endConditions a list containing all of the end conditions
      * @return the created EndCondition
      */
-    public static EndCondition any(final List<EndCondition> endConditionList) {
+    public static EndCondition any(final Collection<EndCondition> endConditions) {
         return new EndCondition() {
             @Override
             public void init() {
-                for (EndCondition e : endConditionList) {
+                for (EndCondition e : endConditions) {
                     e.init();
                 }
             }
 
             @Override
             public boolean isDone() {
-                for (EndCondition e : endConditionList) {
+                for (EndCondition e : endConditions) {
                     if (e.isDone()) {
                         return true;
                     }

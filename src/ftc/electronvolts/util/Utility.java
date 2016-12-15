@@ -1,6 +1,6 @@
 package ftc.electronvolts.util;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * This file was made by the electronVolts, FTC team 7393 Date Created: 2/17/16
@@ -68,7 +68,7 @@ public class Utility {
      * @param separator the String to put between the values
      * @return a String of the joined items
      */
-    public static <T> String join(List<T> list, String separator) {
+    public static <T> String join(Collection<T> list, String separator) {
         StringBuilder sb = new StringBuilder();
         boolean first = true;
         for (T item : list) {
@@ -83,16 +83,16 @@ public class Utility {
     }
 
     /**
-     * Join a list of booleans with a separator
+     * Join an array of booleans with a separator
      * 
-     * @param list the list of values
+     * @param array the array of values
      * @param separator the String to put between the values
      * @return a String of the joined items
      */
-    public static String join(boolean[] list, String separator) {
+    public static String join(boolean[] array, String separator) {
         StringBuilder sb = new StringBuilder();
         boolean first = true;
-        for (boolean item : list) {
+        for (boolean item : array) {
             if (first) {
                 first = false;
             } else {
@@ -104,16 +104,16 @@ public class Utility {
     }
 
     /**
-     * Join a list of bytes with a separator
+     * Join an array of bytes with a separator
      * 
-     * @param list the list of values
+     * @param array the array of values
      * @param separator the String to put between the values
      * @return a String of the joined items
      */
-    public static String join(byte[] list, String separator) {
+    public static String join(byte[] array, String separator) {
         StringBuilder sb = new StringBuilder();
         boolean first = true;
-        for (byte item : list) {
+        for (byte item : array) {
             if (first) {
                 first = false;
             } else {
@@ -125,16 +125,16 @@ public class Utility {
     }
 
     /**
-     * Join a list of chars with a separator
+     * Join an array of chars with a separator
      * 
-     * @param list the list of values
+     * @param array the array of values
      * @param separator the String to put between the values
      * @return a String of the joined items
      */
-    public static String join(char[] list, String separator) {
+    public static String join(char[] array, String separator) {
         StringBuilder sb = new StringBuilder();
         boolean first = true;
-        for (char item : list) {
+        for (char item : array) {
             if (first) {
                 first = false;
             } else {
@@ -146,16 +146,16 @@ public class Utility {
     }
 
     /**
-     * Join a list of shorts with a separator
+     * Join an array of shorts with a separator
      * 
-     * @param list the list of values
+     * @param array the array of values
      * @param separator the String to put between the values
      * @return a String of the joined items
      */
-    public static String join(short[] list, String separator) {
+    public static String join(short[] array, String separator) {
         StringBuilder sb = new StringBuilder();
         boolean first = true;
-        for (short item : list) {
+        for (short item : array) {
             if (first) {
                 first = false;
             } else {
@@ -167,16 +167,16 @@ public class Utility {
     }
 
     /**
-     * Join a list of ints with a separator
+     * Join an array of ints with a separator
      * 
-     * @param list the list of values
+     * @param array the array of values
      * @param separator the String to put between the values
      * @return a String of the joined items
      */
-    public static String join(int[] list, String separator) {
+    public static String join(int[] array, String separator) {
         StringBuilder sb = new StringBuilder();
         boolean first = true;
-        for (int item : list) {
+        for (int item : array) {
             if (first) {
                 first = false;
             } else {
@@ -188,16 +188,16 @@ public class Utility {
     }
 
     /**
-     * Join a list of longs with a separator
+     * Join an array of longs with a separator
      * 
-     * @param list the list of values
+     * @param array the array of values
      * @param separator the String to put between the values
      * @return a String of the joined items
      */
-    public static String join(long[] list, String separator) {
+    public static String join(long[] array, String separator) {
         StringBuilder sb = new StringBuilder();
         boolean first = true;
-        for (long item : list) {
+        for (long item : array) {
             if (first) {
                 first = false;
             } else {
@@ -209,16 +209,16 @@ public class Utility {
     }
 
     /**
-     * Join a list of floats with a separator
+     * Join an array of floats with a separator
      * 
-     * @param list the list of values
+     * @param array the array of values
      * @param separator the String to put between the values
      * @return a String of the joined items
      */
-    public static String join(float[] list, String separator) {
+    public static String join(float[] array, String separator) {
         StringBuilder sb = new StringBuilder();
         boolean first = true;
-        for (float item : list) {
+        for (float item : array) {
             if (first) {
                 first = false;
             } else {
@@ -230,16 +230,16 @@ public class Utility {
     }
 
     /**
-     * Join a list of doubles with a separator
+     * Join an array of doubles with a separator
      * 
-     * @param list the list of values
+     * @param array the array of values
      * @param separator the String to put between the values
      * @return a String of the joined items
      */
-    public static String join(double[] list, String separator) {
+    public static String join(double[] array, String separator) {
         StringBuilder sb = new StringBuilder();
         boolean first = true;
-        for (double item : list) {
+        for (double item : array) {
             if (first) {
                 first = false;
             } else {

@@ -3,7 +3,7 @@ package ftc.electronvolts.util;
 /**
  * This file was made by the electronVolts, FTC team 7393
  *
- * Used to trasmit information between threads
+ * Used to transmit information between threads
  */
 public interface ResultReceiver<T> {
     /**
