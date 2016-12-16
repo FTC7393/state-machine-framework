@@ -1,6 +1,6 @@
 package ftc.electronvolts.statemachine;
 
-import java.util.Collection;
+import java.util.Map;
 
 /**
  * This file was made by the electronVolts, FTC team 7393
@@ -8,34 +8,22 @@ import java.util.Collection;
  * AbstractState is a simple state that handles transitions.
  */
 public abstract class AbstractState implements State {
-    // List of possible transitions to other states
-    private final Collection<Transition> transitions;
+    // Map of possible transitions to other states
+    private final Map<StateName, EndCondition> transitions;
 
     private boolean isRunning = false;
-    private final StateName stateName;
 
     /**
-     * An abstract state must contain a list of transitions, containing end
-     * conditions and their respective states.
+     * An abstract state must contain a map of transitions, containing end
+     * conditions and their respective next state names.
      *
-     * @param stateName the name of this state
-     * @param transitions the list of transitions
+     * @param transitions the map of EndCondition to NextState
      * @see Transition
      */
-    public AbstractState(StateName stateName, Collection<Transition> transitions) {
-        this.stateName = stateName;
+    public AbstractState(Map<StateName, EndCondition> transitions) {
         this.transitions = transitions;
     }
 
-    /**
-     * Implementation of the getName() method in the State interface
-     *
-     * @return the state's name for use in the builder
-     */
-    @Override
-    public StateName getName() {
-        return stateName;
-    }
 
     /**
      * Implementation of the act() method in the State interface
@@ -52,19 +40,22 @@ public abstract class AbstractState implements State {
         if (!isRunning) {
             init();
             isRunning = true;
-            for (Transition t : transitions) {
-                t.getEndCondition().init();
+            for(Map.Entry<StateName, EndCondition> entry : transitions.entrySet()) {
+                EndCondition endCondition = entry.getValue();
+                endCondition.init();
             }
         }
-        for (Transition t : transitions) {
-            if (t.getEndCondition().isDone()) {
+        for(Map.Entry<StateName, EndCondition> entry : transitions.entrySet()) {
+            StateName stateName = entry.getKey();
+            EndCondition endCondition = entry.getValue();
+            if (endCondition.isDone()) {
                 dispose();
                 isRunning = false;
-                return t.getNextStateName();
+                return stateName;
             }
         }
         run();
-        return stateName;
+        return null;
     }
 
     /**

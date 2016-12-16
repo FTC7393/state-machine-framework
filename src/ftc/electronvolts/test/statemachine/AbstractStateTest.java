@@ -2,15 +2,12 @@ package ftc.electronvolts.test.statemachine;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Test;
 
 import ftc.electronvolts.statemachine.AbstractState;
 import ftc.electronvolts.statemachine.EndCondition;
+import ftc.electronvolts.statemachine.StateMap;
 import ftc.electronvolts.statemachine.StateName;
-import ftc.electronvolts.statemachine.Transition;
 
 public class AbstractStateTest {
 
@@ -41,11 +38,9 @@ public class AbstractStateTest {
         final Vars vars = new Vars();
         StateName s;
 
-        List<Transition> transitions = new ArrayList<>();
         MyEndCondition myEndCondition = new MyEndCondition();
-        transitions.add(new Transition(myEndCondition, S.STATE2));
 
-        AbstractState abstractState = new AbstractState(S.STATE1, transitions) {
+        AbstractState abstractState = new AbstractState(StateMap.of(S.STATE2, myEndCondition)) {
 
             @Override
             public void init() {
@@ -64,17 +59,17 @@ public class AbstractStateTest {
         };
 
         s = abstractState.act();
-        assertEquals(S.STATE1, s);
+        assertEquals(null, s);
         assertEquals("init run ", vars.log);
         vars.log = "";
 
         s = abstractState.act();
-        assertEquals(S.STATE1, s);
+        assertEquals(null, s);
         assertEquals("run ", vars.log);
         vars.log = "";
 
         s = abstractState.act();
-        assertEquals(S.STATE1, s);
+        assertEquals(null, s);
         assertEquals("run ", vars.log);
         vars.log = "";
 
@@ -84,25 +79,5 @@ public class AbstractStateTest {
         assertEquals(S.STATE2, s);
         assertEquals("dispose ", vars.log);
         vars.log = "";
-    }
-
-    @Test
-    public void testGetName() {
-        List<Transition> transitions = new ArrayList<>();
-        AbstractState abstractState = new AbstractState(S.STATE1, transitions) {
-
-            @Override
-            public void init() {
-            }
-
-            @Override
-            public void run() {
-            }
-
-            @Override
-            public void dispose() {
-            }
-        };
-        assertEquals(S.STATE1, abstractState.getName());
     }
 }

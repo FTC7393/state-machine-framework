@@ -1,6 +1,5 @@
 package ftc.electronvolts.statemachine;
 
-import java.util.Collection;
 import java.util.Map;
 
 import ftc.electronvolts.util.ResultReceiver;
@@ -22,18 +21,17 @@ public class States {
      * state of another state machine so your state can act while your state
      * machine acts, dawg."
      * 
-     * @param stateName the name of the state that contains the sub-state machine
      * @param subStateToState map that links the sub states to the states in the main state machine
      * @param stateMachineBuilder the builder to add the sub-states to
      * @return the created State
      */
-    public static State subStates(StateName stateName, final Map<StateName, StateName> subStateToState, final StateMachineBuilder stateMachineBuilder) {
+    public static State subStates(final Map<StateName, StateName> subStateToState, final StateMachineBuilder stateMachineBuilder) {
         for (Map.Entry<StateName, StateName> entry : subStateToState.entrySet()) {
             StateName subState = entry.getKey();
             stateMachineBuilder.addStop(subState);
         }
         final StateMachine stateMachine = stateMachineBuilder.build();
-        return new BasicAbstractState(stateName) {
+        return new BasicAbstractState() {
             private StateName nextStateName;
 
             @Override
@@ -68,11 +66,10 @@ public class States {
      * 
      * A state that never returns
      *
-     * @param stateName the name of the state
      * @return the created state
      */
-    public static State stop(StateName stateName) {
-        return new BasicAbstractState(stateName) {
+    public static State stop() {
+        return new BasicAbstractState() {
             @Override
             public void init() {
             }
@@ -95,12 +92,11 @@ public class States {
      * 
      * An empty state.
      *
-     * @param stateName the name of the state
      * @param transitions the transitions to be considered
      * @return the created State
      */
-    public static State empty(StateName stateName, Collection<Transition> transitions) {
-        return new AbstractState(stateName, transitions) {
+    public static State empty(Map<StateName, EndCondition> transitions) {
+        return new AbstractState(transitions) {
             @Override
             public void init() {
             }
@@ -124,12 +120,11 @@ public class States {
      * 
      * An empty state.
      *
-     * @param stateName the name of the state
      * @param nextStateName the next state to be run
      * @return the created State
      */
-    public static State basicEmpty(StateName stateName, final StateName nextStateName) {
-        return new BasicAbstractState(stateName) {
+    public static State empty(final StateName nextStateName) {
+        return new BasicAbstractState() {
             @Override
             public void init() {
             }
@@ -157,13 +152,12 @@ public class States {
      * A state used to run a thread. Useful for off-loading computer intensive
      * tasks such as image processing.
      *
-     * @param stateName the name of the state
      * @param nextStateName the next state to be run immediately
      * @param thread the thread to be run at the start of the state
      * @return the created State
      */
-    public static State runThread(StateName stateName, final StateName nextStateName, final Thread thread) {
-        return new BasicAbstractState(stateName) {
+    public static State runThread(final StateName nextStateName, final Thread thread) {
+        return new BasicAbstractState() {
             @Override
             public void init() {
                 thread.start();
@@ -190,14 +184,13 @@ public class States {
      * can be used for doing different things depending on which side of the
      * field you are on
      *
-     * @param stateName the name of the state
      * @param trueStateName the state to go to if the condition is true
      * @param falseStateName the state to go to if the condition is false
      * @param condition the boolean to decide which branch to go to
      * @return the created State
      */
-    public static State branch(StateName stateName, final StateName trueStateName, final StateName falseStateName, final boolean condition) {
-        return new BasicAbstractState(stateName) {
+    public static State branch(final StateName trueStateName, final StateName falseStateName, final boolean condition) {
+        return new BasicAbstractState() {
             @Override
             public void init() {
             }
@@ -227,15 +220,14 @@ public class States {
      * can be used for doing different things depending on which side of the
      * field you are on
      *
-     * @param stateName the name of the state
      * @param trueStateName the state to go to if the condition is true
      * @param falseStateName the state to go to if the condition is false
      * @param nullStateName the state to go to if the condition is null
      * @param condition the boolean to decide which branch to go to
      * @return the created State
      */
-    public static State branch(StateName stateName, final StateName trueStateName, final StateName falseStateName, final StateName nullStateName, final Boolean condition) {
-        return new BasicAbstractState(stateName) {
+    public static State branch(final StateName trueStateName, final StateName falseStateName, final StateName nullStateName, final Boolean condition) {
+        return new BasicAbstractState() {
             @Override
             public void init() {
             }
@@ -267,15 +259,14 @@ public class States {
      * using a result
      * acquired while it is running, and to communicate between threads
      *
-     * @param stateName the name of the state
      * @param trueStateName the state to go to if the receiver returns true
      * @param falseStateName the state to go to if the receiver returns false
      * @param nullStateName the state to go to if the receiver returns null
      * @param receiver the receiver that decides which branch to go to
      * @return the created State
      */
-    public static State branch(StateName stateName, final StateName trueStateName, final StateName falseStateName, final StateName nullStateName, final ResultReceiver<Boolean> receiver) {
-        return new BasicAbstractState(stateName) {
+    public static State branch(final StateName trueStateName, final StateName falseStateName, final StateName nullStateName, final ResultReceiver<Boolean> receiver) {
+        return new BasicAbstractState() {
             @Override
             public void init() {
             }
@@ -307,14 +298,13 @@ public class States {
      * Moves to continueStateName for the first n times it is called, then moves
      * to doneStateName after that
      * 
-     * @param stateName the name of the state
      * @param continueStateName will be transitioned to first
      * @param doneStateName will be transitioned to after
      * @param n the number of times to return continueStateName
      * @return the created State
      */
-    public static State count(StateName stateName, final StateName continueStateName, final StateName doneStateName, final int n) {
-        return new BasicAbstractState(stateName) {
+    public static State count(final StateName continueStateName, final StateName doneStateName, final int n) {
+        return new BasicAbstractState() {
             int i = 0;
 
             @Override

@@ -18,8 +18,8 @@ public class StateMachineBuilderTest {
     @Test
     public void testStateMachineBuilder() {
         StateMachineBuilder b = new StateMachineBuilder(S.STATE1);
-        b.addBasicEmpty(S.STATE1, S.STATE2);
-        b.add(States.basicEmpty(S.STATE2, S.STATE3));
+        b.addEmpty(S.STATE1, S.STATE2);
+        b.add(S.STATE2, States.empty(S.STATE3));
         b.addStop(S.STATE3);
 
         StateMachine stateMachine = b.build();
@@ -35,63 +35,11 @@ public class StateMachineBuilderTest {
         assertEquals(S.STATE3, stateMachine.getCurrentStateName());
     }
 
-    // @Test
-    // public void testTsEndConditionStateName() {
-    // fail("Not yet implemented");
-    // }
-    //
-    // @Test
-    // public void testTsLongStateName() {
-    // fail("Not yet implemented");
-    // }
-    //
-    // @Test
-    // public void testTimed() {
-    // fail("Not yet implemented");
-    // }
-    //
-    // @Test
-    // public void testAddWaitStateNameLongStateName() {
-    // fail("Not yet implemented");
-    // }
-    //
-    // @Test
-    // public void testAddWaitStateNameMatchTimerLongStateName() {
-    // fail("Not yet implemented");
-    // }
-    //
-    // @Test
-    // public void testAddBranchStateNameBooleanStateNameStateName() {
-    // fail("Not yet implemented");
-    // }
-    //
-    // @Test
-    // public void testAddBranchStateNameBooleanStateNameStateNameStateName() {
-    // fail("Not yet implemented");
-    // }
-    //
-    // @Test
-    // public void
-    // testAddBranchStateNameResultReceiverOfBooleanStateNameStateNameStateName()
-    // {
-    // fail("Not yet implemented");
-    // }
-    //
-    // @Test
-    // public void testAddThread() {
-    // fail("Not yet implemented");
-    // }
-    //
-    // @Test
-    // public void testBuild() {
-    // fail("Not yet implemented");
-    // }
-
     @Test
     public void testBuildStateName() {
         StateMachineBuilder b = new StateMachineBuilder(S.STATE1);
-        b.addBasicEmpty(S.STATE1, S.STATE2);
-        b.add(States.basicEmpty(S.STATE2, S.STATE3));
+        b.addEmpty(S.STATE1, S.STATE2);
+        b.add(S.STATE2, States.empty(S.STATE3));
         b.addStop(S.STATE3);
 
         StateMachine stateMachine = b.build(S.STATE2);
@@ -108,7 +56,7 @@ public class StateMachineBuilderTest {
     @Test
     public void testAddCount() {
         StateMachineBuilder b = new StateMachineBuilder(S.STATE1);
-        b.addBasicEmpty(S.STATE1, S.STATE2);
+        b.addEmpty(S.STATE1, S.STATE2);
         b.addCount(S.STATE2, S.STATE1, S.STATE3, 2);
         b.addStop(S.STATE3);
 

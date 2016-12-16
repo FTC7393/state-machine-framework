@@ -13,13 +13,8 @@ public interface State {
     /**
      * Act is run in every single loop
      *
-     * @return Returns the name of the next state. Returns its own name to stay
+     * @return Returns the name of the next state. Returns null to stay
      *         in the current state.
      */
     StateName act();
-
-    /**
-     * @return returns this state's name.
-     */
-    StateName getName();
 }

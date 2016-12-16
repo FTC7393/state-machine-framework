@@ -1,6 +1,6 @@
 package ftc.electronvolts.test.statemachine;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,10 +21,10 @@ public class StateMachineTest {
     @Test
     public void testStateMachine() {
         Map<StateName, State> stateMap = new HashMap<>();
-        stateMap.put(S.STATE1, States.basicEmpty(S.STATE1, S.STATE2));
-        stateMap.put(S.STATE2, States.basicEmpty(S.STATE2, S.STATE3));
-        stateMap.put(S.STATE3, States.stop(S.STATE3));
-        
+        stateMap.put(S.STATE1, States.empty(S.STATE2));
+        stateMap.put(S.STATE2, States.empty(S.STATE3));
+        stateMap.put(S.STATE3, States.stop());
+
         StateMachine stateMachine = new StateMachine(stateMap, S.STATE1);
         assertEquals(S.STATE1, stateMachine.getCurrentStateName());
         stateMachine.act();
