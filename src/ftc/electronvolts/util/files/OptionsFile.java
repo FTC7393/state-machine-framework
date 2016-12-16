@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.IllegalFormatConversionException;
@@ -370,8 +371,9 @@ public class OptionsFile {
         //separate the string into parts. use the separator as a literal string, not a regex
         String[] parts = string.split(Pattern.quote(separator));
 
-        List<T> results = new ArrayList<>();
-        for (String part : parts) {
+        T[] results = (T[]) Array.newInstance(clazz, parts.length);
+        for (int i=0; i<parts.length; i++) {
+            String part = parts[i];
 
             //convert the string to the object
             T result = converter.fromString(part);
@@ -379,10 +381,10 @@ public class OptionsFile {
             //if the result is null, throw an exception
             if (result == null) throw new IllegalFormatConversionException((char) 0, clazz);
 
-            results.add(result);
+            results[i] = result;
         }
 
-        return (T[]) results.toArray();
+        return results;
     }
 
     /**
