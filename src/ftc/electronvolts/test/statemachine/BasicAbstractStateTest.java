@@ -1,15 +1,14 @@
 package ftc.electronvolts.test.statemachine;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
 import ftc.electronvolts.statemachine.BasicAbstractState;
-import ftc.electronvolts.statemachine.StateName;
 
 public class BasicAbstractStateTest {
 
-    private enum S implements StateName {
+    private enum S {
         STATE1, STATE2
     }
 
@@ -29,7 +28,7 @@ public class BasicAbstractStateTest {
         }
 
         @Override
-        public StateName getNextStateName() {
+        public Enum<?> getNextStateName() {
             log += "getNextStateName ";
             return S.STATE2;
         }
@@ -39,7 +38,7 @@ public class BasicAbstractStateTest {
     @Test
     public void testBasicAbstractState() {
         MyBasicAbstractState b = new MyBasicAbstractState();
-        StateName s;
+        Enum<?> s;
 
         s = b.act();
         assertEquals(null, s);

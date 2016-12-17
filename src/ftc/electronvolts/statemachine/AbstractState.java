@@ -9,7 +9,7 @@ import java.util.Map;
  */
 public abstract class AbstractState implements State {
     // Map of possible transitions to other states
-    private final Map<StateName, EndCondition> transitions;
+    private final Map<Enum<?>, EndCondition> transitions;
 
     private boolean isRunning = false;
 
@@ -20,7 +20,7 @@ public abstract class AbstractState implements State {
      * @param transitions the map of EndCondition to NextState
      * @see Transition
      */
-    public AbstractState(Map<StateName, EndCondition> transitions) {
+    public AbstractState(Map<Enum<?>, EndCondition> transitions) {
         this.transitions = transitions;
     }
 
@@ -36,17 +36,17 @@ public abstract class AbstractState implements State {
      *         there are no state changes)
      */
     @Override
-    public StateName act() {
+    public Enum<?> act() {
         if (!isRunning) {
             init();
             isRunning = true;
-            for(Map.Entry<StateName, EndCondition> entry : transitions.entrySet()) {
+            for(Map.Entry<Enum<?>, EndCondition> entry : transitions.entrySet()) {
                 EndCondition endCondition = entry.getValue();
                 endCondition.init();
             }
         }
-        for(Map.Entry<StateName, EndCondition> entry : transitions.entrySet()) {
-            StateName stateName = entry.getKey();
+        for(Map.Entry<Enum<?>, EndCondition> entry : transitions.entrySet()) {
+            Enum<?> stateName = entry.getKey();
             EndCondition endCondition = entry.getValue();
             if (endCondition.isDone()) {
                 dispose();

@@ -25,14 +25,14 @@ public class States {
      * @param stateMachineBuilder the builder to add the sub-states to
      * @return the created State
      */
-    public static State subStates(final Map<StateName, StateName> subStateToState, final StateMachineBuilder stateMachineBuilder) {
-        for (Map.Entry<StateName, StateName> entry : subStateToState.entrySet()) {
-            StateName subState = entry.getKey();
+    public static State subStates(final Map<Enum<?>, Enum<?>> subStateToState, final StateMachineBuilder stateMachineBuilder) {
+        for (Map.Entry<Enum<?>, Enum<?>> entry : subStateToState.entrySet()) {
+            Enum<?> subState = entry.getKey();
             stateMachineBuilder.addStop(subState);
         }
         final StateMachine stateMachine = stateMachineBuilder.build();
         return new BasicAbstractState() {
-            private StateName nextStateName;
+            private Enum<?> nextStateName;
 
             @Override
             public void init() {
@@ -41,9 +41,9 @@ public class States {
             @Override
             public boolean isDone() {
                 stateMachine.act();
-                for (Map.Entry<StateName, StateName> entry : subStateToState.entrySet()) {
-                    StateName subState = entry.getKey();
-                    StateName state = entry.getValue();
+                for (Map.Entry<Enum<?>, Enum<?>> entry : subStateToState.entrySet()) {
+                    Enum<?> subState = entry.getKey();
+                    Enum<?> state = entry.getValue();
                     // if the current state is one of the ending sub-states
                     if (stateMachine.getCurrentStateName() == subState) {
                         // go to the corresponding super-state
@@ -55,7 +55,7 @@ public class States {
             }
 
             @Override
-            public StateName getNextStateName() {
+            public Enum<?> getNextStateName() {
                 return nextStateName;
             }
         };
@@ -80,7 +80,7 @@ public class States {
             }
 
             @Override
-            public StateName getNextStateName() {
+            public Enum<?> getNextStateName() {
                 return null;
             }
         };
@@ -95,7 +95,7 @@ public class States {
      * @param transitions the transitions to be considered
      * @return the created State
      */
-    public static State empty(Map<StateName, EndCondition> transitions) {
+    public static State empty(Map<Enum<?>, EndCondition> transitions) {
         return new AbstractState(transitions) {
             @Override
             public void init() {
@@ -123,7 +123,7 @@ public class States {
      * @param nextStateName the next state to be run
      * @return the created State
      */
-    public static State empty(final StateName nextStateName) {
+    public static State empty(final Enum<?> nextStateName) {
         return new BasicAbstractState() {
             @Override
             public void init() {
@@ -135,7 +135,7 @@ public class States {
             }
 
             @Override
-            public StateName getNextStateName() {
+            public Enum<?> getNextStateName() {
                 return nextStateName;
             }
         };
@@ -156,7 +156,7 @@ public class States {
      * @param thread the thread to be run at the start of the state
      * @return the created State
      */
-    public static State runThread(final StateName nextStateName, final Thread thread) {
+    public static State runThread(final Enum<?> nextStateName, final Thread thread) {
         return new BasicAbstractState() {
             @Override
             public void init() {
@@ -169,7 +169,7 @@ public class States {
             }
 
             @Override
-            public StateName getNextStateName() {
+            public Enum<?> getNextStateName() {
                 return nextStateName;
             }
         };
@@ -189,7 +189,7 @@ public class States {
      * @param condition the boolean to decide which branch to go to
      * @return the created State
      */
-    public static State branch(final StateName trueStateName, final StateName falseStateName, final boolean condition) {
+    public static State branch(final Enum<?> trueStateName, final Enum<?> falseStateName, final boolean condition) {
         return new BasicAbstractState() {
             @Override
             public void init() {
@@ -201,7 +201,7 @@ public class States {
             }
 
             @Override
-            public StateName getNextStateName() {
+            public Enum<?> getNextStateName() {
                 if (condition) {
                     return trueStateName;
                 } else {
@@ -226,7 +226,7 @@ public class States {
      * @param condition the boolean to decide which branch to go to
      * @return the created State
      */
-    public static State branch(final StateName trueStateName, final StateName falseStateName, final StateName nullStateName, final Boolean condition) {
+    public static State branch(final Enum<?> trueStateName, final Enum<?> falseStateName, final Enum<?> nullStateName, final Boolean condition) {
         return new BasicAbstractState() {
             @Override
             public void init() {
@@ -238,7 +238,7 @@ public class States {
             }
 
             @Override
-            public StateName getNextStateName() {
+            public Enum<?> getNextStateName() {
                 if (condition == null) {
                     return nullStateName;
                 } else if (condition) {
@@ -265,7 +265,7 @@ public class States {
      * @param receiver the receiver that decides which branch to go to
      * @return the created State
      */
-    public static State branch(final StateName trueStateName, final StateName falseStateName, final StateName nullStateName, final ResultReceiver<Boolean> receiver) {
+    public static State branch(final Enum<?> trueStateName, final Enum<?> falseStateName, final Enum<?> nullStateName, final ResultReceiver<Boolean> receiver) {
         return new BasicAbstractState() {
             @Override
             public void init() {
@@ -277,7 +277,7 @@ public class States {
             }
 
             @Override
-            public StateName getNextStateName() {
+            public Enum<?> getNextStateName() {
                 if (receiver.getValue() == null) {
                     return nullStateName;
                 } else if (receiver.getValue()) {
@@ -303,7 +303,7 @@ public class States {
      * @param n the number of times to return continueStateName
      * @return the created State
      */
-    public static State count(final StateName continueStateName, final StateName doneStateName, final int n) {
+    public static State count(final Enum<?> continueStateName, final Enum<?> doneStateName, final int n) {
         return new BasicAbstractState() {
             int i = 0;
 
@@ -318,7 +318,7 @@ public class States {
             }
 
             @Override
-            public StateName getNextStateName() {
+            public Enum<?> getNextStateName() {
                 return i <= n ? continueStateName : doneStateName;
             }
         };

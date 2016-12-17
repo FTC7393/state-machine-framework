@@ -23,7 +23,7 @@ public abstract class BasicAbstractState implements State {
      *         are no state changes)
      */
     @Override
-    public StateName act() {
+    public Enum<?> act() {
         if (!isRunning) {
             init();
             isRunning = true;
@@ -60,5 +60,5 @@ public abstract class BasicAbstractState implements State {
      *
      * @return the name of the next state to be executed
      */
-    public abstract StateName getNextStateName();
+    public abstract Enum<?> getNextStateName();
 }
