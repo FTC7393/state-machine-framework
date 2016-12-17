@@ -69,18 +69,9 @@ public class States {
      * @return the created state
      */
     public static State stop() {
-        return new BasicAbstractState() {
+        return new State() {
             @Override
-            public void init() {
-            }
-
-            @Override
-            public boolean isDone() {
-                return false;
-            }
-
-            @Override
-            public StateName getNextStateName() {
+            public StateName act() {
                 return null;
             }
         };
@@ -124,20 +115,13 @@ public class States {
      * @return the created State
      */
     public static State empty(final StateName nextStateName) {
-        return new BasicAbstractState() {
+        return new State() {
+            
             @Override
-            public void init() {
-            }
-
-            @Override
-            public boolean isDone() {
-                return true;
-            }
-
-            @Override
-            public StateName getNextStateName() {
+            public StateName act() {
                 return nextStateName;
             }
+            
         };
     }
 
@@ -157,19 +141,11 @@ public class States {
      * @return the created State
      */
     public static State runThread(final StateName nextStateName, final Thread thread) {
-        return new BasicAbstractState() {
+        return new State() {
+            
             @Override
-            public void init() {
+            public StateName act() {
                 thread.start();
-            }
-
-            @Override
-            public boolean isDone() {
-                return true;
-            }
-
-            @Override
-            public StateName getNextStateName() {
                 return nextStateName;
             }
         };
@@ -190,18 +166,10 @@ public class States {
      * @return the created State
      */
     public static State branch(final StateName trueStateName, final StateName falseStateName, final boolean condition) {
-        return new BasicAbstractState() {
+        return new State() {
+            
             @Override
-            public void init() {
-            }
-
-            @Override
-            public boolean isDone() {
-                return true;
-            }
-
-            @Override
-            public StateName getNextStateName() {
+            public StateName act() {
                 if (condition) {
                     return trueStateName;
                 } else {
@@ -227,18 +195,10 @@ public class States {
      * @return the created State
      */
     public static State branch(final StateName trueStateName, final StateName falseStateName, final StateName nullStateName, final Boolean condition) {
-        return new BasicAbstractState() {
+        return new State() {
+            
             @Override
-            public void init() {
-            }
-
-            @Override
-            public boolean isDone() {
-                return true;
-            }
-
-            @Override
-            public StateName getNextStateName() {
+            public StateName act() {
                 if (condition == null) {
                     return nullStateName;
                 } else if (condition) {
@@ -304,21 +264,12 @@ public class States {
      * @return the created State
      */
     public static State count(final StateName continueStateName, final StateName doneStateName, final int n) {
-        return new BasicAbstractState() {
+        return new State() {
             int i = 0;
 
             @Override
-            public void init() {
+            public StateName act() {
                 i++;
-            }
-
-            @Override
-            public boolean isDone() {
-                return true;
-            }
-
-            @Override
-            public StateName getNextStateName() {
                 return i <= n ? continueStateName : doneStateName;
             }
         };
