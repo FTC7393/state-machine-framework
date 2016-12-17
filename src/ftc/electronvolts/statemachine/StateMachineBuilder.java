@@ -21,8 +21,8 @@ import ftc.electronvolts.util.units.Time;
  */
 public class StateMachineBuilder {
     // the map the links a state's name to the state
-    private Map<Enum<?>, State> stateMap = new HashMap<>();
-    private final Enum<?> firstStateName;
+    private Map<StateName, State> stateMap = new HashMap<>();
+    private final StateName firstStateName;
 
     /**
      * A constructor for the builder. The State machine must have a state to
@@ -30,7 +30,7 @@ public class StateMachineBuilder {
      *
      * @param firstStateName the first state to be executed in order
      */
-    public StateMachineBuilder(Enum<?> firstStateName) {
+    public StateMachineBuilder(StateName firstStateName) {
         this.firstStateName = firstStateName;
     }
 
@@ -41,7 +41,7 @@ public class StateMachineBuilder {
      * @param endCondition the end condition for the next state
      * @return a map containing the one transition
      */
-    public Map<Enum<?>, EndCondition> t(Enum<?> nextStateName, EndCondition endCondition) {
+    public Map<StateName, EndCondition> t(StateName nextStateName, EndCondition endCondition) {
         return StateMap.of(nextStateName, endCondition);
     }
 
@@ -53,7 +53,7 @@ public class StateMachineBuilder {
      *            next state
      * @return a map containing the one transition
      */
-    public Map<Enum<?>, EndCondition> t(Enum<?> nextStateName, long durationMillis) {
+    public Map<StateName, EndCondition> t(StateName nextStateName, long durationMillis) {
         return t(nextStateName, EndConditions.timed(durationMillis));
     }
 
@@ -65,7 +65,7 @@ public class StateMachineBuilder {
      *            state
      * @return a map containing the one transition
      */
-    public Map<Enum<?>, EndCondition> t(Enum<?> nextStateName, Time duration) {
+    public Map<StateName, EndCondition> t(StateName nextStateName, Time duration) {
         return t(nextStateName, EndConditions.timed(duration));
     }
 
@@ -74,7 +74,7 @@ public class StateMachineBuilder {
      *
      * @param state the state to be added
      */
-    public void add(Enum<?> stateName, State state) {
+    public void add(StateName stateName, State state) {
         stateMap.put(stateName, state);
     }
 
@@ -85,7 +85,7 @@ public class StateMachineBuilder {
      * @param nextStateName the name of the next state
      * @param durationMillis the length of time to wait in millis
      */
-    public void addWait(Enum<?> stateName, Enum<?> nextStateName, long durationMillis) {
+    public void addWait(StateName stateName, StateName nextStateName, long durationMillis) {
         add(stateName, States.empty(t(nextStateName, EndConditions.timed(durationMillis))));
     }
 
@@ -96,7 +96,7 @@ public class StateMachineBuilder {
      * @param nextStateName the name of the next state
      * @param duration the length of time to wait
      */
-    public void addWait(Enum<?> stateName, Enum<?> nextStateName, Time duration) {
+    public void addWait(StateName stateName, StateName nextStateName, Time duration) {
         add(stateName, States.empty(t(nextStateName, EndConditions.timed(duration))));
     }
 
@@ -110,7 +110,7 @@ public class StateMachineBuilder {
      * @param durationMillis how many millis from the match start to wait
      * @see MatchTimer
      */
-    public void addWait(Enum<?> stateName, Enum<?> nextStateName, MatchTimer matchTimer, long durationMillis) {
+    public void addWait(StateName stateName, StateName nextStateName, MatchTimer matchTimer, long durationMillis) {
         add(stateName, States.empty(t(nextStateName, EndConditions.matchTimed(matchTimer, durationMillis))));
     }
 
@@ -124,7 +124,7 @@ public class StateMachineBuilder {
      * @param duration how much time from the match start to wait
      * @see MatchTimer
      */
-    public void addWait(Enum<?> stateName, Enum<?> nextStateName, MatchTimer matchTimer, Time duration) {
+    public void addWait(StateName stateName, StateName nextStateName, MatchTimer matchTimer, Time duration) {
         add(stateName, States.empty(t(nextStateName, EndConditions.matchTimed(matchTimer, duration))));
     }
 
@@ -134,7 +134,7 @@ public class StateMachineBuilder {
      * @param falseStateName the state to go to if the condition is false
      * @param condition the boolean to decide which branch to go to
      */
-    public void addBranch(Enum<?> stateName, Enum<?> trueStateName, Enum<?> falseStateName, boolean condition) {
+    public void addBranch(StateName stateName, StateName trueStateName, StateName falseStateName, boolean condition) {
         add(stateName, States.branch(trueStateName, falseStateName, condition));
     }
 
@@ -145,7 +145,7 @@ public class StateMachineBuilder {
      * @param nullStateName the state to go to if the condition is null
      * @param condition the boolean to decide which branch to go to
      */
-    public void addBranch(Enum<?> stateName, Enum<?> trueStateName, Enum<?> falseStateName, Enum<?> nullStateName, Boolean condition) {
+    public void addBranch(StateName stateName, StateName trueStateName, StateName falseStateName, StateName nullStateName, Boolean condition) {
         add(stateName, States.branch(trueStateName, falseStateName, nullStateName, condition));
     }
 
@@ -156,7 +156,7 @@ public class StateMachineBuilder {
      * @param nullStateName the state to go to if the receiver returns null
      * @param receiver the receiver that decides which branch to go to
      */
-    public void addBranch(Enum<?> stateName, Enum<?> trueStateName, Enum<?> falseStateName, Enum<?> nullStateName, ResultReceiver<Boolean> receiver) {
+    public void addBranch(StateName stateName, StateName trueStateName, StateName falseStateName, StateName nullStateName, ResultReceiver<Boolean> receiver) {
         add(stateName, States.branch(trueStateName, falseStateName, nullStateName, receiver));
     }
 
@@ -166,11 +166,11 @@ public class StateMachineBuilder {
      * @param stateName the name of the state
      * @param nextStateName the name of the state to go to next
      */
-    public void addEmpty(Enum<?> stateName, Enum<?> nextStateName) {
+    public void addEmpty(StateName stateName, StateName nextStateName) {
         add(stateName, States.empty(nextStateName));
     }
 
-    public void addEmpty(Enum<?> stateName, Map<Enum<?>, EndCondition> transitions) {
+    public void addEmpty(StateName stateName, Map<StateName, EndCondition> transitions) {
         add(stateName, States.empty(transitions));
     }
 
@@ -179,7 +179,7 @@ public class StateMachineBuilder {
      *
      * @param stateName name of the stop state
      */
-    public void addStop(Enum<?> stateName) {
+    public void addStop(StateName stateName) {
         add(stateName, States.stop());
     }
 
@@ -191,7 +191,7 @@ public class StateMachineBuilder {
      * @param nextStateName the next state to be transitioned to immediately
      * @param thread the thread to be run at the start of the state
      */
-    public void addThread(Enum<?> stateName, Enum<?> nextStateName, Thread thread) {
+    public void addThread(StateName stateName, StateName nextStateName, Thread thread) {
         add(stateName, States.runThread(nextStateName, thread));
     }
 
@@ -204,7 +204,7 @@ public class StateMachineBuilder {
      * @param doneStateName will be transitioned to after
      * @param n the number of times to return continueStateName
      */
-    public void addCount(Enum<?> stateName, Enum<?> continueStateName, Enum<?> doneStateName, int n) {
+    public void addCount(StateName stateName, StateName continueStateName, StateName doneStateName, int n) {
         add(stateName, States.count(continueStateName, doneStateName, n));
     }
 
@@ -226,7 +226,7 @@ public class StateMachineBuilder {
      * @see StateMachine
      */
 
-    public StateMachine build(Enum<?> firstStateName) {
+    public StateMachine build(StateName firstStateName) {
         return new StateMachine(stateMap, firstStateName);
     }
 }

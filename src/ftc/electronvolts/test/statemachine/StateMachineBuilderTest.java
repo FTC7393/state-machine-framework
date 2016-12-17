@@ -6,11 +6,12 @@ import org.junit.Test;
 
 import ftc.electronvolts.statemachine.StateMachine;
 import ftc.electronvolts.statemachine.StateMachineBuilder;
+import ftc.electronvolts.statemachine.StateName;
 import ftc.electronvolts.statemachine.States;
 
 public class StateMachineBuilderTest {
 
-    private enum S {
+    private enum S implements StateName {
         STATE1, STATE2, STATE3
     }
 

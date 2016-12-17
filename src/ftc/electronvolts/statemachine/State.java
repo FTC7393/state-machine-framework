@@ -16,5 +16,5 @@ public interface State {
      * @return Returns the name of the next state. Returns null to stay
      *         in the current state.
      */
-    Enum<?> act();
+    StateName act();
 }

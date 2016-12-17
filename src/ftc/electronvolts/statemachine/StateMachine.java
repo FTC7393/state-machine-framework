@@ -10,19 +10,19 @@ import java.util.Map;
  */
 public class StateMachine {
     // This links the names of each state to the actual state
-    private final Map<Enum<?>, State> stateMap;
+    private final Map<StateName, State> stateMap;
     
     // the current active state
     private State currentState;
     
     // the name of the current state
-    private Enum<?> currentStateName;
+    private StateName currentStateName;
 
     /**
      * @param stateMap the state machine structure
      * @param firstStateName the name of the state to start with
      */
-    public StateMachine(Map<Enum<?>, State> stateMap, Enum<?> firstStateName) {
+    public StateMachine(Map<StateName, State> stateMap, StateName firstStateName) {
         this.stateMap = stateMap;
         currentStateName = firstStateName;
         currentState = stateMap.get(firstStateName);
@@ -37,7 +37,7 @@ public class StateMachine {
      */
     public void act() {
         // tell the current state to act and return the next state
-        Enum<?> nextStateName = currentState.act();
+        StateName nextStateName = currentState.act();
         // if the next state name returned is null or the same as this state,
         // stay in the current state
         if (nextStateName != null && nextStateName != currentStateName) {
@@ -55,7 +55,7 @@ public class StateMachine {
      *
      * @return the name of the current state
      */
-    public Enum<?> getCurrentStateName() {
+    public StateName getCurrentStateName() {
         return currentStateName;
     }
 }

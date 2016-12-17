@@ -6,10 +6,11 @@ import org.junit.Test;
 
 import ftc.electronvolts.statemachine.EndConditions;
 import ftc.electronvolts.statemachine.StateMap;
+import ftc.electronvolts.statemachine.StateName;
 
 public class StateMapTest {
 
-    private enum S {
+    private enum S implements StateName {
         STATE1, STATE2, STATE3
     }
 

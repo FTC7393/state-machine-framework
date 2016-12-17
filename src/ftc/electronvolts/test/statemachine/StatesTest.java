@@ -11,13 +11,14 @@ import ftc.electronvolts.statemachine.EndConditions;
 import ftc.electronvolts.statemachine.State;
 import ftc.electronvolts.statemachine.StateMachineBuilder;
 import ftc.electronvolts.statemachine.StateMap;
+import ftc.electronvolts.statemachine.StateName;
 import ftc.electronvolts.statemachine.States;
 import ftc.electronvolts.util.BasicResultReceiver;
 import ftc.electronvolts.util.ResultReceiver;
 
 public class StatesTest {
 
-    private enum S {
+    private enum S implements StateName {
         STATE1, STATE2, STATE3, SUB_STATE1, SUB_STATE2, SUB_STATE3, SUB_STATE4
     }
 
@@ -28,7 +29,7 @@ public class StatesTest {
         b.addEmpty(S.SUB_STATE2, S.SUB_STATE3);
         b.addEmpty(S.SUB_STATE3, S.SUB_STATE4);
 
-        Map<Enum<?>, Enum<?>> subStateToState = new HashMap<>();
+        Map<StateName, StateName> subStateToState = new HashMap<>();
         subStateToState.put(S.SUB_STATE4, S.STATE2);
         State s = States.subStates(subStateToState, b);
 

@@ -7,10 +7,11 @@ import org.junit.Test;
 import ftc.electronvolts.statemachine.AbstractState;
 import ftc.electronvolts.statemachine.EndCondition;
 import ftc.electronvolts.statemachine.StateMap;
+import ftc.electronvolts.statemachine.StateName;
 
 public class AbstractStateTest {
 
-    private enum S {
+    private enum S  implements StateName{
         STATE1, STATE2
     }
 
@@ -35,7 +36,7 @@ public class AbstractStateTest {
     @Test
     public void testAbstractState() {
         final Vars vars = new Vars();
-        Enum<?> s;
+        StateName s;
 
         MyEndCondition myEndCondition = new MyEndCondition();
 
