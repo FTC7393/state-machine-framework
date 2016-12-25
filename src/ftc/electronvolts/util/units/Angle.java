@@ -1,6 +1,5 @@
 package ftc.electronvolts.util.units;
 
-
 /**
  * This file was made by the electronVolts, FTC team 7393
  * Date Created: 2/2/16
@@ -16,7 +15,7 @@ public class Angle {
 
     private static double DEG_PER_RAD = 1 / RAD_PER_DEG;
     private static double ROT_PER_RAD = 1 / RAD_PER_ROT;
-    
+
     private static Angle zero = new Angle(0);
 
     // holds the angle's value in radians
@@ -118,6 +117,11 @@ public class Angle {
         Angle other = (Angle) obj;
         if (Double.doubleToLongBits(radians) != Double.doubleToLongBits(other.radians)) return false;
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return radians + " radians";
     }
 
     /**

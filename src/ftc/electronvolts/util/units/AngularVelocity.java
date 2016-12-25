@@ -1,6 +1,5 @@
 package ftc.electronvolts.util.units;
 
-
 /**
  * This file was made by the electronVolts, FTC team 7393
  * Date Created: 11/16/16
@@ -8,7 +7,7 @@ package ftc.electronvolts.util.units;
 
 public class AngularVelocity {
     private static final AngularVelocity zero = new AngularVelocity(Angle.zero());
-    
+
     private final Angle angle;
     private final Time time;
 
@@ -121,6 +120,11 @@ public class AngularVelocity {
         AngularVelocity other = (AngularVelocity) obj;
         if (Double.doubleToLongBits(radiansPerSecond()) != Double.doubleToLongBits(other.radiansPerSecond())) return false;
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return radiansPerSecond() + " radians/second";
     }
 
     // get angular velocity in various units

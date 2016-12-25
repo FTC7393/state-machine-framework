@@ -13,6 +13,7 @@ import ftc.electronvolts.statemachine.StateMachineBuilder;
 import ftc.electronvolts.statemachine.StateMap;
 import ftc.electronvolts.statemachine.StateName;
 import ftc.electronvolts.statemachine.States;
+import ftc.electronvolts.statemachine.SubStatesState;
 import ftc.electronvolts.util.BasicResultReceiver;
 import ftc.electronvolts.util.ResultReceiver;
 
@@ -31,12 +32,21 @@ public class StatesTest {
 
         Map<StateName, StateName> subStateToState = new HashMap<>();
         subStateToState.put(S.SUB_STATE4, S.STATE2);
-        State s = States.subStates(subStateToState, b);
+        SubStatesState s = States.subStates(subStateToState, b);
 
+        assertEquals(S.SUB_STATE1, s.getStateMachine().getCurrentStateName());
         assertEquals(null, s.act());
+
+        assertEquals(S.SUB_STATE2, s.getStateMachine().getCurrentStateName());
         assertEquals(null, s.act());
+
+        assertEquals(S.SUB_STATE3, s.getStateMachine().getCurrentStateName());
         assertEquals(S.STATE2, s.act());
+
+        assertEquals(S.SUB_STATE4, s.getStateMachine().getCurrentStateName());
         assertEquals(S.STATE2, s.act());
+
+        assertEquals(S.SUB_STATE4, s.getStateMachine().getCurrentStateName());
     }
 
     @Test

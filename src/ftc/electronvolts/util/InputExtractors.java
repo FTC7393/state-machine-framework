@@ -9,7 +9,7 @@ public class InputExtractors {
     private static final InputExtractor<Double> ZERO = constant(0.0);
 
     /**
-     * @return an InputExtractor<Double> that always returns 0
+     * @return an InputExtractor that always returns 0
      */
     public static InputExtractor<Double> zero() {
         return ZERO;
@@ -29,11 +29,11 @@ public class InputExtractors {
     }
 
     /**
-     * Multiply an InputExtractor<Double> by a constant
+     * Multiply an InputExtractor by a constant
      * 
-     * @param inputExtractor the InputExtractor<Double> to multiply
+     * @param inputExtractor the InputExtractor to multiply
      * @param value the constant to multiply by
-     * @return the created InputExtractor<Double>
+     * @return the created InputExtractor
      */
     public static InputExtractor<Double> multiply(final InputExtractor<Double> inputExtractor, final double value) {
         return new InputExtractor<Double>() {
@@ -45,22 +45,22 @@ public class InputExtractors {
     }
 
     /**
-     * Multiply an InputExtractor<Double> by a constant
+     * Multiply an InputExtractor by a constant
      * 
      * @param value the constant to multiply by
-     * @param inputExtractor the InputExtractor<Double> to multiply
-     * @return the created InputExtractor<Double>
+     * @param inputExtractor the InputExtractor to multiply
+     * @return the created InputExtractor
      */
     public static InputExtractor<Double> multiply(final double value, final InputExtractor<Double> inputExtractor) {
         return multiply(value, inputExtractor);
     }
 
     /**
-     * Multiply an InputExtractor<Double> by another InputExtractor<Double>
+     * Multiply an InputExtractor by another InputExtractor
      * 
-     * @param inputExtractor1 the first InputExtractor<Double>
-     * @param inputExtractor2 the second InputExtractor<Double>
-     * @return the created InputExtractor<Double>
+     * @param inputExtractor1 the first InputExtractor
+     * @param inputExtractor2 the second InputExtractor
+     * @return the created InputExtractor
      */
     public static InputExtractor<Double> multiply(final InputExtractor<Double> inputExtractor1, final InputExtractor<Double> inputExtractor2) {
         return new InputExtractor<Double>() {
@@ -72,19 +72,19 @@ public class InputExtractors {
     }
 
     /**
-     * Divide an InputExtractor<Double> by a constant. Equivalent to multiplying
-     * by the reciprocal of the constant
+     * Divide an InputExtractor by a constant. Equivalent to multiplying by the
+     * reciprocal of the constant
      * 
-     * @param inputExtractor the InputExtractor<Double>
+     * @param inputExtractor the InputExtractor
      * @param value the constant
-     * @return the created InputExtractor<Double>
+     * @return the created InputExtractor
      */
     public static InputExtractor<Double> divide(final InputExtractor<Double> inputExtractor, final double value) {
         return multiply(inputExtractor, 1 / value);
     }
 
     /**
-     * Divide an InputExtractor<Double> by another InputExtractor<Double>
+     * Divide an InputExtractor by another InputExtractor
      * 
      * @param inputExtractor1 the numerator
      * @param inputExtractor2 the denominator
@@ -100,11 +100,11 @@ public class InputExtractors {
     }
 
     /**
-     * Divide a constant by an InputExtractor<Double>
+     * Divide a constant by an InputExtractor
      * 
      * @param value the constant
-     * @param inputExtractor the InputExtractor<Double>
-     * @return the created InputExtractor<Double>
+     * @param inputExtractor the InputExtractor
+     * @return the created InputExtractor
      */
     public static InputExtractor<Double> divide(final double value, final InputExtractor<Double> inputExtractor) {
         return new InputExtractor<Double>() {
@@ -116,11 +116,11 @@ public class InputExtractors {
     }
 
     /**
-     * Add a constant to an InputExtractor<Double>
+     * Add a constant to an InputExtractor
      * 
-     * @param inputExtractor the InputExtractor<Double>
+     * @param inputExtractor the InputExtractor
      * @param value the constant
-     * @return the created InputExtractor<Double>
+     * @return the created InputExtractor
      */
     public static InputExtractor<Double> add(final InputExtractor<Double> inputExtractor, final double value) {
         return new InputExtractor<Double>() {
@@ -132,22 +132,22 @@ public class InputExtractors {
     }
 
     /**
-     * Add a constant to an InputExtractor<Double>
+     * Add a constant to an InputExtractor
      * 
      * @param value the constant
-     * @param inputExtractor the InputExtractor<Double>
-     * @return the created InputExtractor<Double>
+     * @param inputExtractor the InputExtractor
+     * @return the created InputExtractor
      */
     public static InputExtractor<Double> add(final double value, final InputExtractor<Double> inputExtractor) {
         return add(inputExtractor, value);
     }
 
     /**
-     * Add two InputExtractor<Double> objects together
+     * Add two InputExtractor objects together
      * 
-     * @param inputExtractor1 the first InputExtractor<Double>
-     * @param inputExtractor2 the second InputExtractor<Double>
-     * @return the created InputExtractor<Double>
+     * @param inputExtractor1 the first InputExtractor
+     * @param inputExtractor2 the second InputExtractor
+     * @return the created InputExtractor
      */
     public static InputExtractor<Double> add(final InputExtractor<Double> inputExtractor1, final InputExtractor<Double> inputExtractor2) {
         return new InputExtractor<Double>() {
@@ -159,23 +159,23 @@ public class InputExtractors {
     }
 
     /**
-     * Subtract a constant from an InputExtractor<Double>
+     * Subtract a constant from an InputExtractor
      * 
-     * @param inputExtractor the InputExtractor<Double>
+     * @param inputExtractor the InputExtractor
      * @param value the constant to subtract
-     * @return the created InputExtractor<Double>
+     * @return the created InputExtractor
      */
     public static InputExtractor<Double> subtract(final InputExtractor<Double> inputExtractor, final double value) {
         return add(inputExtractor, -value);
     }
 
     /**
-     * Subtract one InputExtractor<Double> from another InputExtractor<Double>
+     * Subtract one InputExtractor from another InputExtractor
      * 
-     * @param inputExtractor1 the first InputExtractor<Double>
-     * @param inputExtractor2 the second InputExtractor<Double> (will be
-     *            subtracted from the first)
-     * @return the created InputExtractor<Double>
+     * @param inputExtractor1 the first InputExtractor
+     * @param inputExtractor2 the second InputExtractor (will be subtracted from
+     *            the first)
+     * @return the created InputExtractor
      */
     public static InputExtractor<Double> subtract(final InputExtractor<Double> inputExtractor1, final InputExtractor<Double> inputExtractor2) {
         return new InputExtractor<Double>() {
@@ -187,11 +187,11 @@ public class InputExtractors {
     }
 
     /**
-     * Subtract an InputExtractor<Double> from a constant
+     * Subtract an InputExtractor from a constant
      * 
      * @param value the constant
-     * @param inputExtractor the InputExtractor<Double>
-     * @return the created InputExtractor<Double>
+     * @param inputExtractor the InputExtractor
+     * @return the created InputExtractor
      */
     public static InputExtractor<Double> subtract(final double value, final InputExtractor<Double> inputExtractor) {
         return new InputExtractor<Double>() {
@@ -203,10 +203,10 @@ public class InputExtractors {
     }
 
     /**
-     * Get the absolute value of an InputExtractor<Double>
+     * Get the absolute value of an InputExtractor
      * 
-     * @param inputExtractor the InputExtractor<Double>
-     * @return the created InputExtractor<Double>
+     * @param inputExtractor the InputExtractor
+     * @return the created InputExtractor
      */
     public static InputExtractor<Double> absolute(final InputExtractor<Double> inputExtractor) {
         return new InputExtractor<Double>() {
@@ -218,21 +218,21 @@ public class InputExtractors {
     }
 
     /**
-     * Get the negative of an InputExtractor<Double>
+     * Get the negative of an InputExtractor
      * 
-     * @param inputExtractor the InputExtractor<Double>
-     * @return the created InputExtractor<Double>
+     * @param inputExtractor the InputExtractor
+     * @return the created InputExtractor
      */
     public static InputExtractor<Double> negative(final InputExtractor<Double> inputExtractor) {
         return multiply(inputExtractor, -1);
     }
 
     /**
-     * Apply a scaling function to an InputExtractor<Double>
+     * Apply a scaling function to an InputExtractor
      * 
-     * @param inputExtractor the InputExtractor<Double>
+     * @param inputExtractor the InputExtractor
      * @param function the Function to scale by
-     * @return the created InputExtractor<Double>
+     * @return the created InputExtractor
      */
     public static InputExtractor<Double> function(final InputExtractor<Double> inputExtractor, final Function function) {
         return new InputExtractor<Double>() {
@@ -244,9 +244,10 @@ public class InputExtractors {
     }
 
     /**
-     * Get the inverse of an InputExtractor<Boolean>
-     * @param inputExtractor the InputExtractor<Boolean>
-     * @return the created InputExtractor<Boolean>
+     * Get the inverse of an InputExtractor
+     * 
+     * @param inputExtractor the InputExtractor
+     * @return the created InputExtractor
      */
     public static InputExtractor<Boolean> not(final InputExtractor<Boolean> inputExtractor) {
         return new InputExtractor<Boolean>() {
@@ -258,10 +259,11 @@ public class InputExtractors {
     }
 
     /**
-     * Apply the "and" operator to 2 InputExtractor<Boolean> objects
-     * @param inputExtractor1 the first InputExtractor<Boolean>
-     * @param inputExtractor2 the second InputExtractor<Boolean>
-     * @return the created InputExtractor<Boolean>
+     * Apply the "and" operator to 2 InputExtractor objects
+     * 
+     * @param inputExtractor1 the first InputExtractor
+     * @param inputExtractor2 the second InputExtractor
+     * @return the created InputExtractor
      */
     public static InputExtractor<Boolean> and(final InputExtractor<Boolean> inputExtractor1, final InputExtractor<Boolean> inputExtractor2) {
         return new InputExtractor<Boolean>() {
@@ -273,10 +275,11 @@ public class InputExtractors {
     }
 
     /**
-     * Apply the "nand" operator to 2 InputExtractor<Boolean> objects
-     * @param inputExtractor1 the first InputExtractor<Boolean>
-     * @param inputExtractor2 the second InputExtractor<Boolean>
-     * @return the created InputExtractor<Boolean>
+     * Apply the "nand" operator to 2 InputExtractor objects
+     * 
+     * @param inputExtractor1 the first InputExtractor
+     * @param inputExtractor2 the second InputExtractor
+     * @return the created InputExtractor
      */
     public static InputExtractor<Boolean> nand(final InputExtractor<Boolean> inputExtractor1, final InputExtractor<Boolean> inputExtractor2) {
         return new InputExtractor<Boolean>() {
@@ -288,10 +291,11 @@ public class InputExtractors {
     }
 
     /**
-     * Apply the "or" operator to 2 InputExtractor<Boolean> objects
-     * @param inputExtractor1 the first InputExtractor<Boolean>
-     * @param inputExtractor2 the second InputExtractor<Boolean>
-     * @return the created InputExtractor<Boolean>
+     * Apply the "or" operator to 2 InputExtractor objects
+     * 
+     * @param inputExtractor1 the first InputExtractor
+     * @param inputExtractor2 the second InputExtractor
+     * @return the created InputExtractor
      */
     public static InputExtractor<Boolean> or(final InputExtractor<Boolean> inputExtractor1, final InputExtractor<Boolean> inputExtractor2) {
         return new InputExtractor<Boolean>() {
@@ -303,10 +307,11 @@ public class InputExtractors {
     }
 
     /**
-     * Apply the "nor" operator to 2 InputExtractor<Boolean> objects
-     * @param inputExtractor1 the first InputExtractor<Boolean>
-     * @param inputExtractor2 the second InputExtractor<Boolean>
-     * @return the created InputExtractor<Boolean>
+     * Apply the "nor" operator to 2 InputExtractor objects
+     * 
+     * @param inputExtractor1 the first InputExtractor
+     * @param inputExtractor2 the second InputExtractor
+     * @return the created InputExtractor
      */
     public static InputExtractor<Boolean> nor(final InputExtractor<Boolean> inputExtractor1, final InputExtractor<Boolean> inputExtractor2) {
         return new InputExtractor<Boolean>() {
@@ -318,10 +323,11 @@ public class InputExtractors {
     }
 
     /**
-     * Apply the "xor" operator to 2 InputExtractor<Boolean> objects
-     * @param inputExtractor1 the first InputExtractor<Boolean>
-     * @param inputExtractor2 the second InputExtractor<Boolean>
-     * @return the created InputExtractor<Boolean>
+     * Apply the "xor" operator to 2 InputExtractor objects
+     * 
+     * @param inputExtractor1 the first InputExtractor
+     * @param inputExtractor2 the second InputExtractor
+     * @return the created InputExtractor
      */
     public static InputExtractor<Boolean> xor(final InputExtractor<Boolean> inputExtractor1, final InputExtractor<Boolean> inputExtractor2) {
         return new InputExtractor<Boolean>() {
@@ -333,10 +339,11 @@ public class InputExtractors {
     }
 
     /**
-     * Apply the "xnor" operator to 2 InputExtractor<Boolean> objects
-     * @param inputExtractor1 the first InputExtractor<Boolean>
-     * @param inputExtractor2 the second InputExtractor<Boolean>
-     * @return the created InputExtractor<Boolean>
+     * Apply the "xnor" operator to 2 InputExtractor objects
+     * 
+     * @param inputExtractor1 the first InputExtractor
+     * @param inputExtractor2 the second InputExtractor
+     * @return the created InputExtractor
      */
     public static InputExtractor<Boolean> xnor(final InputExtractor<Boolean> inputExtractor1, final InputExtractor<Boolean> inputExtractor2) {
         return new InputExtractor<Boolean>() {

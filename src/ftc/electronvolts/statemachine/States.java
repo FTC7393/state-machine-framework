@@ -16,49 +16,18 @@ import ftc.electronvolts.util.ResultReceiver;
  */
 public class States {
     /**
-     * Creates a state machine inside a state of another state machine
-     * "Yo, dawg, we heard you like states so we put a state machine inside a
-     * state of another state machine so your state can act while your state
-     * machine acts, dawg."
+     * Creates a state machine inside a state of another state machine "Yo,
+     * dawg, we heard you like states so we put a state machine inside a state
+     * of another state machine so your state can act while your state machine
+     * acts, dawg."
      * 
-     * @param subStateToState map that links the sub states to the states in the main state machine
+     * @param subStateToState map that links the sub states to the states in the
+     *            main state machine
      * @param stateMachineBuilder the builder to add the sub-states to
      * @return the created State
      */
-    public static State subStates(final Map<StateName, StateName> subStateToState, final StateMachineBuilder stateMachineBuilder) {
-        for (Map.Entry<StateName, StateName> entry : subStateToState.entrySet()) {
-            StateName subState = entry.getKey();
-            stateMachineBuilder.addStop(subState);
-        }
-        final StateMachine stateMachine = stateMachineBuilder.build();
-        return new BasicAbstractState() {
-            private StateName nextStateName;
-
-            @Override
-            public void init() {
-            }
-
-            @Override
-            public boolean isDone() {
-                stateMachine.act();
-                for (Map.Entry<StateName, StateName> entry : subStateToState.entrySet()) {
-                    StateName subState = entry.getKey();
-                    StateName state = entry.getValue();
-                    // if the current state is one of the ending sub-states
-                    if (stateMachine.getCurrentStateName() == subState) {
-                        // go to the corresponding super-state
-                        nextStateName = state;
-                        return true;
-                    }
-                }
-                return false;
-            }
-
-            @Override
-            public StateName getNextStateName() {
-                return nextStateName;
-            }
-        };
+    public static SubStatesState subStates(final Map<StateName, StateName> subStateToState, final StateMachineBuilder stateMachineBuilder) {
+        return new SubStatesState(subStateToState, stateMachineBuilder);
     }
 
     /**
@@ -116,22 +85,21 @@ public class States {
      */
     public static State empty(final StateName nextStateName) {
         return new State() {
-            
+
             @Override
             public StateName act() {
                 return nextStateName;
             }
-            
+
         };
     }
 
     /**
      * "She set up a great loom in her palace, and set to weaving a web of
-     * threads long and fine. Then she said to us: 'Young men, my suitors
-     * now that the great Odysseus has perished, wait, though you are eager
-     * to marry me, until I finish this web, so that my weaving will not be
-     * useless and wasted.'"
-     * ~Penelope, the Odyssey
+     * threads long and fine. Then she said to us: 'Young men, my suitors now
+     * that the great Odysseus has perished, wait, though you are eager to marry
+     * me, until I finish this web, so that my weaving will not be useless and
+     * wasted.'" ~Penelope, the Odyssey
      * 
      * A state used to run a thread. Useful for off-loading computer intensive
      * tasks such as image processing.
@@ -142,7 +110,7 @@ public class States {
      */
     public static State runThread(final StateName nextStateName, final Thread thread) {
         return new State() {
-            
+
             @Override
             public StateName act() {
                 thread.start();
@@ -156,9 +124,9 @@ public class States {
      * United States, who also acts as head of state and Commander-in-Chief of
      * the armed forces."
      * 
-     * This is used to do branching and decision trees in the state machine
-     * can be used for doing different things depending on which side of the
-     * field you are on
+     * This is used to do branching and decision trees in the state machine can
+     * be used for doing different things depending on which side of the field
+     * you are on
      *
      * @param trueStateName the state to go to if the condition is true
      * @param falseStateName the state to go to if the condition is false
@@ -167,7 +135,7 @@ public class States {
      */
     public static State branch(final StateName trueStateName, final StateName falseStateName, final boolean condition) {
         return new State() {
-            
+
             @Override
             public StateName act() {
                 if (condition) {
@@ -184,9 +152,9 @@ public class States {
      * consists of the House of Representatives and the Senate, which together
      * form the United States Congress."
      * 
-     * This is used to do branching and decision trees in the state machine
-     * can be used for doing different things depending on which side of the
-     * field you are on
+     * This is used to do branching and decision trees in the state machine can
+     * be used for doing different things depending on which side of the field
+     * you are on
      *
      * @param trueStateName the state to go to if the condition is true
      * @param falseStateName the state to go to if the condition is false
@@ -196,7 +164,7 @@ public class States {
      */
     public static State branch(final StateName trueStateName, final StateName falseStateName, final StateName nullStateName, final Boolean condition) {
         return new State() {
-            
+
             @Override
             public StateName act() {
                 if (condition == null) {
@@ -216,8 +184,8 @@ public class States {
      * confirmed by the Senate."
      * 
      * This is used to do branching and decision trees in the state machine
-     * using a result
-     * acquired while it is running, and to communicate between threads
+     * using a result acquired while it is running, and to communicate between
+     * threads
      *
      * @param trueStateName the state to go to if the receiver returns true
      * @param falseStateName the state to go to if the receiver returns false
@@ -250,10 +218,9 @@ public class States {
     }
 
     /**
-     * Count von Count: Five bananas. Six bananas. SEVEN BANANAS!
-     * [thunder strikes]
-     * Count von Count: Ah, ah, ah. Now, that was silly. Wouldn't you agree, my
-     * bats? Ah, ah, ah.
+     * Count von Count: Five bananas. Six bananas. SEVEN BANANAS! [thunder
+     * strikes] Count von Count: Ah, ah, ah. Now, that was silly. Wouldn't you
+     * agree, my bats? Ah, ah, ah.
      * 
      * Moves to continueStateName for the first n times it is called, then moves
      * to doneStateName after that

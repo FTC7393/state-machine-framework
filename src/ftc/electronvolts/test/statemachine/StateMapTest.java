@@ -30,7 +30,7 @@ public class StateMapTest {
     @Test
     public void testOfEndConditionStateNameEndConditionStateName() {
         StateMap s = StateMap.of(S.STATE1, EndConditions.never(), S.STATE2, EndConditions.now());
-        assertEquals(1, s.entrySet().size());
+        assertEquals(2, s.entrySet().size());
         assertFalse(s.get(S.STATE1).isDone());
         assertTrue(s.get(S.STATE2).isDone());
     }
@@ -38,7 +38,7 @@ public class StateMapTest {
     @Test
     public void testOfEntryArray() {
         StateMap s = StateMap.of(new StateMap.Entry(S.STATE1, EndConditions.never()), new StateMap.Entry(S.STATE2, EndConditions.now()));
-        assertEquals(1, s.entrySet().size());
+        assertEquals(2, s.entrySet().size());
         assertFalse(s.get(S.STATE1).isDone());
         assertTrue(s.get(S.STATE2).isDone());
     }

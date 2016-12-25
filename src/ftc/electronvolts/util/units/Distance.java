@@ -1,6 +1,5 @@
 package ftc.electronvolts.util.units;
 
-
 /**
  * This file was made by the electronVolts, FTC team 7393
  * Date Created: 10/4/16
@@ -33,7 +32,7 @@ public class Distance {
     private static final double YD_PER_M = 1 / M_PER_YD;
     private static final double MI_PER_M = 1 / M_PER_MI;
     private static final double NAUT_MI_PER_M = 1 / M_PER_NAUT_MI;
-    
+
     private static final Distance zero = new Distance(0);
 
     // The distance in meters
@@ -135,6 +134,11 @@ public class Distance {
         Distance other = (Distance) obj;
         if (Double.doubleToLongBits(meters) != Double.doubleToLongBits(other.meters)) return false;
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return meters + " meters";
     }
 
     // Create Distance objects from various units

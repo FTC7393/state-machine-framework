@@ -1,6 +1,5 @@
 package ftc.electronvolts.util.units;
 
-
 /**
  * This file was made by the electronVolts, FTC team 7393
  * Date Created: 10/5/16
@@ -8,7 +7,7 @@ package ftc.electronvolts.util.units;
 
 public class Velocity {
     private static final Velocity zero = new Velocity(Distance.zero());
-    
+
     private final Distance distance;
     private final Time time;
 
@@ -124,6 +123,11 @@ public class Velocity {
         Velocity other = (Velocity) obj;
         if (Double.doubleToLongBits(metersPerSecond()) != Double.doubleToLongBits(other.metersPerSecond())) return false;
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return metersPerSecond() + " meters/second";
     }
 
     // get velocity in various units

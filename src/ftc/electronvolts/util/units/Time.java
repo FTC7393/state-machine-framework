@@ -1,6 +1,5 @@
 package ftc.electronvolts.util.units;
 
-
 /**
  * This file was made by the electronVolts, FTC team 7393
  * Date Created: 10/5/16
@@ -133,6 +132,11 @@ public class Time {
         Time other = (Time) obj;
         if (Double.doubleToLongBits(seconds) != Double.doubleToLongBits(other.seconds)) return false;
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return seconds + " seconds";
     }
 
     // create Time objects from various units
