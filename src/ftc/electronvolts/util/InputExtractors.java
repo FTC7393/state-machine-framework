@@ -353,4 +353,14 @@ public class InputExtractors {
             }
         };
     }
+    
+    public static InputExtractor<String> format(final String format, final InputExtractor<Double> inputExtractor) {
+        return new InputExtractor<String>() {
+            
+            @Override
+            public String getValue() {
+                return String.format(format, inputExtractor.getValue());
+            }
+        };
+    }
 }

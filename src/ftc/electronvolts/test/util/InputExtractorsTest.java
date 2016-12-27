@@ -251,5 +251,13 @@ public class InputExtractorsTest {
         b2 = InputExtractors.xnor(b1, b1);
         assertEquals(true, b2.getValue());
     }
+    
+
+    @Test
+    public void testFormat() {
+        InputExtractor<Double> i = InputExtractors.constant(1000.234524356807456098345);
+        InputExtractor<String> s = InputExtractors.format("%10f", i);
+        assertEquals("1000.234524", s.getValue());
+    }
 
 }
