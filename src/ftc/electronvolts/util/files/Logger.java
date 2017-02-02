@@ -34,19 +34,19 @@ public class Logger {
 
     private long logStart;
     private PrintStream fileStream;
-    private final String fileName, fileExtension;
+    private final String beforeTimestamp, afterTimestamp;
     private String titles;
     private String fullFileName;
     private final List<Column> columns;
 
     /**
-     * @param fileName the name of the file
-     * @param fileExtension the file's extension (.txt for example)
+     * @param beforeTimestamp the text to put before the timestamp in the filename
+     * @param afterTimestamp  the text to put after the timestamp in the filename
      * @param columns the columns that will be written to the file
      */
-    public Logger(String fileName, String fileExtension, List<Column> columns) {
-        this.fileName = fileName;
-        this.fileExtension = fileExtension;
+    public Logger(String beforeTimestamp, String afterTimestamp, List<Column> columns) {
+        this.beforeTimestamp = beforeTimestamp;
+        this.afterTimestamp = afterTimestamp;
         StringBuilder sb = new StringBuilder("time");
         for (Column column : columns) {
             sb.append("\t").append(column.header);
@@ -61,7 +61,7 @@ public class Logger {
     public boolean start(File dir) {
         logStart = System.nanoTime();
 
-        fullFileName = fileName + System.currentTimeMillis() + fileExtension;
+        fullFileName = beforeTimestamp + System.currentTimeMillis() + afterTimestamp;
         File file = new File(dir, fullFileName);
         try {
             fileStream = new PrintStream(new FileOutputStream(file));

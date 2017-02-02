@@ -353,13 +353,29 @@ public class InputExtractors {
             }
         };
     }
-    
+
     public static InputExtractor<String> format(final String format, final InputExtractor<Double> inputExtractor) {
         return new InputExtractor<String>() {
-            
+
             @Override
             public String getValue() {
                 return String.format(format, inputExtractor.getValue());
+            }
+        };
+    }
+
+    public static InputExtractor<Integer> booleanToIntIE(final InputExtractor<Boolean> booleanIE) {
+        return new InputExtractor<Integer>() {
+            @Override
+            public Integer getValue() {
+                Boolean value = booleanIE.getValue();
+                if (value == null) {
+                    return null;
+                } else if (value) {
+                    return 1;
+                } else {
+                    return 0;
+                }
             }
         };
     }
