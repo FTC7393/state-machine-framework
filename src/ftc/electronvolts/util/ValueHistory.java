@@ -4,7 +4,7 @@ public class ValueHistory {
     private final double[] values;
     private int index = 0;
     private boolean allActive = false;
-    private double average, standardDeviation;
+    private double average, standardDeviation, coefficientOfVariation;
 
     public ValueHistory(int length) {
         values = new double[length];
@@ -34,6 +34,8 @@ public class ValueHistory {
         }
         variance /= numActive;
         standardDeviation = Math.sqrt(variance);
+        
+        coefficientOfVariation = standardDeviation / average;
 
         return oldValue;
     }
@@ -60,6 +62,10 @@ public class ValueHistory {
 
     public double getStandardDeviation() {
         return standardDeviation;
+    }
+    
+    public double getCoefficientOfVariation() {
+        return coefficientOfVariation;
     }
 
 }

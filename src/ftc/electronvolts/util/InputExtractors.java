@@ -27,6 +27,15 @@ public class InputExtractors {
             }
         };
     }
+    
+    public static InputExtractor<Double> limit(final double min, final double max, final InputExtractor<Double> inputExtractor) {
+        return new InputExtractor<Double>() {
+            @Override
+            public Double getValue() {
+                return Utility.limit(inputExtractor.getValue(), min, max);
+            }
+        };
+    }
 
     /**
      * Multiply an InputExtractor by a constant

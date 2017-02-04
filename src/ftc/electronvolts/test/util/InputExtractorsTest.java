@@ -31,6 +31,16 @@ public class InputExtractorsTest {
         InputExtractor<InputExtractor<Boolean>> ie = InputExtractors.constant(InputExtractors.constant(true));
         assertEquals(true, ie.getValue().getValue());
     }
+    
+    @Test
+    public void testLimit() {
+        assertEquals(-1, InputExtractors.limit(-1, 2, InputExtractors.constant(-5.0)).getValue(), 0);
+        assertEquals(-1, InputExtractors.limit(-1, 2, InputExtractors.constant(-1.0)).getValue(), 0);
+        assertEquals(0, InputExtractors.limit(-1, 2, InputExtractors.constant(0.0)).getValue(), 0);
+        assertEquals(1, InputExtractors.limit(-1, 2, InputExtractors.constant(1.0)).getValue(), 0);
+        assertEquals(2, InputExtractors.limit(-1, 2, InputExtractors.constant(2.0)).getValue(), 0);
+        assertEquals(2, InputExtractors.limit(-1, 2, InputExtractors.constant(3.0)).getValue(), 0);
+    }
 
     @Test
     public void testMultiply() {
