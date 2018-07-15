@@ -1,4 +1,7 @@
 # State Machine Framework
+
+**This project is no longer maintained. Click [here](https://github.com/FTC7393/ftc_app_7393) for our current code.**
+
 The state-machine-framework is a library designed to make autonomous design easier. Although this library is designed for use with the  [FTC](http://www.firstinspires.org/robotics/ftc) [libraries](https://github.com/ftctechnh/ftc_app), it can be easily used in other projects.
 
 Check out the [wiki](https://github.com/FTC7393/state-machine-framework/wiki) for a list of [features](https://github.com/FTC7393/state-machine-framework/wiki/Features) and [instructions on how to use the framework](https://github.com/FTC7393/state-machine-framework/wiki/Importing-Into-Your-Project).
