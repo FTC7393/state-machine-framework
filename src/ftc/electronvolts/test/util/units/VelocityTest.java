@@ -177,4 +177,11 @@ public class VelocityTest {
     public void testGetAngularVelocity(){
         assertEquals(0.5, fiveMetersPerSecond.getAngularVelocity(Distance.fromMeters(10)).radiansPerSecond(), 0);
     }
+    
+
+    @Test
+    public void testNanometersPerYear() {
+    	Velocity v = new Velocity(Distance.fromMiles(600), Time.fromHours(1));
+    	assertEquals(8.45978496E18, v.nanometersPerYear(), 0);
+    }
 }
