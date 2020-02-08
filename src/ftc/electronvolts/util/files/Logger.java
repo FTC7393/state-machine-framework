@@ -53,7 +53,7 @@ public class Logger {
         this.afterTimestamp = afterTimestamp;
         StringBuilder sb = new StringBuilder("time");
         for (Column column : columns) {
-            sb.append("\t").append(column.header);
+            sb.append(",").append(column.header);
         }
         titles = sb.append("\n").toString();
         this.columns = columns;
