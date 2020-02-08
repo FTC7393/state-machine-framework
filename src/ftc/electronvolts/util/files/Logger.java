@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import ftc.electronvolts.util.InputExtractor;
@@ -31,6 +33,8 @@ public class Logger {
     static {
         df.setRoundingMode(RoundingMode.HALF_UP);
     }
+    
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
 
     private long logStart;
     private PrintStream fileStream;
@@ -60,8 +64,12 @@ public class Logger {
      */
     public boolean start(File dir) {
         logStart = System.nanoTime();
+        
+        long millis = System.currentTimeMillis();
+        Date now = new Date(millis);
+        String date = dateFormat.format(now);
 
-        fullFileName = beforeTimestamp + System.currentTimeMillis() + afterTimestamp;
+        fullFileName = beforeTimestamp + date + afterTimestamp;
         File file = new File(dir, fullFileName);
         try {
             fileStream = new PrintStream(new FileOutputStream(file));
@@ -81,7 +89,7 @@ public class Logger {
             long now = System.nanoTime();
             StringBuilder line = new StringBuilder(df.format(1e-6 * (now - logStart)));
             for (Column column : columns) {
-                line.append("\t").append(column.input.getValue());
+                line.append(",").append(column.input.getValue());
             }
             fileStream.printf(line.append("\n").toString());
         }
