@@ -16,7 +16,7 @@ public class Main {
 		STOP
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws StateNotFoundError {
 		Map<StateName, State> stateMap = new HashMap<>();
 		
 		//TODO Abhi's checks on unused states
@@ -36,7 +36,7 @@ public class Main {
 //		stateMap.put(S.BRANCH, StateFactory.branch(S.STOP, S.PRINT_TWICE));
 		stateMap.put(S.STOP, StateFactory.stop());
 		
-		StateMachine sm = new StateMachine(stateMap, S.DRIVE);
+		StateMachine sm = new StateMachine(stateMap, S.DRIVE, null);
 
 		while (true) {
 			sm.act();
