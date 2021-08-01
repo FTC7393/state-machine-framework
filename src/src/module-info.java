@@ -1,2 +1,0 @@
-module ftc.electronvolts.statemachine {
-}
