@@ -22,11 +22,12 @@ public class BehaviorFactory {
 	}
 	
 
-	public static Behavior print(String s) {
+	public static Behavior print(final String s) {
 		return new Behavior() {
 
 			@Override
 			public void init() {
+				System.out.println("Initializing Behavior");
 			}
 
 			@Override
@@ -36,6 +37,7 @@ public class BehaviorFactory {
 
 			@Override
 			public void dispose() {
+				System.out.println("Disposing Behavior");
 			}
 		};
 	}

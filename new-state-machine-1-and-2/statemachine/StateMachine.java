@@ -21,21 +21,13 @@ public class StateMachine {
     /**
      * @param stateMap the state machine structure
      * @param firstStateName the name of the state to start with
-     * @param allPossibleStateNames 
-     * @throws StateNotFoundError 
      */
-    public StateMachine(Map<StateName, State> stateMap, StateName firstStateName, StateName[] allPossibleStateNames) throws StateNotFoundError {
+    public StateMachine(Map<StateName, State> stateMap, StateName firstStateName) {
         this.stateMap = stateMap;
         currentStateName = firstStateName;
         currentState = stateMap.get(firstStateName);
         // if the stateMap does not have the firstStateName as a key, there is
         // no way to fix it here
-        
-		for (StateName sn : allPossibleStateNames) {
-			if (!stateMap.containsKey(sn) || stateMap.get(sn) == null) {
-				throw new StateNotFoundError();
-			}
-		}
     }
 
     /**
