@@ -2,6 +2,9 @@ package ftc.electronvolts.statemachine;
 
 import java.util.Map;
 
+import ftc.electronvolts.statemachine.State;
+import ftc.electronvolts.statemachine.StateName;
+
 /**
  * This file was made by the electronVolts, FTC team 7393
  *
@@ -21,13 +24,21 @@ public class StateMachine {
     /**
      * @param stateMap the state machine structure
      * @param firstStateName the name of the state to start with
+     * @param allPossibleStateNames 
+     * @throws StateNotFoundError 
      */
-    public StateMachine(Map<StateName, State> stateMap, StateName firstStateName) {
+    public StateMachine(Map<StateName, State> stateMap, StateName firstStateName, StateName[] allPossibleStateNames) throws StateNotFoundError {
         this.stateMap = stateMap;
         currentStateName = firstStateName;
         currentState = stateMap.get(firstStateName);
         // if the stateMap does not have the firstStateName as a key, there is
         // no way to fix it here
+        
+		for (StateName sn : allPossibleStateNames) {
+			if (!stateMap.containsKey(sn) || stateMap.get(sn) == null) {
+				throw new StateNotFoundError();
+			}
+		}
     }
 
     /**
